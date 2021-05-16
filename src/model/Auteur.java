@@ -9,6 +9,7 @@ public class Auteur {
 
     private String prenom;
     private String nom;
+    private String telephone;
 
     private ArrayList<Livre> livres = new ArrayList<>();
 
