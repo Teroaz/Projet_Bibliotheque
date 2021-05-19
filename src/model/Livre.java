@@ -3,6 +3,7 @@ package model;
 import model.exceptions.AuteurException;
 import sql.SQLConnection;
 
+import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,13 +27,14 @@ public class Livre {
         this.auteur = auteur;
     }
 
+    public Livre() {}
+
     public static void chargerLivres() {
 
         try {
             ResultSet result = SQLConnection.getStatement().executeQuery("SELECT * FROM LIVRE");
 
             while (result.next()) {
-
                 int idLivre = result.getInt("ID_LIV");
                 String nomAuteur = result.getString("AUTEUR");
                 String titre = result.getString("TITRE");
@@ -43,9 +45,7 @@ public class Livre {
                 catalogue.put(idLivre, livre);
 
                 auteur.ajouterLivre(livre);
-
             }
-
         } catch (SQLException | AuteurException err) {
             err.printStackTrace();
         }
