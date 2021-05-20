@@ -24,6 +24,7 @@ public class TestLivre {
         }
 
         Livre.chargerLivres();
+        System.out.println(Livre.catalogue.get(1));
 
         assertEquals(Livre.catalogue.size(), 100);
     }

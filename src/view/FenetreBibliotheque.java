@@ -10,5 +10,4 @@ public class FenetreBibliotheque extends JFrame {
         setVisible(true);
         setSize(new Dimension(1200, 800));
     }
-
 }

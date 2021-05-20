@@ -3,7 +3,6 @@ package model;
 import model.exceptions.AuteurException;
 import sql.SQLConnection;
 
-import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -88,4 +87,11 @@ public class Livre {
         return exemplaires;
     }
 
+    @Override
+    public String toString() {
+        return "Livre{" +
+                "idLivre=" + idLivre +
+                ", titre='" + titre + '\'' +
+                ", auteur=" + auteur + '}';
+    }
 }
