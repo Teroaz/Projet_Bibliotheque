@@ -1,6 +1,5 @@
 package model;
 
-import model.exceptions.EtudiantException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,12 +14,13 @@ public class Etudiant {
     private ArrayList<Emprunt> emprunts;
     private ArrayList<Reservation> reservations;
 
-    /**Constructeur de la classe Etudiant
-     * @param id : l'ID de l'étudiant
-     * @param nom : le nom de l'étudiant
+    /**
+     * Constructeur de la classe Etudiant
+     * @param id     : l'ID de l'étudiant
+     * @param nom    : le nom de l'étudiant
      * @param prenom : le prénom de l'étudiant
-     * @param email : l'email de l'étudiant
-     * @param mdp : le mot de passe de l'étudiant
+     * @param email  : l'email de l'étudiant
+     * @param mdp    : le mot de passe de l'étudiant
      */
     public Etudiant(int id, String nom, String prenom, String email, String mdp) {
         this.id_et = id;

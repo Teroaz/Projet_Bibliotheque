@@ -20,13 +20,8 @@ public class Exemplaire {
      * @param livre : livre correspondant à l'exemplaire
      */
     public Exemplaire(int id, Livre livre) {
-        new Exemplaire(id, livre, false);
-    }
-
-    public Exemplaire(int id, Livre livre, boolean estEmprunte) {
         this.id_ex = id;
         this.livre = livre;
-        this.estEmprunte = estEmprunte;
     }
 
 }
