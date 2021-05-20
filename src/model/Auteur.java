@@ -1,6 +1,6 @@
 package model;
 
-import exceptions.DatabaseException;
+import model.exceptions.AuteurException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,9 +15,7 @@ public class Auteur {
     public static ArrayList<Auteur> auteurs = new ArrayList<>();
 
     /**
-     * Constructeur de la classe auteur
-     *
-     * @param nom:    Nom de l'auteur
+     * @param nom: Nom de l'auteur
      * @param prenom: prenom de l'auteur
      */
     public Auteur(String nom, String prenom) {
@@ -26,7 +24,7 @@ public class Auteur {
     }
 
     /**
-     * Méthode pour ajouter un livre
+     * Ajout d'un livre
      *
      * @param livre: livre à ajouter
      */
@@ -39,16 +37,16 @@ public class Auteur {
      *
      * @param nomString: prend une chaîne de caractère comprenant le nom, le prénom et le livre de l'auteur
      * @return l'objet auteur abstraction de la classe Auteur
-     * @throws DatabaseException : exception lorsque la chaine de caractères ne correspond pas à un auteur
+     * @throws AuteurException : exception lorsque la chaine de caractères ne correspond pas à un auteur
      */
-    static public Auteur stringToAuteur(String nomString) throws DatabaseException {
+    static public Auteur stringToAuteur(String nomString) throws AuteurException {
         String[] parties = Arrays.stream(nomString.split(",")).map(String::trim).toArray(String[]::new);
 
         String nom = parties[0];
         String prenom = parties[1];
 
         if (nom == null || prenom == null) {
-            throw new DatabaseException("L'entrée " + Arrays.toString(parties) + " ne contient pas 2 chaines de caractères séparées par une virgule");
+            throw new AuteurException("L'auteur ne possède pas de nom ou de prénom.");
         }
 
         Auteur auteur = null;
@@ -69,8 +67,9 @@ public class Auteur {
     }
 
     @Override
-    /*Méthode qui renvoie l'auteur en chaîne de caractères
-      @return chaîne de caractères de l'auteur
+    /** Renvoie l'auteur en chaîne de caractères
+     *
+     * @return chaîne de caractères de l'auteur
      */
     public String toString() {
         return "Auteur{" +
