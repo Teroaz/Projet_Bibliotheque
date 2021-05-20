@@ -14,8 +14,10 @@ public class Auteur {
 
     public static ArrayList<Auteur> auteurs = new ArrayList<>();
 
-    /** CConstructeur de la classe auteur
-     * @param nom: Nom de l'auteur
+    /**
+     * CConstructeur de la classe auteur
+     *
+     * @param nom:    Nom de l'auteur
      * @param prenom: prenom de l'auteur
      */
     public Auteur(String nom, String prenom) {
@@ -23,14 +25,18 @@ public class Auteur {
         this.nom = nom;
     }
 
-    /**Méthode pour ajouter un livre
+    /**
+     * Méthode pour ajouter un livre
+     *
      * @param livre: livre à ajouter
      */
     public void ajouterLivre(Livre livre) {
         livres.add(livre);
     }
 
-    /**Transforme un string contenant le nom et le prénom, séparés par une virgule, et retourne l'auteur correspondant
+    /**
+     * Transforme un string contenant le nom et le prénom, séparés par une virgule, et retourne l'auteur correspondant
+     *
      * @param nomString: prend une chaîne de caractère comprenant le nom, le prénom et le livre de l'auteur
      * @return l'objet auteur abstraction de la classe Auteur
      * @throws AuteurException : exception lorsque la chaine de caractères ne correspond pas à un auteur
