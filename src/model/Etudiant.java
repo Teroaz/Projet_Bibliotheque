@@ -17,8 +17,6 @@ public class Etudiant {
     private ArrayList<Reservation> reservations;
 
     /**
-     * Constructeur de la classe Etudiant
-     *
      * @param id     : l'ID de l'étudiant
      * @param nom    : le nom de l'étudiant
      * @param prenom : le prénom de l'étudiant
@@ -52,7 +50,7 @@ public class Etudiant {
 
     public void reserverLivre(Livre livre) throws RestrictionException {
         if (!peutReserverLivre()) {
-            throw new RestrictionException("L'étudiant ne peut pas réserver + de 5 catalogue.");
+            throw new RestrictionException("L'étudiant ne peut pas réserver + de 5 catalogues.");
         }
 
         Reservation reservation = new Reservation(new Date(), this, livre);

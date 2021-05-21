@@ -26,7 +26,7 @@ public class Auteur {
     }
 
     /**
-     * Méthode pour ajouter un livre
+     * Ajout d'un livre
      *
      * @param livre: livre à ajouter
      */
@@ -69,8 +69,9 @@ public class Auteur {
     }
 
     @Override
-    /*Méthode qui renvoie l'auteur en chaîne de caractères
-      @return chaîne de caractères de l'auteur
+    /** Renvoie l'auteur en chaîne de caractères
+     *
+     * @return chaîne de caractères de l'auteur
      */
     public String toString() {
         return "Auteur{" +
