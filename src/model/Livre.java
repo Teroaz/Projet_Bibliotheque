@@ -1,6 +1,6 @@
 package model;
 
-import model.exceptions.AuteurException;
+import exceptions.DatabaseException;
 import sql.SQLConnection;
 
 import java.sql.ResultSet;
@@ -26,8 +26,6 @@ public class Livre {
         this.auteur = auteur;
     }
 
-    public Livre() {}
-
     public static void chargerLivres() {
 
         try {
@@ -45,7 +43,9 @@ public class Livre {
 
                 auteur.ajouterLivre(livre);
             }
-        } catch (SQLException | AuteurException err) {
+
+            result.close();
+        } catch (SQLException | DatabaseException err) {
             err.printStackTrace();
         }
     }

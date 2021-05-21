@@ -16,7 +16,7 @@ public class Exemplaire {
     }
 
     /**
-     * @param id : ID de l'exemplaire
+     * @param id    : ID de l'exemplaire
      * @param livre : livre correspondant à l'exemplaire
      */
     public Exemplaire(int id, Livre livre) {

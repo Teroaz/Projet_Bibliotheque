@@ -11,9 +11,11 @@ public class Emprunt {
     private Etudiant etudiant;
     private Exemplaire exemplaire;
 
-    /**Constructeur de la classe Emprunt
-     * @param date_emp : la date d'emprunt
-     * @param etudiant : l'étudiant empruntant le livre
+    /**
+     * Constructeur de la classe Emprunt
+     *
+     * @param date_emp   : la date d'emprunt
+     * @param etudiant   : l'étudiant empruntant le livre
      * @param exemplaire : l'exemplaire emprunté
      */
     public Emprunt(Date date_emp, Etudiant etudiant, Exemplaire exemplaire) {

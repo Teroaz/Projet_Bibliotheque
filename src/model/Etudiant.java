@@ -1,6 +1,8 @@
 package model;
 
 
+import exceptions.RestrictionException;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -16,6 +18,7 @@ public class Etudiant {
 
     /**
      * Constructeur de la classe Etudiant
+     *
      * @param id     : l'ID de l'étudiant
      * @param nom    : le nom de l'étudiant
      * @param prenom : le prénom de l'étudiant
@@ -34,9 +37,9 @@ public class Etudiant {
         return emprunts.size() < 5;
     }
 
-    public void emprunterExemplaire(Exemplaire exemplaire) throws EtudiantException {
+    public void emprunterExemplaire(Exemplaire exemplaire) throws RestrictionException {
         if (!peutEmprunterLivre()) {
-            throw new EtudiantException("L'étudiant ne peut pas emprunter + de 5 livres.");
+            throw new RestrictionException("L'étudiant ne peut pas emprunter + de 5 livres.");
         }
 
         Emprunt emprunt = new Emprunt(new Date(), this, exemplaire);
@@ -47,9 +50,9 @@ public class Etudiant {
         return reservations.size() < 5;
     }
 
-    public void reserverLivre(Livre livre) throws EtudiantException {
+    public void reserverLivre(Livre livre) throws RestrictionException {
         if (!peutReserverLivre()) {
-            throw new EtudiantException("L'étudiant ne peut pas réserver + de 5 catalogue.");
+            throw new RestrictionException("L'étudiant ne peut pas réserver + de 5 catalogue.");
         }
 
         Reservation reservation = new Reservation(new Date(), this, livre);

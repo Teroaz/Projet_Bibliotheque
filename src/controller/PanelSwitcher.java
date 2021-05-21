@@ -9,8 +9,4 @@ public class PanelSwitcher implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
     }
-
-    public enum State {
-        CONNEXION, CATALOGUE, GESTION_ETUDIANTS
-    }
 }
