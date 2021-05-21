@@ -1,7 +1,5 @@
 package model;
 
-import model.exceptions.AuteurException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -37,17 +35,12 @@ public class Auteur {
      *
      * @param nomString: prend une chaîne de caractère comprenant le nom, le prénom et le livre de l'auteur
      * @return l'objet auteur abstraction de la classe Auteur
-     * @throws AuteurException : exception lorsque la chaine de caractères ne correspond pas à un auteur
      */
-    static public Auteur stringToAuteur(String nomString) throws AuteurException {
+    static public Auteur stringToAuteur(String nomString) {
         String[] parties = Arrays.stream(nomString.split(",")).map(String::trim).toArray(String[]::new);
 
         String nom = parties[0];
         String prenom = parties[1];
-
-        if (nom == null || prenom == null) {
-            throw new AuteurException("L'auteur ne possède pas de nom ou de prénom.");
-        }
 
         Auteur auteur = null;
 
