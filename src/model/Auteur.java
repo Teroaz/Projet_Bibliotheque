@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.DatabaseException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,7 +15,7 @@ public class Auteur {
     public static ArrayList<Auteur> auteurs = new ArrayList<>();
 
     /**
-     * @param nom: Nom de l'auteur
+     * @param nom:    Nom de l'auteur
      * @param prenom: prenom de l'auteur
      */
     public Auteur(String nom, String prenom) {
@@ -36,11 +38,15 @@ public class Auteur {
      * @param nomString: prend une chaîne de caractère comprenant le nom, le prénom et le livre de l'auteur
      * @return l'objet auteur abstraction de la classe Auteur
      */
-    static public Auteur stringToAuteur(String nomString) {
+    static public Auteur stringToAuteur(String nomString) throws DatabaseException {
         String[] parties = Arrays.stream(nomString.split(",")).map(String::trim).toArray(String[]::new);
 
         String nom = parties[0];
         String prenom = parties[1];
+
+        if (nom == null || prenom == null) {
+            throw new DatabaseException("L'entrée " + Arrays.toString(parties) + " ne contient pas 2 chaines de caractères séparées par une virgule");
+        }
 
         Auteur auteur = null;
 
