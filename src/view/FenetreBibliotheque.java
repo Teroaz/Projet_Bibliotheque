@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class FenetreBibliotheque extends JFrame {
 
-    private int width = 930;
-    private int height = 600;
+    private final int width = 930;
+    private final int height = 600;
 
     public FenetreBibliotheque() {
         super("Projet Bibliothèque");
