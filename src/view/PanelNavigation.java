@@ -75,4 +75,14 @@ public class PanelNavigation extends JPanel {
     public void registerClicksListeners() {
         buttons.forEach(b -> b.addActionListener(navController));
     }
+
+    public void markAsActive(JButton button) {
+        for (JButton jbutton : buttons) {
+            if (!jbutton.getText().equalsIgnoreCase(button.getText())) {
+                jbutton.setBackground(Couleurs.BLEU_SOMBRE.getCouleur());
+            } else {
+                jbutton.setBackground(Couleurs.BLEU_FONCE.getCouleur());
+            }
+        }
+    }
 }

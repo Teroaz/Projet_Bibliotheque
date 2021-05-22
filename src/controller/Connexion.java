@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class Connexion implements ActionListener {
 
-    private static boolean adminMode = false;
+    private static boolean adminMode = true;
 
     public static boolean isAdminMode() {
         return adminMode;
