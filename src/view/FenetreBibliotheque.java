@@ -8,8 +8,12 @@ public class FenetreBibliotheque extends JFrame {
     private final int width = 930;
     private final int height = 600;
 
+    private static FenetreBibliotheque instance;
+    
     public FenetreBibliotheque() {
         super("Projet Bibliothèque");
+
+        instance = this;
 
         PanelMenu contentPane = new PanelMenu();
         setContentPane(contentPane);
@@ -23,9 +27,17 @@ public class FenetreBibliotheque extends JFrame {
     }
 
     private Point recupCoordsPourCentrer() {
-        Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = tailleEcran.width / 2 - width / 2;
-        int y = tailleEcran.height / 2 - height / 2;
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = screenSize.width / 2 - width / 2;
+        int y = screenSize.height / 2 - height / 2;
         return new Point(x, y);
+    }
+
+    public void changeTitle(String title) {
+        super.setTitle(title);
+    }
+
+    public static FenetreBibliotheque getInstance() {
+        return instance;
     }
 }

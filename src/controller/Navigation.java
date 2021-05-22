@@ -16,11 +16,13 @@ public class Navigation implements ActionListener {
         this.panelMenu = panelMenu;
 
         panelNavigation = new PanelNavigation(this);
+        panelNavigation.markAsActive(panelNavigation.getButtons().get(0));
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        panelNavigation.markAsActive((JButton) e.getSource());
+        JButton button = (JButton) e.getSource();
+        panelNavigation.markAsActive(button);
     }
 
     public PanelMenu getPanelMenu() {

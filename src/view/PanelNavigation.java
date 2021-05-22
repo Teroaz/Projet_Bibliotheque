@@ -77,11 +77,13 @@ public class PanelNavigation extends JPanel {
     }
 
     public void markAsActive(JButton button) {
+        FenetreBibliotheque.getInstance().changeTitle("Bibliothèque | " + button.getText() + " - Connecté en tant que " + (Connexion.isAdminMode() ? "Admin" : "Etudiant"));
+
         for (JButton jbutton : buttons) {
             if (!jbutton.getText().equalsIgnoreCase(button.getText())) {
-                jbutton.setBackground(Couleurs.BLEU_SOMBRE.getCouleur());
-            } else {
                 jbutton.setBackground(Couleurs.BLEU_FONCE.getCouleur());
+            } else {
+                button.setBackground(Couleurs.BLEU_SOMBRE.getCouleur());
             }
         }
     }
