@@ -11,7 +11,6 @@ public class Auteur {
     private String nom;
 
     private ArrayList<Livre> livres = new ArrayList<>();
-
     public static ArrayList<Auteur> auteurs = new ArrayList<>();
 
     /**
