@@ -49,6 +49,7 @@ CREATE TABLE EMPRUNT
     PRIMARY KEY (ID_ET, ID_EX, DATE_EMP)
 );
 
+
 INSERT INTO LIVRE VALUES (1, 'Foenkinos, David', 'Charlotte');
 INSERT INTO LIVRE VALUES (2, 'Carrère, Emmanuel', 'Le royaume');
 INSERT INTO LIVRE VALUES (3, 'Slimani, Leïla', 'Chanson douce');
