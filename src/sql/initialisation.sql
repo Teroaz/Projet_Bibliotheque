@@ -27,7 +27,7 @@ CREATE TABLE LIVRE
 CREATE TABLE RESERV
 (
     DATE_RES     TIMESTAMP   DEFAULT SYSDATE,
-    DATE_FIN_RES TIMESTAMP   NOT NULL,
+    DATE_FIN_RES TIMESTAMP   DEFAULT SYSDATE+5,
     ID_ET        NUMBER(20) NOT NULL REFERENCES ETUDIANT(ID_ET),
     ID_LIV       NUMBER(20) NOT NULL REFERENCES LIVRE(ID_LIV),
     PRIMARY KEY (DATE_RES, ID_ET, ID_LIV)
@@ -150,5 +150,46 @@ INSERT INTO LIVRE VALUES (97, 'Bouchard, Nicolas', 'Tarpeia, les venins de Rome'
 INSERT INTO LIVRE VALUES (98, 'Boyd, William', 'Les Vies multiples d''Amory Clay');
 INSERT INTO LIVRE VALUES (99, 'Barbato, Paola', 'A mains nues');
 INSERT INTO LIVRE VALUES (100, 'Reverdy, Thomas B.', 'Il était une ville');
+
+
+/**
+    Etudiant : auto incrémentation id_et
+ */
+CREATE SEQUENCE etudiant_seq START WITH 0;
+
+CREATE OR REPLACE TRIGGER etudiant_id_auto_inc
+BEFORE INSERT ON ETUDIANT
+FOR EACH ROW
+
+BEGIN
+    SELECT etudiant_seq.nextval INTO :new.ID_ET FROM DUAL;
+end;
+
+
+/**
+    Exemplaire : auto incrémentation id_ex
+ */
+CREATE SEQUENCE exemplaire_seq START WITH 0;
+
+CREATE OR REPLACE TRIGGER exemplaire_id_auto_inc
+BEFORE INSERT ON EXEMPLAIRE
+FOR EACH ROW
+
+BEGIN
+    SELECT exemplaire_seq.nextval INTO :new.ID_EX FROM DUAL;
+end;
+
+/**
+    Livre : auto incrémentation id_liv
+ */
+CREATE SEQUENCE livre_seq START WITH 0;
+
+CREATE OR REPLACE TRIGGER livre_id_auto_inc
+BEFORE INSERT ON LIVRE
+FOR EACH ROW
+
+BEGIN
+    SELECT livre_seq.nextval INTO :new.ID_LIV FROM DUAL;
+end;
 
 commit
