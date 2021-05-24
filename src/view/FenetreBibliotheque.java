@@ -1,5 +1,7 @@
 package view;
 
+import controller.Connexion;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,14 +11,15 @@ public class FenetreBibliotheque extends JFrame {
     private final int height = 600;
 
     private static FenetreBibliotheque instance;
-    
+
     public FenetreBibliotheque() {
         super("Projet Bibliothèque");
 
         instance = this;
 
-        PanelMenu contentPane = new PanelMenu();
-        setContentPane(contentPane);
+        Connexion connection = new Connexion();
+//        PanelMenu contentPane = new PanelMenu();
+        setContentPane(connection.getPanelConnexion());
 
         setResizable(false);
         setVisible(true);

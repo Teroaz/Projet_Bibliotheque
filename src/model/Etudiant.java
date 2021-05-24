@@ -2,19 +2,24 @@ package model;
 
 
 import exceptions.RestrictionException;
+import utils.CollectionUtils;
+import utils.ValidationUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Etudiant {
 
-    private int id_et;
-    private String nom;
-    private String prenom;
-    private String mdp;
-    private String email;
+    private final int id_et;
+    private final String nom;
+    private final String prenom;
+    private final String mdp;
+    private final String email;
     private ArrayList<Emprunt> emprunts;
     private ArrayList<Reservation> reservations;
+
+    private static final HashMap<Integer, Etudiant> liste = new HashMap<>();
 
     /**
      * @param id     : l'ID de l'étudiant
@@ -29,6 +34,8 @@ public class Etudiant {
         this.prenom = prenom;
         this.email = email;
         this.mdp = mdp;
+
+        liste.put(id, this);
     }
 
     public boolean peutEmprunterLivre() {
@@ -55,5 +62,51 @@ public class Etudiant {
 
         Reservation reservation = new Reservation(new Date(), this, livre);
         reservations.add(reservation);
+    }
+
+    public static ArrayList<Etudiant> rechercherParNom(String nom) {
+        return CollectionUtils.streamToArrayList(liste.values().stream().filter(e -> e.nom.toLowerCase().startsWith(nom.toLowerCase())));
+    }
+
+    public static ArrayList<Etudiant> rechercherParPrenom(String prenom) {
+        return CollectionUtils.streamToArrayList(liste.values().stream().filter(e -> e.prenom.toLowerCase().startsWith(prenom.toLowerCase())));
+    }
+
+    public static ArrayList<Etudiant> rechercherParMail(String mail) {
+        if (!ValidationUtils.isValidMail(mail)) return null;
+
+        return CollectionUtils.streamToArrayList(liste.values().stream().filter(e -> e.email.toLowerCase().startsWith(mail.toLowerCase())));
+    }
+
+    public static ArrayList<Etudiant> rechercherParNomEtPrenom(String nom, String prenom) {
+        return CollectionUtils.intersection(rechercherParNom(nom), rechercherParPrenom(prenom));
+    }
+
+    public static Etudiant rechercherParId(int id) {
+        return liste.get(id);
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public int getId_et() {
+        return id_et;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public ArrayList<Emprunt> getEmprunts() {
+        return emprunts;
+    }
+
+    public ArrayList<Reservation> getReservations() {
+        return reservations;
     }
 }
