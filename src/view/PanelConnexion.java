@@ -124,6 +124,10 @@ public class PanelConnexion extends JPanel {
         return prenomTextField;
     }
 
+    public JButton getConnectButton() {
+        return connectButton;
+    }
+
     public Connexion getConnexionController() {
         return connexionController;
     }
