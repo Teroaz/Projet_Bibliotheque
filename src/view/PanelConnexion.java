@@ -7,11 +7,11 @@ import java.awt.*;
 
 public class PanelConnexion extends JPanel {
 
-    private JTextField nomTextField;
-    private JTextField mailTextField;
-    private JPasswordField passwordField;
-    private JTextField prenomTextField;
-    private JButton connectButton;
+    private final JTextField nomTextField;
+    private final JTextField mailTextField;
+    private final JPasswordField passwordField;
+    private final JTextField prenomTextField;
+    private final JButton connectButton;
 
 
     private final Font labelSaisieFont = new Font(Font.SANS_SERIF, Font.BOLD, 16);
@@ -106,6 +106,22 @@ public class PanelConnexion extends JPanel {
         add(connectButton, gbc);
 
         gbc.gridy = 5;
+    }
+
+    public JPasswordField getPasswordField() {
+        return passwordField;
+    }
+
+    public JTextField getMailTextField() {
+        return mailTextField;
+    }
+
+    public JTextField getNomTextField() {
+        return nomTextField;
+    }
+
+    public JTextField getPrenomTextField() {
+        return prenomTextField;
     }
 
     public Connexion getConnexionController() {

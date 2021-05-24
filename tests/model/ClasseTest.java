@@ -29,7 +29,7 @@ public class ClasseTest {
     }
 
     @Test
-    @DisplayName("BDD -> cache")
+    @DisplayName("Livre : BDD -> cache")
     public void chargerLivres() {
 
         initialiserConnexion();
@@ -44,5 +44,17 @@ public class ClasseTest {
         chargerLivres();
 
         System.out.println(Livre.rechercherLivres("Char"));
+    }
+
+    @Test
+    @DisplayName("Etudiant : BDD -> cache")
+    public void chargerEtudiants() {
+
+        initialiserConnexion();
+        Etudiant.chargerEtudiants();
+
+        System.out.println(Etudiant.liste);
+
+        assertEquals(Etudiant.liste.values().size(), 3);
     }
 }

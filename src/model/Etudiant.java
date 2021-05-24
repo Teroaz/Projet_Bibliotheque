@@ -2,12 +2,17 @@ package model;
 
 
 import exceptions.RestrictionException;
+import sql.SQLConnection;
 import utils.CollectionUtils;
+import utils.CryptUtils;
 import utils.ValidationUtils;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Etudiant {
 
@@ -16,10 +21,10 @@ public class Etudiant {
     private final String prenom;
     private final String mdp;
     private final String email;
-    private ArrayList<Emprunt> emprunts;
-    private ArrayList<Reservation> reservations;
+    private final ArrayList<Emprunt> emprunts = new ArrayList<>();
+    private final ArrayList<Reservation> reservations = new ArrayList<>();
 
-    private static final HashMap<Integer, Etudiant> liste = new HashMap<>();
+    public static final HashMap<Integer, Etudiant> liste = new HashMap<>();
 
     /**
      * @param id     : l'ID de l'étudiant
@@ -82,6 +87,10 @@ public class Etudiant {
         return CollectionUtils.intersection(rechercherParNom(nom), rechercherParPrenom(prenom));
     }
 
+    public static ArrayList<Etudiant> rechercherParNomPrenomEtMail(String nom, String prenom, String mail) {
+        return CollectionUtils.intersection(rechercherParNomEtPrenom(nom, prenom), rechercherParMail(mail));
+    }
+
     public static Etudiant rechercherParId(int id) {
         return liste.get(id);
     }
@@ -102,11 +111,48 @@ public class Etudiant {
         return email;
     }
 
+    public boolean validatePassword(String password) {
+        return Objects.requireNonNull(CryptUtils.encrypt(password)).equals(mdp);
+    }
+
     public ArrayList<Emprunt> getEmprunts() {
         return emprunts;
     }
 
     public ArrayList<Reservation> getReservations() {
         return reservations;
+    }
+
+    public static void chargerEtudiants() {
+        try {
+            ResultSet result = SQLConnection.getStatement().executeQuery("SELECT * FROM ETUDIANT");
+
+            while (result.next()) {
+                int idEtudiant = result.getInt("ID_ET");
+                String nom = result.getString("NOM");
+                String prenom = result.getString("PRENOM");
+                String email = result.getString("EMAIL");
+                String mdp = result.getString("MDP");
+
+                new Etudiant(idEtudiant, nom, prenom, email, mdp);
+            }
+
+            result.close();
+        } catch (SQLException err) {
+            err.printStackTrace();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Etudiant{" +
+                "id_et=" + id_et +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", email='" + email + '\'' +
+                ", mdp='" + mdp + '\'' +
+                ", emprunts=" + emprunts +
+                ", reservations=" + reservations +
+                '}';
     }
 }
