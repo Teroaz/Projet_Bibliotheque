@@ -155,7 +155,7 @@ INSERT INTO LIVRE VALUES (100, 'Reverdy, Thomas B.', 'Il était une ville');
 /**
     Etudiant : auto incrémentation id_et
  */
-CREATE SEQUENCE etudiant_seq START WITH 0;
+CREATE SEQUENCE etudiant_seq START WITH 1;
 
 CREATE OR REPLACE TRIGGER etudiant_id_auto_inc
 BEFORE INSERT ON ETUDIANT
@@ -169,7 +169,7 @@ end;
 /**
     Exemplaire : auto incrémentation id_ex
  */
-CREATE SEQUENCE exemplaire_seq START WITH 0;
+CREATE SEQUENCE exemplaire_seq START WITH 1;
 
 CREATE OR REPLACE TRIGGER exemplaire_id_auto_inc
 BEFORE INSERT ON EXEMPLAIRE
@@ -182,7 +182,7 @@ end;
 /**
     Livre : auto incrémentation id_liv
  */
-CREATE SEQUENCE livre_seq START WITH 0;
+CREATE SEQUENCE livre_seq START WITH 1;
 
 CREATE OR REPLACE TRIGGER livre_id_auto_inc
 BEFORE INSERT ON LIVRE
