@@ -87,6 +87,8 @@ public class Connexion implements ActionListener, KeyListener {
             if (etu.getEmail().equalsIgnoreCase(mailSaisi) && etu.getPrenom().equalsIgnoreCase(prenomSaisi) && etu.getNom().equalsIgnoreCase(nomSaisi)) {
                 if (etu.validatePassword(mdpSaisie)) {
                     connectedStudent = etu;
+                } else {
+                    // mot de passe invalide : affichage d'une erreur de connexion
                 }
             }
         }
