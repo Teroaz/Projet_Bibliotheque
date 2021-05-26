@@ -1,6 +1,6 @@
 package view;
 
-import controller.Connexion;
+import controller.PanelSwitcher;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,9 +17,9 @@ public class FenetreBibliotheque extends JFrame {
 
         instance = this;
 
-        Connexion connection = new Connexion();
-//        PanelMenu contentPane = new PanelMenu();
-        setContentPane(connection.getPanelConnexion());
+        PanelSwitcher panelSwitcher = new PanelSwitcher();
+
+        setContentPane(panelSwitcher.getConnexion().getPanelConnexion());
 
         setResizable(false);
         setVisible(true);

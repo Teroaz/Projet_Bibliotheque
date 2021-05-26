@@ -19,7 +19,6 @@ import java.util.Properties;
 public class Connexion implements ActionListener, KeyListener {
 
     private static boolean adminMode = false;
-
     private String adminNom;
     private String adminPrenom;
     private String adminMail;
@@ -79,6 +78,7 @@ public class Connexion implements ActionListener, KeyListener {
 
         if (prenomSaisi.equals(adminPrenom) && nomSaisi.equals(adminNom) && mailSaisi.equals(adminMail) && mdpSaisie.equals(adminPassword)) {
             adminMode = true;
+            PanelSwitcher.switchToMenu();
         } else if (ValidationUtils.isValidMail(mailSaisi)) {
             ArrayList<Etudiant> res = Etudiant.rechercherParNomPrenomEtMail(nomSaisi, prenomSaisi, mailSaisi);
             if (res.size() == 0) return;
@@ -87,6 +87,7 @@ public class Connexion implements ActionListener, KeyListener {
             if (etu.getEmail().equalsIgnoreCase(mailSaisi) && etu.getPrenom().equalsIgnoreCase(prenomSaisi) && etu.getNom().equalsIgnoreCase(nomSaisi)) {
                 if (etu.validatePassword(mdpSaisie)) {
                     connectedStudent = etu;
+                    PanelSwitcher.switchToMenu();
                 } else {
                     // mot de passe invalide : affichage d'une erreur de connexion
                 }

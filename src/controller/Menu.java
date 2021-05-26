@@ -7,16 +7,13 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Navigation implements ActionListener {
+public class Menu implements ActionListener {
 
     private final PanelMenu panelMenu;
-    private final PanelNavigation panelNavigation;
+    private PanelNavigation panelNavigation;
 
-    public Navigation(PanelMenu panelMenu) {
-        this.panelMenu = panelMenu;
-
-        panelNavigation = new PanelNavigation(this);
-        panelNavigation.markAsActive(panelNavigation.getButtons().get(0));
+    public Menu() {
+        this.panelMenu = new PanelMenu(this);
     }
 
     @Override
@@ -31,5 +28,9 @@ public class Navigation implements ActionListener {
 
     public PanelNavigation getPanelNavigation() {
         return panelNavigation;
+    }
+
+    public void setPanelNavigation(PanelNavigation panelNavigation) {
+        this.panelNavigation = panelNavigation;
     }
 }

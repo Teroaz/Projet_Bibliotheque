@@ -1,22 +1,27 @@
 package view;
 
-import controller.Navigation;
+import controller.Menu;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class PanelMenu extends JPanel {
 
-    private final Navigation navigation;
+    private Menu menuController;
 
-    public PanelMenu() {
+    public PanelMenu(Menu menuController) {
+
         setLayout(new BorderLayout());
+        this.menuController = menuController;
 
-        navigation = new Navigation(this);
-        add(navigation.getPanelNavigation(), BorderLayout.NORTH);
+        PanelNavigation panelNavigation = new PanelNavigation(menuController);
+        menuController.setPanelNavigation(panelNavigation);
+        add(panelNavigation, BorderLayout.NORTH);
+
     }
 
-    public Navigation getNavigation() {
-        return navigation;
+    public Menu getMenuController() {
+        return menuController;
     }
+
 }
