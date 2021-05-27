@@ -1,5 +1,6 @@
 package view;
 
+import controller.Catalogue;
 import controller.Menu;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ public class PanelMenu extends JPanel {
     private Menu menuController;
 
     public PanelMenu(Menu menuController) {
+        Catalogue catalogue = new Catalogue();
 
         setLayout(new BorderLayout());
         this.menuController = menuController;
@@ -17,7 +19,9 @@ public class PanelMenu extends JPanel {
         PanelNavigation panelNavigation = new PanelNavigation(menuController);
         menuController.setPanelNavigation(panelNavigation);
         add(panelNavigation, BorderLayout.NORTH);
+        panelNavigation.markAsActive(panelNavigation.getButtons().get(0));
 
+        add(catalogue.getPanelCatalogue(), BorderLayout.CENTER);
     }
 
     public Menu getMenuController() {

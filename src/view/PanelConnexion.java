@@ -131,4 +131,13 @@ public class PanelConnexion extends JPanel {
     public Connexion getConnexionController() {
         return connexionController;
     }
+
+    public void resetFields() {
+
+        nomTextField.setText("");
+        mailTextField.setText("");
+        passwordField.setText("");
+        prenomTextField.setText("");
+
+    }
 }

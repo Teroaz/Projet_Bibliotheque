@@ -2,6 +2,7 @@ package view;
 
 import controller.Connexion;
 import controller.Menu;
+import model.Etudiant;
 import model.design.Couleurs;
 import utils.JButtonUtils;
 
@@ -77,7 +78,8 @@ public class PanelNavigation extends JPanel {
     }
 
     public void markAsActive(JButton button) {
-        FenetreBibliotheque.getInstance().changeTitle("Bibliothèque | " + button.getText() + " - Connecté en tant que " + (Connexion.isAdminMode() ? "Admin" : "Etudiant"));
+        Etudiant coStu = Connexion.getConnectedStudent();
+        FenetreBibliotheque.getInstance().changeTitle("Bibliothèque | " + button.getText() + " - Connecté en tant que " + (Connexion.isAdminMode() ? "Admin" : coStu.getPrenom() + " " + coStu.getNom()));
 
         for (JButton jbutton : buttons) {
             if (!jbutton.getText().equalsIgnoreCase(button.getText())) {

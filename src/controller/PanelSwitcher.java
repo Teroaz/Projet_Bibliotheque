@@ -1,6 +1,7 @@
 package controller;
 
 import view.FenetreBibliotheque;
+import view.PanelMenu;
 
 public class PanelSwitcher {
 
@@ -22,14 +23,18 @@ public class PanelSwitcher {
 
     public static void switchToMenu() {
         FenetreBibliotheque instance = FenetreBibliotheque.getInstance();
+
+        menu.setPanelMenu(new PanelMenu(menu));
         instance.setContentPane(menu.getPanelMenu());
+
         instance.revalidate();
-        menu.getPanelNavigation().markAsActive(menu.getPanelNavigation().getButtons().get(0));
     }
 
     public static void switchToConnexion() {
         FenetreBibliotheque instance = FenetreBibliotheque.getInstance();
         instance.setContentPane(connexion.getPanelConnexion());
+        instance.setTitle("Bibliothèque | Menu de connexion");
+        connexion.getPanelConnexion().resetFields();
         instance.revalidate();
     }
 }
