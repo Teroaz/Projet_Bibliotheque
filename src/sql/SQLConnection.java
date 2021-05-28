@@ -57,7 +57,7 @@ public class SQLConnection {
     }
 
 
-    public void chargerProperties() throws ConfigurationException {
+    private void chargerProperties() throws ConfigurationException {
 
         try {
             Properties properties = new Properties();

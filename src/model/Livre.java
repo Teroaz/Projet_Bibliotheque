@@ -24,6 +24,8 @@ public class Livre {
         this.idLivre = id;
         this.titre = titre;
         this.auteur = auteur;
+
+        catalogue.put(id, this);
     }
 
     public static void chargerLivres() {
@@ -39,7 +41,6 @@ public class Livre {
                 Auteur auteur = Auteur.stringToAuteur(nomAuteur);
 
                 Livre livre = new Livre(idLivre, titre, auteur);
-                catalogue.put(idLivre, livre);
 
                 auteur.ajouterLivre(livre);
             }
