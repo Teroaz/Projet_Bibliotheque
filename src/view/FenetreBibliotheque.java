@@ -1,22 +1,29 @@
 package view;
 
+import controller.PanelSwitcher;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class FenetreBibliotheque extends JFrame {
 
+    //    private final int width = 930;
+    //    private final int height = 600;
+
     private final int width = 930;
-    private final int height = 600;
+    private final int height = 650;
 
     private static FenetreBibliotheque instance;
-    
+
     public FenetreBibliotheque() {
         super("Projet Bibliothèque");
 
         instance = this;
 
-        PanelMenu contentPane = new PanelMenu();
-        setContentPane(contentPane);
+        PanelSwitcher panelSwitcher = new PanelSwitcher();
+
+        setContentPane(panelSwitcher.getConnexion().getPanelConnexion());
+        //setContentPane(panelCatalogue);
 
         setResizable(false);
         setVisible(true);

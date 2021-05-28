@@ -75,4 +75,8 @@ public class Auteur {
                 "prenom='" + prenom + '\'' +
                 ", nom='" + nom + '}';
     }
+
+    public String auteurNP() {
+        return nom + " " + prenom;
+    }
 }
