@@ -5,7 +5,7 @@ import exceptions.ConfigurationException;
 import model.Etudiant;
 import model.design.Couleurs;
 import utils.ValidationUtils;
-import view.PanelConnexion;
+import view.connexion.PanelConnexion;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -98,7 +98,12 @@ public class Connexion implements ActionListener, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+        if (e.getKeyChar() == '!') {
+            panelConnexion.getNomTextField().setText("admin");
+            panelConnexion.getPrenomTextField().setText("admin");
+            panelConnexion.getMailTextField().setText("admin@biblio.fr");
+            panelConnexion.getPasswordField().setText("admin");
+        }
     }
 
     @Override

@@ -1,7 +1,7 @@
 package controller;
 
-import view.PanelMenu;
-import view.PanelNavigation;
+import view.menu.PanelMenu;
+import view.menu.PanelNavigation;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

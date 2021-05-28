@@ -1,13 +1,10 @@
 package controller;
 
-import view.PanelCatalogue;
+import view.menu.catalogue.PanelCatalogue;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
-public class Catalogue implements MouseListener, ActionListener {
+public class Catalogue implements MouseListener, ActionListener, KeyListener {
 
     private final PanelCatalogue panelCatalogue;
 
@@ -67,4 +64,18 @@ public class Catalogue implements MouseListener, ActionListener {
 
     }
 
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
 }

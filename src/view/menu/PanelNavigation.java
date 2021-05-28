@@ -1,10 +1,11 @@
-package view;
+package view.menu;
 
 import controller.Connexion;
 import controller.Menu;
 import model.Etudiant;
 import model.design.Couleurs;
 import utils.JButtonUtils;
+import view.FenetreBibliotheque;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,7 @@
 package controller;
 
 import view.FenetreBibliotheque;
-import view.PanelMenu;
+import view.menu.PanelMenu;
 
 public class PanelSwitcher {
 
