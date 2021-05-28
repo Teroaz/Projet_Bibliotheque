@@ -1,7 +1,8 @@
 package view;
 
 import controller.Connexion;
-import controller.Navigation;
+import controller.Menu;
+import model.Etudiant;
 import model.design.Couleurs;
 import utils.JButtonUtils;
 
@@ -14,9 +15,9 @@ public class PanelNavigation extends JPanel {
     private final Font buttonFont = new Font(Font.SANS_SERIF, Font.BOLD, 20);
     private final String[] buttonsLabels;
     private final ArrayList<JButton> buttons = new ArrayList<>();
-    private final Navigation navController;
+    private final Menu navController;
 
-    public PanelNavigation(Navigation navController) {
+    public PanelNavigation(Menu navController) {
 
         this.navController = navController;
 
@@ -45,7 +46,7 @@ public class PanelNavigation extends JPanel {
         return buttons;
     }
 
-    public Navigation getNavController() {
+    public Menu getNavController() {
         return navController;
     }
 
@@ -77,7 +78,8 @@ public class PanelNavigation extends JPanel {
     }
 
     public void markAsActive(JButton button) {
-        FenetreBibliotheque.getInstance().changeTitle("Bibliothèque | " + button.getText() + " - Connecté en tant que " + (Connexion.isAdminMode() ? "Admin" : "Etudiant"));
+        Etudiant coStu = Connexion.getConnectedStudent();
+        FenetreBibliotheque.getInstance().changeTitle("Bibliothèque | " + button.getText() + " - Connecté en tant que " + (Connexion.isAdminMode() ? "Admin" : coStu.getPrenom() + " " + coStu.getNom()));
 
         for (JButton jbutton : buttons) {
             if (!jbutton.getText().equalsIgnoreCase(button.getText())) {

@@ -7,7 +7,8 @@ public class DateUtils {
 
     /**
      * ajouter des jours à une date donnée
-     * @param date : la dote
+     *
+     * @param date     : la dote
      * @param nbrJours : nombre de jours à ajouter
      * @return : la date additionnée
      */
