@@ -35,7 +35,7 @@ public class DateUtils {
     }
 
     public static String toStringHeure(Date date) {
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         return dateFormat.format(date);
     }
 

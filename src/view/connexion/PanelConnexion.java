@@ -3,13 +3,12 @@ package view.connexion;
 import controller.Connexion;
 import model.design.Couleurs;
 import utils.DateUtils;
-import view.FenetreBibliotheque;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PanelConnexion extends JPanel {
 
@@ -22,6 +21,8 @@ public class PanelConnexion extends JPanel {
     private final Font labelSaisieFont = new Font(Font.SANS_SERIF, Font.BOLD, 16);
 
     private final Connexion connexionController;
+    private final JLabel labelDate;
+    private final JLabel labelHeure;
 
     JPanel panelTitre = new JPanel();
     JPanel panelLogin = new JPanel();
@@ -29,9 +30,9 @@ public class PanelConnexion extends JPanel {
     public PanelConnexion(Connexion connexionController) {
         this.connexionController = connexionController;
 
-        setLayout(new GridLayout(1,2,0,0));
+        setLayout(new GridLayout(1, 2, 0, 0));
         panelLogin.setLayout(new GridBagLayout());
-        panelTitre.setLayout(new GridLayout(3,1,15,15));
+        panelTitre.setLayout(new GridLayout(3, 1, 15, 15));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
@@ -124,16 +125,18 @@ public class PanelConnexion extends JPanel {
 //        panelTitre.setSize(new Dimension(FenetreBibliotheque.getInstance().getWidth()/2 - 20, FenetreBibliotheque.getInstance().getHeight()-1));
 
         JLabel labelTitre = new JLabel("Bibliothèque", JLabel.CENTER);
-        labelTitre.setFont(new Font("Georgia", Font.ITALIC | Font.BOLD,60));
+        labelTitre.setFont(new Font("Georgia", Font.ITALIC | Font.BOLD, 60));
         panelTitre.add(labelTitre);
 
-        JLabel labelDate = new JLabel(DateUtils.toStringDate(new Date()), JLabel.CENTER);
+        labelDate = new JLabel(DateUtils.toStringDate(new Date()), JLabel.CENTER);
         labelDate.setFont(new Font("Arial", Font.PLAIN, 25));
         panelTitre.add(labelDate);
 
-        JLabel labelHeure = new JLabel(DateUtils.toStringHeure(new Date()), JLabel.CENTER);
+        labelHeure = new JLabel(DateUtils.toStringHeure(new Date()), JLabel.CENTER);
         labelHeure.setFont(new Font("Arial", Font.PLAIN, 25));
         panelTitre.add(labelHeure);
+
+        refreshDateHeure();
 
         add(panelTitre);
         add(panelLogin);
@@ -172,4 +175,17 @@ public class PanelConnexion extends JPanel {
         prenomTextField.setText("");
 
     }
+
+    private void refreshDateHeure() {
+        java.util.Timer t = new Timer();
+        t.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Date currDate = new Date();
+                labelDate.setText(DateUtils.toStringDate(currDate));
+                labelHeure.setText(DateUtils.toStringHeure(currDate));
+            }
+        }, 0, 1000);
+    }
+
 }
