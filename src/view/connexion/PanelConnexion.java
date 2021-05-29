@@ -2,6 +2,7 @@ package view.connexion;
 
 import controller.Connexion;
 import model.design.Couleurs;
+import utils.DateUtils;
 import view.FenetreBibliotheque;
 
 import javax.swing.*;
@@ -30,7 +31,7 @@ public class PanelConnexion extends JPanel {
 
         setLayout(new GridLayout(1,2,0,0));
         panelLogin.setLayout(new GridBagLayout());
-        panelTitre.setLayout(new GridLayout(2,1,20,15));
+        panelTitre.setLayout(new GridLayout(3,1,15,15));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
@@ -126,10 +127,13 @@ public class PanelConnexion extends JPanel {
         labelTitre.setFont(new Font("Georgia", Font.ITALIC | Font.BOLD,60));
         panelTitre.add(labelTitre);
 
-        Date date = new Date();
-        JLabel labelDate = new JLabel(date.toString(), JLabel.CENTER);
+        JLabel labelDate = new JLabel(DateUtils.toStringDate(new Date()), JLabel.CENTER);
         labelDate.setFont(new Font("Arial", Font.PLAIN, 25));
         panelTitre.add(labelDate);
+
+        JLabel labelHeure = new JLabel(DateUtils.toStringHeure(new Date()), JLabel.CENTER);
+        labelHeure.setFont(new Font("Arial", Font.PLAIN, 25));
+        panelTitre.add(labelHeure);
 
         add(panelTitre);
         add(panelLogin);

@@ -1,5 +1,7 @@
 package utils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,4 +23,20 @@ public class DateUtils {
 
         return calendar.getTime();
     }
+
+    public static String toString(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(date);
+    }
+
+    public static String toStringDate(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("EEEE dd MMMM yyyy");
+        return dateFormat.format(date);
+    }
+
+    public static String toStringHeure(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        return dateFormat.format(date);
+    }
+
 }
