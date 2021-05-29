@@ -2,6 +2,7 @@ package model;
 
 import exceptions.DatabaseException;
 import sql.SQLConnection;
+import utils.CollectionUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -60,16 +61,7 @@ public class Livre {
     }
 
     public static ArrayList<Livre> rechercherLivres(String titre) {
-
-        ArrayList<Livre> resultatsRecherche = new ArrayList<>();
-
-        for (Livre livre : catalogue.values()) {
-            if (livre.titre.toLowerCase().contains(titre.toLowerCase())) {
-                resultatsRecherche.add(livre);
-            }
-        }
-
-        return resultatsRecherche;
+        return CollectionUtils.streamToArrayList(Livre.catalogue.values().stream().filter(livre -> livre.titre.toLowerCase().contains(titre.toLowerCase())));
     }
 
     public int getIdLivre() {

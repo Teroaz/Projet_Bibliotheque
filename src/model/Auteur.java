@@ -1,16 +1,17 @@
 package model;
 
 import exceptions.DatabaseException;
+import utils.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Auteur {
 
-    private String prenom;
-    private String nom;
+    private final String prenom;
+    private final String nom;
 
-    private ArrayList<Livre> livres = new ArrayList<>();
+    private final ArrayList<Livre> livres = new ArrayList<>();
 
     public static ArrayList<Auteur> auteurs = new ArrayList<>();
 
@@ -77,6 +78,32 @@ public class Auteur {
     }
 
     public String auteurNP() {
-        return nom + " " + prenom;
+        return nom.toUpperCase() + " " + prenom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public static ArrayList<Auteur> getAuteurs() {
+        return auteurs;
+    }
+
+    public ArrayList<Livre> getLivres() {
+        return livres;
+    }
+
+    public static ArrayList<Auteur> rechercherAuteurs(String saisie) {
+        return CollectionUtils.streamToArrayList(auteurs
+                .stream().filter(auteur ->
+                        auteur.prenom.toLowerCase().contains(saisie.toLowerCase()) ||
+                                auteur.nom.contains(saisie.toLowerCase()) ||
+                                (auteur.nom + " " + auteur.prenom).toLowerCase().contains(saisie.toLowerCase()) ||
+                                (auteur.prenom + " " + auteur.nom).toLowerCase().contains(saisie.toLowerCase())
+                ));
     }
 }

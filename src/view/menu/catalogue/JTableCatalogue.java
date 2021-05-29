@@ -1,8 +1,12 @@
 package view.menu.catalogue;
 
 import controller.Catalogue;
+import model.design.Couleurs;
+import utils.swing_utils.ColumnsAutoSizer;
+import utils.swing_utils.JTableUtils;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
 public class JTableCatalogue extends JTable {
@@ -20,18 +24,20 @@ public class JTableCatalogue extends JTable {
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        scrollPane.setPreferredSize(new Dimension(500, 500));
+        JTableUtils.beautifyHeader(tableHeader, Couleurs.MARRON_FONCE.getCouleur(), Couleurs.BEIGE.getCouleur());
+        ColumnsAutoSizer.sizeColumnsToFit(this);
 
-        getTableHeader().setBackground(new Color(198, 173, 137, 255));
-        getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
-        //tableSemaine.getTableHeader().setForeground(new Color(0,0,0));
         setRowHeight(20);
-        //tableCatalogue.setDefaultRenderer(String.class, new CelluleRenderer());
-        //tableCatalogue.setDefaultRenderer(Integer.class, new CelluleRenderer());
-        addMouseListener(catController);
+        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        getTableHeader().setReorderingAllowed(false);
 
-        scrollPane.setPreferredSize(new Dimension(700,500));
+        scrollPane.setPreferredSize(new Dimension(700, 400));
 
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
     }
 
     public JScrollPane getScrollPane() {
@@ -44,5 +50,10 @@ public class JTableCatalogue extends JTable {
 
     public ModeleCatalogue getModeleCatalogue() {
         return modeleCatalogue;
+    }
+
+    @Override
+    public Class<?> getColumnClass(int column) {
+        return getValueAt(0, column).getClass();
     }
 }

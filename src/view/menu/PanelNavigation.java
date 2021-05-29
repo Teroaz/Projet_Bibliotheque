@@ -4,7 +4,7 @@ import controller.Connexion;
 import controller.Menu;
 import model.Etudiant;
 import model.design.Couleurs;
-import utils.JButtonUtils;
+import utils.swing_utils.JButtonUtils;
 import view.FenetreBibliotheque;
 
 import javax.swing.*;

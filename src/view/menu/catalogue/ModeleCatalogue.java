@@ -1,26 +1,28 @@
 package view.menu.catalogue;
 
+import controller.Catalogue;
 import model.Livre;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class ModeleCatalogue extends DefaultTableModel {
 
-    private final String[] intitulesColonnes = {"ID", "Titre", "Auteur", "Nombre d'exemplaires"};
+    private final String[] intitulesColonnes = {"ID", "Titre", "Auteur", "Exemplaires"};
+    private final Catalogue catController;
 
     int nbLivres;
 
-    public ModeleCatalogue() {
+    public ModeleCatalogue(Catalogue catController) {
+
+        this.catController = catController;
 
         Collection<Livre> livres = Livre.catalogue.values();
-        nbLivres = livres.size();
 
         setColumnCount(intitulesColonnes.length);
         setColumnIdentifiers(intitulesColonnes);
-
-        setRowCount(nbLivres);
 
         updateCatalogue(livres);
     }
@@ -33,9 +35,12 @@ public class ModeleCatalogue extends DefaultTableModel {
         return false;
     }
 
-
     public void updateCatalogue(Collection<Livre> livres) {
+
         ArrayList<Livre> livresArr = new ArrayList<>(livres);
+        nbLivres = livresArr.size();
+        setRowCount(nbLivres);
+
         for (int i = 0; i < livresArr.size(); i++) {
             Livre livre = livresArr.get(i);
 
@@ -52,13 +57,12 @@ public class ModeleCatalogue extends DefaultTableModel {
         return String.class;
     }
 
-    /*
-    public void addLivre(Livre parLivre) {
-        nbLivres++;
-        setRowCount(nbLivres);
-        setValueAt(parLivre.getIdLivre(), ligne, 0);
-        setValueAt(parLivre.getTitre(), ligne, 1);
-        setValueAt(parLivre.getAuteur(), ligne, 2);
-        setValueAt(parLivre.getExemplaires().size(), ligne, 3);
-    }*/
+    public Catalogue getCatController() {
+        return catController;
+    }
+
+    public void registerListeners(JTableCatalogue tableCatalogue) {
+        ListSelectionModel selectionModel = tableCatalogue.getSelectionModel();
+        selectionModel.addListSelectionListener(e -> catController.onTableSelection(selectionModel));
+    }
 }
