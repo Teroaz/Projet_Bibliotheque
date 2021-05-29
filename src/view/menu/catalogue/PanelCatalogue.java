@@ -34,7 +34,7 @@ public class PanelCatalogue extends JPanel {
         this.catController = catController;
 
         setLayout(new BorderLayout());
-        gestion.setLayout(new GridLayout(4, 1));
+        gestion.setLayout(new GridLayout(4, 1,5,20));
 
         modeleCatalogue = new ModeleCatalogue(catController);
         tableCatalogue = new JTableCatalogue(modeleCatalogue, catController);
