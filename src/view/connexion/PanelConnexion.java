@@ -1,9 +1,14 @@
 package view.connexion;
 
 import controller.Connexion;
+import model.design.Couleurs;
+import view.FenetreBibliotheque;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Date;
 
 public class PanelConnexion extends JPanel {
 
@@ -13,20 +18,25 @@ public class PanelConnexion extends JPanel {
     private final JTextField prenomTextField;
     private final JButton connectButton;
 
-
     private final Font labelSaisieFont = new Font(Font.SANS_SERIF, Font.BOLD, 16);
 
     private final Connexion connexionController;
 
+    JPanel panelTitre = new JPanel();
+    JPanel panelLogin = new JPanel();
+
     public PanelConnexion(Connexion connexionController) {
         this.connexionController = connexionController;
 
-        setLayout(new GridBagLayout());
+        setLayout(new GridLayout(1,2,0,0));
+        panelLogin.setLayout(new GridBagLayout());
+        panelTitre.setLayout(new GridLayout(2,1,20,15));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
 
         JLabel nomLabel = new JLabel("Nom : ");
         nomLabel.setDisplayedMnemonic('N');
@@ -36,10 +46,10 @@ public class PanelConnexion extends JPanel {
         nomTextField.addKeyListener(connexionController);
 
         nomLabel.setLabelFor(nomTextField);
-        add(nomLabel, gbc);
+        panelLogin.add(nomLabel, gbc);
 
         gbc.gridx++;
-        add(nomTextField, gbc);
+        panelLogin.add(nomTextField, gbc);
 
 
         gbc.gridx = 0;
@@ -54,10 +64,10 @@ public class PanelConnexion extends JPanel {
 
         prenomLabel.setLabelFor(prenomTextField);
 
-        add(prenomLabel, gbc);
+        panelLogin.add(prenomLabel, gbc);
         gbc.gridx++;
 
-        add(prenomTextField, gbc);
+        panelLogin.add(prenomTextField, gbc);
 
 
         gbc.gridx = 0;
@@ -72,10 +82,10 @@ public class PanelConnexion extends JPanel {
 
         mailLabel.setLabelFor(mailTextField);
 
-        add(mailLabel, gbc);
+        panelLogin.add(mailLabel, gbc);
         gbc.gridx++;
 
-        add(mailTextField, gbc);
+        panelLogin.add(mailTextField, gbc);
 
 
         gbc.gridx = 0;
@@ -90,22 +100,40 @@ public class PanelConnexion extends JPanel {
 
         passwordLabel.setLabelFor(passwordField);
 
-        add(passwordLabel, gbc);
+        panelLogin.add(passwordLabel, gbc);
         gbc.gridx++;
 
-        add(passwordField, gbc);
+        panelLogin.add(passwordField, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 4;
-
+        gbc.anchor = GridBagConstraints.CENTER;
 
         connectButton = new JButton("Se connecter");
         connectButton.addActionListener(connexionController);
         connectButton.setMnemonic('C');
 
-        add(connectButton, gbc);
+        panelLogin.add(connectButton, gbc);
 
         gbc.gridy = 5;
+
+        panelLogin.setBackground(Couleurs.VIOLET_CLAIR.getCouleur());
+        panelTitre.setBackground(Couleurs.VIOLET.getCouleur());
+//        panelLogin.setSize(new Dimension(FenetreBibliotheque.getInstance().getWidth()/2 - 20, FenetreBibliotheque.getInstance().getHeight()-1));
+//        panelTitre.setSize(new Dimension(FenetreBibliotheque.getInstance().getWidth()/2 - 20, FenetreBibliotheque.getInstance().getHeight()-1));
+
+        JLabel labelTitre = new JLabel("Bibliothèque", JLabel.CENTER);
+        labelTitre.setFont(new Font("Georgia", Font.ITALIC | Font.BOLD,60));
+        panelTitre.add(labelTitre);
+
+        Date date = new Date();
+        JLabel labelDate = new JLabel(date.toString(), JLabel.CENTER);
+        labelDate.setFont(new Font("Arial", Font.PLAIN, 25));
+        panelTitre.add(labelDate);
+
+        add(panelTitre);
+        add(panelLogin);
+//        addKeyListener(connexionController);
     }
 
     public JPasswordField getPasswordField() {
