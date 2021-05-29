@@ -2,6 +2,7 @@ package controller;
 
 import view.menu.PanelMenu;
 import view.menu.PanelNavigation;
+import view.menu.emprunts_reservations.PanelEmpruntReservation;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,7 +15,7 @@ public class Menu implements ActionListener {
     private PanelNavigation panelNavigation;
 
     public Menu() {
-
+        panelNavigation = new PanelNavigation(this);
     }
 
     @Override
@@ -27,6 +28,14 @@ public class Menu implements ActionListener {
 
         if (button == navButtons.get(navButtons.size() - 1)) {
             PanelSwitcher.switchToConnexion();
+        }
+
+        if (button == navButtons.get(navButtons.size() - 2)) {
+            PanelSwitcher.switchToEmpruntReservation();
+        }
+
+        if (button == navButtons.get(navButtons.size() -3)) {
+            PanelSwitcher.switchToMenu();
         }
     }
 

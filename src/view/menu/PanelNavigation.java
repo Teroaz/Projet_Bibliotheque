@@ -26,7 +26,7 @@ public class PanelNavigation extends JPanel {
         setBackground(Couleurs.BLEU_FONCE.getCouleur());
 
         if (Connexion.isAdminMode()) {
-            buttonsLabels = new String[]{"Étudiants", "Livres & Exemplaires", "Réservations & Emprunts", "Déconnexion"};
+            buttonsLabels = new String[]{"Étudiants", "Livres & Exemplaires", "Emprunts & Réservations", "Déconnexion"};
         } else {
             buttonsLabels = new String[]{"Mon espace", "Catalogue", "Déconnexion"};
         }
