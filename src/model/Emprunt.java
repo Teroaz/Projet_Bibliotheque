@@ -3,6 +3,7 @@ package model;
 import utils.DateUtils;
 
 import java.util.Date;
+import java.util.HashMap;
 
 public class Emprunt {
 
@@ -10,6 +11,7 @@ public class Emprunt {
     private Date date_fin_emp;
     private Etudiant etudiant;
     private Exemplaire exemplaire;
+    public static HashMap<Integer, Emprunt> emprunt = new HashMap<>();
 
     /**
      * @param date_emp   : la date d'emprunt

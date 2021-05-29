@@ -3,6 +3,7 @@ package model;
 import utils.DateUtils;
 
 import java.util.Date;
+import java.util.HashMap;
 
 public class Reservation {
 
@@ -10,6 +11,7 @@ public class Reservation {
     private Date date_fin_res;
     private Etudiant etudiant;
     private Livre livre;
+    public static HashMap<Integer, Emprunt> reservations = new HashMap<>();
 
     /**
      * la date de retour de réservation est remplie automatiquement
