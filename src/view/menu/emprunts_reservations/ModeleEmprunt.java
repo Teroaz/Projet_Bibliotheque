@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class ModeleEmprunt extends DefaultTableModel {
 
-    private final String[] intitulesColonnes = {"Titre", "Exemplaire", "Etudiant", "Date", "Date retour"};
+    private final String[] intitulesColonnes = {"Titre", "Exemplaire", "N° étudiant", "Date", "Date retour"};
 
     int nbEmprunts;
 

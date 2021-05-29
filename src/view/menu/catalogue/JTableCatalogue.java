@@ -33,11 +33,8 @@ public class JTableCatalogue extends JTable {
 
         scrollPane.setPreferredSize(new Dimension(700, 400));
 
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-
-        getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
+        setDefaultRenderer(Integer.class, new CatalogueRenderer());
+        setDefaultRenderer(String.class, new CatalogueRenderer());
     }
 
     public JScrollPane getScrollPane() {

@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class ModeleReservation extends DefaultTableModel {
 
-    private final String[] intitulesColonnes = {"Titre", "Etudiant", "Date", "Date fin"};
+    private final String[] intitulesColonnes = {"Titre", "N° étudiant", "Date", "Date fin"};
 
     int nbReservations;
 
@@ -34,8 +34,10 @@ public class ModeleReservation extends DefaultTableModel {
     }
 
     public Class getColumnClass(int i) {
-        if (i == 0 || i == 1)
+        if (i == 0)
             return String.class;
+        if (i == 1)
+            return Integer.class;
         return Date.class;
     }
 

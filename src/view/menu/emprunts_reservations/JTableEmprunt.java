@@ -6,6 +6,7 @@ import view.menu.catalogue.ModeleCatalogue;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Date;
 
 public class JTableEmprunt extends JTable{
 
@@ -26,10 +27,12 @@ public class JTableEmprunt extends JTable{
 
         getTableHeader().setBackground(new Color(198, 173, 137, 255));
         getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
-        //tableSemaine.getTableHeader().setForeground(new Color(0,0,0));
         setRowHeight(20);
-        //tableCatalogue.setDefaultRenderer(String.class, new CelluleRenderer());
-        //tableCatalogue.setDefaultRenderer(Integer.class, new CelluleRenderer());
+
+        setDefaultRenderer(String.class, new EmpruntRenderer());
+        setDefaultRenderer(Integer.class, new EmpruntRenderer());
+        setDefaultRenderer(Date.class, new EmpruntRenderer());
+
         addMouseListener(empController);
 
     }
