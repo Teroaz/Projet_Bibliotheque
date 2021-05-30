@@ -25,6 +25,11 @@ public class CatalogueRenderer extends JLabel implements TableCellRenderer {
                 setText(texte);
             }
         }
+        if (isSelected)
+            setBackground(new Color(176, 229, 243));
+        else
+            setBackground(Color.WHITE);
+
         return this;
     }
 }
