@@ -1,26 +1,24 @@
 package view.menu.emprunts_reservations.emprunt;
 
 import model.Emprunt;
+import utils.DateUtils;
 
 import javax.swing.table.DefaultTableModel;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 public class ModeleEmprunt extends DefaultTableModel {
 
     private final String[] intitulesColonnes = {"Titre", "Exemplaire", "N° étudiant", "Date", "Date retour"};
-
+    private TreeSet<Emprunt> emprunts;
     int nbEmprunts;
 
     public ModeleEmprunt() {
-        Collection<Emprunt> emprunts = Emprunt.emprunt.values();
-
-        nbEmprunts = emprunts.size();
+        emprunts = Emprunt.emprunt;
 
         setColumnCount(intitulesColonnes.length);
         setColumnIdentifiers(intitulesColonnes);
 
-        setRowCount(nbEmprunts);
+        updateEmprunts(emprunts);
     }
 
     public String[] getIntitulesColonnes() {
@@ -31,12 +29,29 @@ public class ModeleEmprunt extends DefaultTableModel {
         return false;
     }
 
+    public void updateEmprunts(TreeSet<Emprunt> emprunts) {
+
+        Iterator <Emprunt> iterator = emprunts.iterator();
+        nbEmprunts = emprunts.size();
+        setRowCount(nbEmprunts);
+
+        if (!emprunts.isEmpty()) {
+            for (int i = 0; i < nbEmprunts; i++) {
+                Emprunt emprunt = iterator.next();
+
+                setValueAt(emprunt.getExemplaire().getLivre().getTitre(), i, 0);
+                setValueAt(emprunt.getExemplaire().getId(), i, 1);
+                setValueAt(emprunt.getEtudiant().getId(), i, 2);
+                setValueAt(DateUtils.toString(emprunt.getDate_emp()), i, 3);
+                setValueAt(DateUtils.toString(emprunt.getDate_fin_emp()), i, 4);
+            }
+        }
+    }
+
     public Class getColumnClass(int i) {
-        if (i == 0)
-            return String.class;
-        else if (i == 1 || i == 2)
+        if (i == 1 || i == 2)
             return Integer.class;
-        return Date.class;
+        return String.class;
     }
 
 }
