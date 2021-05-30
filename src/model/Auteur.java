@@ -39,7 +39,7 @@ public class Auteur {
      * @param nomString: prend une chaîne de caractère comprenant le nom, le prénom et le livre de l'auteur
      * @return l'objet auteur abstraction de la classe Auteur
      */
-    static public Auteur stringToAuteur(String nomString) throws DatabaseException {
+    public static Auteur stringToAuteur(String nomString) throws DatabaseException {
         String[] parties = Arrays.stream(nomString.split(",")).map(String::trim).toArray(String[]::new);
 
         String nom = parties[0];
@@ -66,11 +66,12 @@ public class Auteur {
         return auteur;
     }
 
-    @Override
-    /** Renvoie l'auteur en chaîne de caractères
+    /**
+     * Renvoie l'auteur en chaîne de caractères
      *
      * @return chaîne de caractères de l'auteur
      */
+    @Override
     public String toString() {
         return "Auteur{" +
                 "prenom='" + prenom + '\'' +

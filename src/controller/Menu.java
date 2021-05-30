@@ -1,41 +1,47 @@
 package controller;
 
 import view.menu.PanelMenu;
-import view.menu.PanelNavigation;
-import view.menu.emprunts_reservations.PanelEmpruntReservation;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class Menu implements ActionListener {
 
-    private PanelMenu panelMenu;
-    private PanelNavigation panelNavigation;
+    private final PanelMenu panelMenu;
+
+    private static Menu instance;
+    private final Catalogue catalogue;
+    private final EmpruntReservation empruntReservation;
 
     public Menu() {
-        panelNavigation = new PanelNavigation(this);
+        instance = this;
+
+        panelMenu = new PanelMenu();
+
+        catalogue = new Catalogue();
+        empruntReservation = new EmpruntReservation();
+
+        panelMenu.setBodyPanel(catalogue.getPanelCatalogue());
+    }
+
+    public static Menu getInstance() {
+        return instance;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
         JButton button = (JButton) e.getSource();
-        panelNavigation.markAsActive(button);
+        panelMenu.getPanelNavigation().markAsActive(button);
+        String text = button.getText();
 
-        ArrayList<JButton> navButtons = panelNavigation.getButtons();
-
-        if (button == navButtons.get(navButtons.size() - 1)) {
+        if (text.equals("Déconnexion")) {
             PanelSwitcher.switchToConnexion();
-        }
-
-        if (button == navButtons.get(navButtons.size() - 2)) {
-            PanelSwitcher.switchToEmpruntReservation();
-        }
-
-        if (button == navButtons.get(navButtons.size() -3)) {
-            PanelSwitcher.switchToMenu();
+        } else if (text.equals("Livres & Exemplaires")) {
+            panelMenu.setBodyPanel(catalogue.getPanelCatalogue());
+        } else if (text.equals("Emprunts & Réservations")) {
+            panelMenu.setBodyPanel(empruntReservation.getPanelEmpruntReservation());
         }
     }
 
@@ -43,17 +49,11 @@ public class Menu implements ActionListener {
         return panelMenu;
     }
 
-    public void setPanelMenu(PanelMenu panelMenu) {
-        this.panelMenu = panelMenu;
+    public Catalogue getCatalogue() {
+        return catalogue;
     }
 
-    public PanelNavigation getPanelNavigation() {
-        return panelNavigation;
+    public EmpruntReservation getEmpruntReservation() {
+        return empruntReservation;
     }
-
-    public void setPanelNavigation(PanelNavigation panelNavigation) {
-        this.panelNavigation = panelNavigation;
-    }
-
-
 }

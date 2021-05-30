@@ -1,13 +1,13 @@
-package view.menu.emprunts_reservations;
+package view.menu.emprunts_reservations.reservation;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.Date;
 
-public class EmpruntRenderer extends JLabel implements TableCellRenderer {
+public class ReservationRenderer extends JLabel implements TableCellRenderer {
 
-    public EmpruntRenderer() {
+    public ReservationRenderer() {
         super();
         setOpaque(true);
         setBackground(Color.WHITE);
@@ -19,12 +19,12 @@ public class EmpruntRenderer extends JLabel implements TableCellRenderer {
             String texte = (String)value;
             setText(texte);
         }
-        if (column == 1 || column == 2) {
+        if (column == 1) {
             int valeur = (Integer)value;
             setText(String.valueOf(valeur));
             setHorizontalAlignment(JLabel.CENTER);
         }
-        if (column == 3 || column == 4) {
+        if (column == 2 || column == 3) {
             Date date = (Date)value;
             setText(date.toString());
             setHorizontalAlignment(JLabel.CENTER);

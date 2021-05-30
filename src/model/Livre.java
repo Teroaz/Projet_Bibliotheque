@@ -11,10 +11,10 @@ import java.util.HashMap;
 
 public class Livre {
 
-    private int idLivre;
+    private final int idLivre;
     private String titre;
     private Auteur auteur;
-    private ArrayList<Exemplaire> exemplaires = new ArrayList<>();
+    private final ArrayList<Exemplaire> exemplaires = new ArrayList<>();
 
     /**
      * HashMap associant un id de livre à une instance du livre
@@ -64,7 +64,7 @@ public class Livre {
         return CollectionUtils.streamToArrayList(Livre.catalogue.values().stream().filter(livre -> livre.titre.toLowerCase().contains(titre.toLowerCase())));
     }
 
-    public int getIdLivre() {
+    public int getId() {
         return idLivre;
     }
 

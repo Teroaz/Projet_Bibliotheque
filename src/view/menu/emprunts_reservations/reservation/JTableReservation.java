@@ -1,8 +1,9 @@
-package view.menu.emprunts_reservations;
+package view.menu.emprunts_reservations.reservation;
 
-import controller.Catalogue;
 import controller.EmpruntReservation;
-import view.menu.catalogue.ModeleCatalogue;
+import model.design.Couleurs;
+import utils.swing_utils.ColumnsAutoSizer;
+import utils.swing_utils.JTableUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,10 +15,11 @@ public class JTableReservation extends JTable {
     private final JScrollPane scrollPane;
     private final EmpruntReservation resController;
 
-    public JTableReservation(ModeleReservation modeleReservation, EmpruntReservation resController) {
+    public JTableReservation(ModeleReservation modeleReservation) {
         super(modeleReservation);
+        resController = EmpruntReservation.getInstance();
+
         this.modeleReservation = modeleReservation;
-        this.resController = resController;
 
         scrollPane = new JScrollPane(this,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -25,8 +27,9 @@ public class JTableReservation extends JTable {
 
         scrollPane.setPreferredSize(new Dimension(450, 400));
 
-        getTableHeader().setBackground(new Color(198, 173, 137, 255));
-        getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        JTableUtils.beautifyHeader(getTableHeader(), Couleurs.BLEU_CLAIR.getCouleur(), Couleurs.BLEU_FONCE.getCouleur(), 12);
+        ColumnsAutoSizer.sizeColumnsToFit(this);
+
         setRowHeight(20);
 
         setDefaultRenderer(String.class, new ReservationRenderer());
@@ -34,7 +37,6 @@ public class JTableReservation extends JTable {
         setDefaultRenderer(Date.class, new ReservationRenderer());
 
         addMouseListener(resController);
-
     }
 
     public JScrollPane getScrollPane() {
@@ -48,5 +50,4 @@ public class JTableReservation extends JTable {
     public ModeleReservation getModeleReservation() {
         return modeleReservation;
     }
-
 }

@@ -69,29 +69,29 @@ public class Etudiant {
         reservations.add(reservation);
     }
 
-    public static ArrayList<Etudiant> rechercherParNom(String nom) {
+    public static ArrayList<Etudiant> searchByName(String nom) {
         return CollectionUtils.streamToArrayList(liste.values().stream().filter(e -> e.nom.toLowerCase().startsWith(nom.toLowerCase())));
     }
 
-    public static ArrayList<Etudiant> rechercherParPrenom(String prenom) {
+    public static ArrayList<Etudiant> searchByFirstname(String prenom) {
         return CollectionUtils.streamToArrayList(liste.values().stream().filter(e -> e.prenom.toLowerCase().startsWith(prenom.toLowerCase())));
     }
 
-    public static ArrayList<Etudiant> rechercherParMail(String mail) {
+    public static ArrayList<Etudiant> searchByMail(String mail) {
         if (!ValidationUtils.isValidMail(mail)) return null;
 
         return CollectionUtils.streamToArrayList(liste.values().stream().filter(e -> e.email.toLowerCase().startsWith(mail.toLowerCase())));
     }
 
-    public static ArrayList<Etudiant> rechercherParNomEtPrenom(String nom, String prenom) {
-        return CollectionUtils.intersection(rechercherParNom(nom), rechercherParPrenom(prenom));
+    public static ArrayList<Etudiant> searchByFullname(String nom, String prenom) {
+        return CollectionUtils.intersection(searchByName(nom), searchByFirstname(prenom));
     }
 
-    public static ArrayList<Etudiant> rechercherParNomPrenomEtMail(String nom, String prenom, String mail) {
-        return CollectionUtils.intersection(rechercherParNomEtPrenom(nom, prenom), rechercherParMail(mail));
+    public static ArrayList<Etudiant> searchByFullnameAndMail(String nom, String prenom, String mail) {
+        return CollectionUtils.intersection(searchByFullname(nom, prenom), searchByMail(mail));
     }
 
-    public static Etudiant rechercherParId(int id) {
+    public static Etudiant getById(int id) {
         return liste.get(id);
     }
 
@@ -103,12 +103,16 @@ public class Etudiant {
         return prenom;
     }
 
-    public int getId_et() {
+    public int getId() {
         return id_et;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public String getMdp(boolean decrypted) {
+        return decrypted ? CryptUtils.decrypt(mdp) : mdp;
     }
 
     public boolean validatePassword(String password) {

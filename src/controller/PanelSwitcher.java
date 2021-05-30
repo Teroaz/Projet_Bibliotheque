@@ -1,19 +1,23 @@
 package controller;
 
+import exceptions.BasicException;
 import view.FenetreBibliotheque;
-import view.menu.PanelMenu;
-import view.menu.emprunts_reservations.PanelEmpruntReservation;
 
 public class PanelSwitcher {
 
     private static Connexion connexion;
     private static Menu menu;
-    private static EmpruntReservation empruntReservation;
+
+    private static PanelSwitcher instance;
 
     public PanelSwitcher() {
+        instance = this;
+
         connexion = new Connexion();
-        menu = new Menu();
-        empruntReservation = new EmpruntReservation();
+    }
+
+    public static PanelSwitcher getInstance() {
+        return instance;
     }
 
     public Connexion getConnexion() {
@@ -24,14 +28,11 @@ public class PanelSwitcher {
         return menu;
     }
 
-    public EmpruntReservation getEmpruntReservation() { return empruntReservation; }
-
     public static void switchToMenu() {
         FenetreBibliotheque instance = FenetreBibliotheque.getInstance();
+        menu = new Menu();
 
-        menu.setPanelMenu(new PanelMenu(menu));
         instance.setContentPane(menu.getPanelMenu());
-
         instance.revalidate();
     }
 
@@ -39,17 +40,13 @@ public class PanelSwitcher {
         FenetreBibliotheque instance = FenetreBibliotheque.getInstance();
         instance.setContentPane(connexion.getPanelConnexion());
         instance.setTitle("Bibliothèque | Menu de connexion");
-        connexion.getPanelConnexion().resetFields();
-        instance.revalidate();
-    }
-
-    public static void switchToEmpruntReservation() {
-        FenetreBibliotheque instance = FenetreBibliotheque.getInstance();
-
-        empruntReservation.setPanelEmpruntReservation(new PanelEmpruntReservation(empruntReservation));
-        instance.setContentPane(empruntReservation.getPanelEmpruntReservation());
-        instance.setTitle("Bibliothèque | Emprunts & Réservations");
-
+        Connexion.setAdminMode(false);
+        try {
+            Connexion.setConnectedStudent(null);
+        } catch (BasicException e) {
+            e.printStackTrace();
+        }
+        connexion.getPanelConnexion().getPanelLogin().resetFields();
         instance.revalidate();
     }
 }

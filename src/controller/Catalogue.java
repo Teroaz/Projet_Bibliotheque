@@ -3,18 +3,29 @@ package controller;
 import model.Auteur;
 import model.Livre;
 import view.menu.catalogue.PanelCatalogue;
+import view.menu.catalogue.PanelRechercheCatalogue;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class Catalogue implements MouseListener, ActionListener, KeyListener {
+public class Catalogue implements ActionListener, KeyListener {
 
     private int selectedIndex = 0;
+    private static Catalogue instance;
+
     private final PanelCatalogue panelCatalogue;
 
     public Catalogue() {
-        panelCatalogue = new PanelCatalogue(this);
+        instance = this;
+        panelCatalogue = new PanelCatalogue();
+    }
+
+    public static Catalogue getInstance() {
+        return instance;
     }
 
     public PanelCatalogue getPanelCatalogue() {
@@ -22,6 +33,8 @@ public class Catalogue implements MouseListener, ActionListener, KeyListener {
     }
 
     public void ActionListener(ActionEvent evt) {
+
+
         if (evt.getActionCommand().equals("ajout")) {
 
         } else if (evt.getActionCommand().equals("suppression")) {
@@ -41,30 +54,6 @@ public class Catalogue implements MouseListener, ActionListener, KeyListener {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
     public void keyTyped(KeyEvent e) {
 
     }
@@ -76,32 +65,46 @@ public class Catalogue implements MouseListener, ActionListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getSource() == panelCatalogue.getTexteRecherche()) {
-            String saisieRecherche = panelCatalogue.getTexteRecherche().getText();
+        PanelRechercheCatalogue panelRechercheCatalogue = panelCatalogue.getPanelRechercheCatalogue();
+
+        if (e.getSource() == panelRechercheCatalogue.getTexteRecherche()) {
+            String saisieRecherche = panelRechercheCatalogue.getTexteRecherche().getText();
 
             ArrayList<Livre> livres = new ArrayList<>();
 
-            if (panelCatalogue.getChoixRecherche().getSelectedIndex() == 0) {
+            if (panelRechercheCatalogue.getChoixRecherche().getSelectedIndex() == 0) {
                 livres = Livre.rechercherLivres(saisieRecherche);
             } else {
                 ArrayList<Auteur> auteurs = Auteur.rechercherAuteurs(saisieRecherche);
                 for (Auteur auteur : auteurs) {
                     livres.addAll(auteur.getLivres());
                 }
+                livres.sort((livre1, livre2) -> livre1.getId() - livre2.getId());
             }
             panelCatalogue.getModeleCatalogue().updateCatalogue(livres);
         }
     }
 
     public void onTableSelection(ListSelectionModel selectionModel) {
-        int newSelectedIndex = selectionModel.getLeadSelectionIndex();
+
+        if (selectionModel.isSelectionEmpty()) {
+            selectionModel.clearSelection();
+            selectedIndex = 0;
+            panelCatalogue.getBoutonModif().setEnabled(false);
+            return;
+        }
+
+        System.out.println(selectionModel.toString());
+        int newSelectedIndex = selectionModel.getMinSelectionIndex();
+
         if (selectedIndex == newSelectedIndex) return;
 
-        System.out.println(Livre.catalogue.get(selectionModel.getLeadSelectionIndex() + 1));
         selectedIndex = newSelectedIndex;
+        panelCatalogue.getBoutonModif().setEnabled(true);
+        System.out.println(getTableSelectedLivre());
     }
 
     public Livre getTableSelectedLivre() {
-        return Livre.catalogue.get(selectedIndex);
+        return panelCatalogue.getModeleCatalogue().getLivreByRow(selectedIndex);
     }
 }

@@ -1,23 +1,24 @@
-package view.menu.emprunts_reservations;
+package view.menu.emprunts_reservations.emprunt;
 
-import controller.Catalogue;
 import controller.EmpruntReservation;
-import view.menu.catalogue.ModeleCatalogue;
+import model.design.Couleurs;
+import utils.swing_utils.ColumnsAutoSizer;
+import utils.swing_utils.JTableUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Date;
 
-public class JTableEmprunt extends JTable{
+public class JTableEmprunt extends JTable {
 
     private final ModeleEmprunt modeleEmprunt;
     private final JScrollPane scrollPane;
     private final EmpruntReservation empController;
 
-    public JTableEmprunt(ModeleEmprunt modeleEmprunt, EmpruntReservation empController) {
+    public JTableEmprunt(ModeleEmprunt modeleEmprunt) {
         super(modeleEmprunt);
+        empController = EmpruntReservation.getInstance();
         this.modeleEmprunt = modeleEmprunt;
-        this.empController = empController;
 
         scrollPane = new JScrollPane(this,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -25,8 +26,9 @@ public class JTableEmprunt extends JTable{
 
         scrollPane.setPreferredSize(new Dimension(450, 400));
 
-        getTableHeader().setBackground(new Color(198, 173, 137, 255));
-        getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        JTableUtils.beautifyHeader(getTableHeader(), Couleurs.BLEU_CLAIR.getCouleur(), Couleurs.BLEU_FONCE.getCouleur(), 12);
+        ColumnsAutoSizer.sizeColumnsToFit(this);
+
         setRowHeight(20);
 
         setDefaultRenderer(String.class, new EmpruntRenderer());
@@ -34,7 +36,6 @@ public class JTableEmprunt extends JTable{
         setDefaultRenderer(Date.class, new EmpruntRenderer());
 
         addMouseListener(empController);
-
     }
 
     public JScrollPane getScrollPane() {
@@ -48,5 +49,4 @@ public class JTableEmprunt extends JTable{
     public ModeleEmprunt getModeleEmprunt() {
         return modeleEmprunt;
     }
-
 }

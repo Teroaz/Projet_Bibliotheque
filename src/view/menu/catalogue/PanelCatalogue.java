@@ -1,7 +1,6 @@
 package view.menu.catalogue;
 
 import controller.Catalogue;
-import model.Livre;
 import model.design.Couleurs;
 
 import javax.swing.*;
@@ -10,76 +9,60 @@ import java.awt.*;
 public class PanelCatalogue extends JPanel {
 
     private final JButton boutonAjout = new JButton("Ajouter");
-    private final JButton boutonSuppression = new JButton("Supprimer");
-    private final JButton boutonReservation = new JButton("Réserver");
-    private final JButton boutonEmprunt = new JButton("Emprunt");
+    private final JButton boutonModif = new JButton("Modifier");
+//    private final JButton boutonSuppression = new JButton("Supprimer");
+//    private final JButton boutonReservation = new JButton("Réserver");
+//    private final JButton boutonEmprunt = new JButton("Emprunt");
 
-    private final JTextField texteRecherche = new JTextField(15);
+    private final PanelRechercheCatalogue panelRechercheCatalogue;
 
-    private final JComboBox<String> choixRecherche = new JComboBox<>(new String[]{"titre", "auteur"});
-
-    private final JPanel gestion = new JPanel();
-    private final JPanel recherche = new JPanel();
-    private final JPanel affichage = new JPanel();
-
-
-    private final JLabel label1;
+    private final JPanel panelGestion = new JPanel();
+    private final JPanel panelAffichage = new JPanel();
 
     private final Catalogue catController;
 
     private final JTableCatalogue tableCatalogue;
     private final ModeleCatalogue modeleCatalogue;
 
-    public PanelCatalogue(Catalogue catController) {
-        this.catController = catController;
+    public PanelCatalogue() {
+
+        catController = Catalogue.getInstance();
 
         setLayout(new BorderLayout());
-        gestion.setLayout(new GridLayout(4, 1,5,20));
+        panelGestion.setLayout(new GridLayout(4, 1, 5, 20));
 
         modeleCatalogue = new ModeleCatalogue(catController);
         tableCatalogue = new JTableCatalogue(modeleCatalogue, catController);
         modeleCatalogue.registerListeners(tableCatalogue);
 
+        boutonModif.setEnabled(false);
+
         boutonAjout.setActionCommand("ajout");
-        boutonSuppression.setActionCommand("suppression");
-        boutonEmprunt.setActionCommand("emprunt");
-        boutonReservation.setActionCommand("reservation");
+        boutonModif.setActionCommand("modif");
+//        boutonSuppression.setActionCommand("suppression");
+//        boutonEmprunt.setActionCommand("emprunt");
+//        boutonReservation.setActionCommand("reservation");
 
-        affichage.add(tableCatalogue.getScrollPane());
-        affichage.setBorder(BorderFactory.createTitledBorder("Catalogue"));
+        panelRechercheCatalogue = new PanelRechercheCatalogue();
 
-        gestion.add(boutonAjout);
-        gestion.add(boutonSuppression);
-        gestion.add(boutonReservation);
-        gestion.add(boutonEmprunt);
-        gestion.setBorder(BorderFactory.createTitledBorder("Gestion du catalogue"));
+        panelAffichage.add(tableCatalogue.getScrollPane());
+        panelAffichage.setBorder(BorderFactory.createTitledBorder("Catalogue"));
 
-        label1 = new JLabel("Je recherche les livres dont le");
-        recherche.add(label1);
+        panelGestion.add(boutonAjout);
+        panelGestion.add(boutonModif);
+//        panelGestion.add(boutonSuppression);
+//        panelGestion.add(boutonReservation);
+//        panelGestion.add(boutonEmprunt);
+        panelGestion.setBorder(BorderFactory.createTitledBorder("Gestion du catalogue"));
 
-        recherche.add(choixRecherche);
-        choixRecherche.setSelectedIndex(0);
-        choixRecherche.addActionListener(e -> {
-            label1.setText("Je recherche les livres dont l" + (choixRecherche.getSelectedIndex() == 0 ? "e" : "'"));
-            texteRecherche.setText("");
-            modeleCatalogue.updateCatalogue(Livre.catalogue.values());
-        });
+        panelAffichage.setBackground(Couleurs.BLEU_CLAIR.getCouleur());
+        panelGestion.setBackground(Couleurs.BLEU_CLAIR.getCouleur());
 
-        JLabel label2 = new JLabel("contient ");
-        recherche.add(label2);
+        add(panelAffichage, BorderLayout.CENTER);
 
-        recherche.add(texteRecherche);
-        recherche.setBorder(BorderFactory.createTitledBorder("Recherche d'un livre"));
+        add(panelGestion, BorderLayout.EAST);
 
-        affichage.setBackground(Couleurs.BLEU_CLAIR.getCouleur());
-        gestion.setBackground(Couleurs.BLEU_CLAIR.getCouleur());
-        recherche.setBackground(Couleurs.BLEU_CLAIR.getCouleur());
-
-        add(affichage, BorderLayout.CENTER);
-
-        add(gestion, BorderLayout.EAST);
-
-        add(recherche, BorderLayout.NORTH);
+        add(panelRechercheCatalogue, BorderLayout.NORTH);
 
         setBackground(Couleurs.BLEU_CLAIR.getCouleur());
 
@@ -92,11 +75,10 @@ public class PanelCatalogue extends JPanel {
 
     public void enregistreEcouteur() {
         boutonAjout.addActionListener(catController);
-        boutonSuppression.addActionListener(catController);
-        boutonReservation.addActionListener(catController);
-        boutonEmprunt.addActionListener(catController);
-
-        texteRecherche.addKeyListener(catController);
+        boutonModif.addActionListener(catController);
+//        boutonSuppression.addActionListener(catController);
+//        boutonReservation.addActionListener(catController);
+//        boutonEmprunt.addActionListener(catController);
     }
 
     public JTableCatalogue getTableCatalogue() {
@@ -111,40 +93,32 @@ public class PanelCatalogue extends JPanel {
         return boutonAjout;
     }
 
-    public JButton getBoutonEmprunt() {
-        return boutonEmprunt;
+//    public JButton getBoutonEmprunt() {
+//        return boutonEmprunt;
+//    }
+//
+//    public JButton getBoutonReservation() {
+//        return boutonReservation;
+//    }
+//
+//    public JButton getBoutonSuppression() {
+//        return boutonSuppression;
+//    }
+
+    public JPanel getPanelAffichage() {
+        return panelAffichage;
     }
 
-    public JButton getBoutonReservation() {
-        return boutonReservation;
+    public JPanel getPanelGestion() {
+        return panelGestion;
     }
 
-    public JButton getBoutonSuppression() {
-        return boutonSuppression;
+    public PanelRechercheCatalogue getPanelRechercheCatalogue() {
+        return panelRechercheCatalogue;
     }
 
-    public JTextField getTexteRecherche() {
-        return texteRecherche;
-    }
-
-    public JPanel getAffichage() {
-        return affichage;
-    }
-
-    public JPanel getGestion() {
-        return gestion;
-    }
-
-    public JPanel getRecherche() {
-        return recherche;
-    }
-
-    public JComboBox<String> getChoixRecherche() {
-        return choixRecherche;
-    }
-
-    public JLabel getLabel1() {
-        return label1;
+    public JButton getBoutonModif() {
+        return boutonModif;
     }
 
     @Override

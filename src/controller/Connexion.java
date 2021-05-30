@@ -6,7 +6,9 @@ import model.Etudiant;
 import model.design.Couleurs;
 import utils.ValidationUtils;
 import view.connexion.PanelConnexion;
+import view.connexion.PanelLogin;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -18,27 +20,27 @@ import java.util.Properties;
 
 public class Connexion implements ActionListener, KeyListener {
 
-    private static boolean adminMode = false;
-    private String adminNom;
-    private String adminPrenom;
+    private String adminUsername;
     private String adminMail;
     private String adminPassword;
 
+    private static boolean adminMode = false;
     private static Etudiant connectedStudent;
 
     private final PanelConnexion panelConnexion;
 
+    private static Connexion instance;
+
     public Connexion() {
+        instance = this;
         try {
             chargerProperties();
         } catch (ConfigurationException e) {
-            adminNom = "admin";
-            adminPrenom = "admin";
+            adminUsername = "admin";
             adminMail = "admin@biblio.fr";
             adminPassword = "admin";
         }
-
-        panelConnexion = new PanelConnexion(this);
+        panelConnexion = new PanelConnexion();
     }
 
     public static boolean isAdminMode() {
@@ -61,48 +63,30 @@ public class Connexion implements ActionListener, KeyListener {
         Connexion.connectedStudent = connectedStudent;
     }
 
+    public static Connexion getInstance() {
+        return instance;
+    }
+
     public PanelConnexion getPanelConnexion() {
         return panelConnexion;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() != panelConnexion.getConnectButton()) return;
+        PanelLogin panelLogin = panelConnexion.getPanelLogin();
 
-        String prenomSaisi = panelConnexion.getPrenomTextField().getText().trim();
-        String nomSaisi = panelConnexion.getNomTextField().getText().trim();
-        String mailSaisi = panelConnexion.getMailTextField().getText().trim();
-        String mdpSaisie = String.valueOf(panelConnexion.getPasswordField().getPassword());
+        if (e.getSource() != panelLogin.getConnectButton()) return;
 
-        if (mdpSaisie.length() == 0) return;
-
-        if (prenomSaisi.equals(adminPrenom) && nomSaisi.equals(adminNom) && mailSaisi.equals(adminMail) && mdpSaisie.equals(adminPassword)) {
-            adminMode = true;
-            PanelSwitcher.switchToMenu();
-        } else if (ValidationUtils.isValidMail(mailSaisi)) {
-            ArrayList<Etudiant> res = Etudiant.rechercherParNomPrenomEtMail(nomSaisi, prenomSaisi, mailSaisi);
-            if (res.size() == 0) return;
-
-            Etudiant etu = res.get(0);
-            if (etu.getEmail().equalsIgnoreCase(mailSaisi) && etu.getPrenom().equalsIgnoreCase(prenomSaisi) && etu.getNom().equalsIgnoreCase(nomSaisi)) {
-                if (etu.validatePassword(mdpSaisie)) {
-                    connectedStudent = etu;
-                    PanelSwitcher.switchToMenu();
-                } else {
-                    // mot de passe invalide : affichage d'une erreur de connexion
-                }
-            }
-        }
-
+        tryConnection();
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
+        PanelLogin panelLogin = panelConnexion.getPanelLogin();
         if (e.getKeyChar() == '!') {
-            panelConnexion.getNomTextField().setText("admin");
-            panelConnexion.getPrenomTextField().setText("admin");
-            panelConnexion.getMailTextField().setText("admin@biblio.fr");
-            panelConnexion.getPasswordField().setText("admin");
+            panelLogin.autoInputAdmin();
+        } else if (e.getKeyChar() == '=') {
+            panelLogin.autoInputEleve();
         }
     }
 
@@ -113,13 +97,21 @@ public class Connexion implements ActionListener, KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getSource() == panelConnexion.getMailTextField()) {
-            if (!ValidationUtils.isValidMail(panelConnexion.getMailTextField().getText().trim())) {
-                panelConnexion.getMailTextField().setForeground(Couleurs.ROUGE.getCouleur());
-            } else {
-                panelConnexion.getMailTextField().setForeground(null);
-            }
+
+        PanelLogin panelLogin = panelConnexion.getPanelLogin();
+        JTextField mailTextField = panelLogin.getMailTextField();
+        JPasswordField passwordField = panelLogin.getPasswordField();
+        String givenPassword = String.valueOf(passwordField.getPassword());
+
+        boolean validMail = ValidationUtils.isValidMail(mailTextField.getText().trim());
+
+        if (!validMail) {
+            panelLogin.getMailTextField().setForeground(Couleurs.ROUGE.getCouleur());
+        } else {
+            panelLogin.getMailTextField().setForeground(null);
         }
+
+        panelLogin.getConnectButton().setEnabled(validMail && !givenPassword.isEmpty());
     }
 
     private void chargerProperties() throws ConfigurationException {
@@ -131,8 +123,7 @@ public class Connexion implements ActionListener, KeyListener {
             fichierProperties = new FileInputStream("src/resources/connexion.properties");
             properties.load(fichierProperties);
 
-            adminNom = properties.getProperty("ADMIN_NOM");
-            adminPrenom = properties.getProperty("ADMIN_PRENOM");
+            adminUsername = properties.getProperty("ADMIN_USERNAME");
             adminMail = properties.getProperty("ADMIN_MAIL");
             adminPassword = properties.getProperty("ADMIN_MOT_DE_PASSE");
 
@@ -141,4 +132,42 @@ public class Connexion implements ActionListener, KeyListener {
         }
     }
 
+    public void tryConnection() {
+        PanelLogin panelLogin = panelConnexion.getPanelLogin();
+
+        String mailSaisi = panelLogin.getMailTextField().getText().trim();
+        String mdpSaisie = String.valueOf(panelLogin.getPasswordField().getPassword());
+
+        if (mailSaisi.equals(adminMail) && mdpSaisie.equals(adminPassword)) {
+            adminMode = true;
+            PanelSwitcher.switchToMenu();
+        } else {
+            ArrayList<Etudiant> res = Etudiant.searchByMail(mailSaisi);
+            if (res == null || res.size() != 1) {
+                panelLogin.invalidCredentials();
+                return;
+            }
+
+            Etudiant etu = res.get(0);
+
+            if (etu.getEmail().equalsIgnoreCase(mailSaisi)) {
+                if (etu.validatePassword(mdpSaisie)) {
+                    connectedStudent = etu;
+                    PanelSwitcher.switchToMenu();
+                } else {
+                    panelLogin.invalidCredentials();
+                }
+            } else {
+                panelLogin.invalidCredentials();
+            }
+        }
+    }
+
+    public String getAdminMail() {
+        return adminMail;
+    }
+
+    public String getAdminPassword() {
+        return adminPassword;
+    }
 }

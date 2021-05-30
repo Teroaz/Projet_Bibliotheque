@@ -24,7 +24,7 @@ public class JTableCatalogue extends JTable {
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        JTableUtils.beautifyHeader(tableHeader, Couleurs.MARRON_FONCE.getCouleur(), Couleurs.BEIGE.getCouleur());
+        JTableUtils.beautifyHeader(tableHeader, Couleurs.BLEU_CLAIR.getCouleur(), Couleurs.BLEU_FONCE.getCouleur(), 14);
         ColumnsAutoSizer.sizeColumnsToFit(this);
 
         setRowHeight(20);
@@ -33,8 +33,11 @@ public class JTableCatalogue extends JTable {
 
         scrollPane.setPreferredSize(new Dimension(700, 400));
 
-        setDefaultRenderer(Integer.class, new CatalogueRenderer());
-        setDefaultRenderer(String.class, new CatalogueRenderer());
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+
+        getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
     }
 
     public JScrollPane getScrollPane() {

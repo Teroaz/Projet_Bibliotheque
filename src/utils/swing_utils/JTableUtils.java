@@ -10,9 +10,9 @@ public class JTableUtils {
 
     }
 
-    public static void beautifyHeader(JTableHeader tableHeader, Color fgColor, Color bgColor) {
+    public static void beautifyHeader(JTableHeader tableHeader, Color fgColor, Color bgColor, int fontSize) {
         tableHeader.setForeground(fgColor);
         tableHeader.setBackground(bgColor);
-        tableHeader.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+        tableHeader.setFont(new Font(Font.SANS_SERIF, Font.BOLD, fontSize));
     }
 }

@@ -13,13 +13,15 @@ public class ModeleCatalogue extends DefaultTableModel {
     private final String[] intitulesColonnes = {"ID", "Titre", "Auteur", "Exemplaires"};
     private final Catalogue catController;
 
+    private Collection<Livre> livres;
+
     int nbLivres;
 
     public ModeleCatalogue(Catalogue catController) {
 
         this.catController = catController;
 
-        Collection<Livre> livres = Livre.catalogue.values();
+        livres = Livre.catalogue.values();
 
         setColumnCount(intitulesColonnes.length);
         setColumnIdentifiers(intitulesColonnes);
@@ -44,7 +46,7 @@ public class ModeleCatalogue extends DefaultTableModel {
         for (int i = 0; i < livresArr.size(); i++) {
             Livre livre = livresArr.get(i);
 
-            setValueAt(livre.getIdLivre(), i, 0);
+            setValueAt(livre.getId(), i, 0);
             setValueAt(livre.getTitre(), i, 1);
             setValueAt(livre.getAuteur().auteurNP(), i, 2);
             setValueAt(livre.getExemplaires().size(), i, 3);
@@ -61,8 +63,16 @@ public class ModeleCatalogue extends DefaultTableModel {
         return catController;
     }
 
+    public Collection<Livre> getLivres() {
+        return livres;
+    }
+
     public void registerListeners(JTableCatalogue tableCatalogue) {
         ListSelectionModel selectionModel = tableCatalogue.getSelectionModel();
         selectionModel.addListSelectionListener(e -> catController.onTableSelection(selectionModel));
+    }
+
+    public Livre getLivreByRow(int row) {
+        return Livre.getLivre((Integer) getValueAt(row, 0));
     }
 }

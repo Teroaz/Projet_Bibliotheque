@@ -2,23 +2,24 @@ package controller;
 
 import view.menu.emprunts_reservations.PanelEmpruntReservation;
 
-import java.awt.*;
 import java.awt.event.*;
 
-public class EmpruntReservation implements ActionListener, MouseListener {
+public class EmpruntReservation implements ActionListener, MouseListener, KeyListener {
 
-    private PanelEmpruntReservation panelEmpruntReservation;
+    private final PanelEmpruntReservation panelEmpruntReservation;
+    private static EmpruntReservation instance;
 
     public EmpruntReservation() {
-        panelEmpruntReservation = new PanelEmpruntReservation(this);
+        instance = this;
+        panelEmpruntReservation = new PanelEmpruntReservation();
+    }
+
+    public static EmpruntReservation getInstance() {
+        return instance;
     }
 
     public PanelEmpruntReservation getPanelEmpruntReservation() {
         return panelEmpruntReservation;
-    }
-
-    public void setPanelEmpruntReservation (PanelEmpruntReservation panelEmpruntReservation) {
-        this.panelEmpruntReservation = panelEmpruntReservation;
     }
 
     @Override
@@ -48,6 +49,21 @@ public class EmpruntReservation implements ActionListener, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
 
     }
 }

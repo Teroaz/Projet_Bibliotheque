@@ -1,29 +1,27 @@
-package view.menu.emprunts_reservations;
+package view.menu.emprunts_reservations.reservation;
 
 import model.Emprunt;
-import org.junit.jupiter.params.converter.DefaultArgumentConverter;
+import model.Reservation;
 
 import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-public class ModeleEmprunt extends DefaultTableModel {
+public class ModeleReservation extends DefaultTableModel {
 
-    private final String[] intitulesColonnes = {"Titre", "Exemplaire", "N° étudiant", "Date", "Date retour"};
+    private final String[] intitulesColonnes = {"Titre", "N° étudiant", "Date", "Date fin"};
 
-    int nbEmprunts;
+    int nbReservations;
 
-    public ModeleEmprunt() {
-        Collection<Emprunt> emprunts = Emprunt.emprunt.values();
+    public ModeleReservation() {
+        Collection<Emprunt> reservations = Reservation.reservations.values();
 
-        nbEmprunts = emprunts.size();
+        nbReservations = reservations.size();
 
         setColumnCount(intitulesColonnes.length);
         setColumnIdentifiers(intitulesColonnes);
 
-        setRowCount(nbEmprunts);
-
+        setRowCount(nbReservations);
     }
 
     public String[] getIntitulesColonnes() {
@@ -37,9 +35,8 @@ public class ModeleEmprunt extends DefaultTableModel {
     public Class getColumnClass(int i) {
         if (i == 0)
             return String.class;
-        else if (i == 1 || i == 2)
+        if (i == 1)
             return Integer.class;
         return Date.class;
     }
-
 }

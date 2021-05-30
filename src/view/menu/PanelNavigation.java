@@ -18,9 +18,9 @@ public class PanelNavigation extends JPanel {
     private final ArrayList<JButton> buttons = new ArrayList<>();
     private final Menu navController;
 
-    public PanelNavigation(Menu navController) {
+    public PanelNavigation() {
 
-        this.navController = navController;
+        navController = Menu.getInstance();
 
         setLayout(new GridBagLayout());
         setBackground(Couleurs.BLEU_FONCE.getCouleur());

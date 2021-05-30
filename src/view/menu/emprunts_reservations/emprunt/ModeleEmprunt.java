@@ -1,28 +1,26 @@
-package view.menu.emprunts_reservations;
+package view.menu.emprunts_reservations.emprunt;
 
 import model.Emprunt;
-import model.Reservation;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.Collection;
 import java.util.Date;
 
-public class ModeleReservation extends DefaultTableModel {
+public class ModeleEmprunt extends DefaultTableModel {
 
-    private final String[] intitulesColonnes = {"Titre", "N° étudiant", "Date", "Date fin"};
+    private final String[] intitulesColonnes = {"Titre", "Exemplaire", "N° étudiant", "Date", "Date retour"};
 
-    int nbReservations;
+    int nbEmprunts;
 
-    public ModeleReservation() {
-        Collection<Emprunt> reservations = Reservation.reservations.values();
+    public ModeleEmprunt() {
+        Collection<Emprunt> emprunts = Emprunt.emprunt.values();
 
-        nbReservations = reservations.size();
+        nbEmprunts = emprunts.size();
 
         setColumnCount(intitulesColonnes.length);
         setColumnIdentifiers(intitulesColonnes);
 
-        setRowCount(nbReservations);
-
+        setRowCount(nbEmprunts);
     }
 
     public String[] getIntitulesColonnes() {
@@ -36,7 +34,7 @@ public class ModeleReservation extends DefaultTableModel {
     public Class getColumnClass(int i) {
         if (i == 0)
             return String.class;
-        if (i == 1)
+        else if (i == 1 || i == 2)
             return Integer.class;
         return Date.class;
     }

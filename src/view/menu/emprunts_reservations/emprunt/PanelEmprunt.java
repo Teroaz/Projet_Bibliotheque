@@ -1,0 +1,68 @@
+package view.menu.emprunts_reservations.emprunt;
+
+import model.design.Couleurs;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class PanelEmprunt extends JPanel {
+
+    private final JButton boutonModif = new JButton("Modifier");
+    private final JButton boutonAjout = new JButton("Ajouter");
+    private final JButton boutonSupp = new JButton("Supprimer");
+
+    private final JTableEmprunt tableEmprunt;
+
+    private final JPanel panelAffiche = new JPanel();
+    private final JPanel panelGestion = new JPanel();
+
+    public PanelEmprunt() {
+        setLayout(new BorderLayout());
+
+        panelGestion.setLayout(new GridLayout(1, 3, 50, 0));
+
+        tableEmprunt = new JTableEmprunt(new ModeleEmprunt());
+
+        boutonAjout.setActionCommand("ajoutEmp");
+        boutonModif.setActionCommand("modificationEmp");
+        boutonSupp.setActionCommand("suppressionEmp");
+
+        panelAffiche.setBackground(Couleurs.BLEU_CLAIR.getCouleur());
+        panelGestion.setBackground(Couleurs.BLEU_CLAIR.getCouleur());
+
+        panelAffiche.add(tableEmprunt.getScrollPane());
+        panelGestion.add(boutonAjout);
+        panelGestion.add(boutonModif);
+        panelGestion.add(boutonSupp);
+
+        add(panelAffiche, BorderLayout.CENTER);
+        add(panelGestion, BorderLayout.SOUTH);
+
+        setBorder(BorderFactory.createTitledBorder("Emprunts"));
+        setBackground(Couleurs.BLEU_CLAIR.getCouleur());
+    }
+
+    public JTableEmprunt getTableEmprunt() {
+        return tableEmprunt;
+    }
+
+    public JButton getBoutonModif() {
+        return boutonModif;
+    }
+
+    public JButton getBoutonAjout() {
+        return boutonAjout;
+    }
+
+    public JButton getBoutonSupp() {
+        return boutonSupp;
+    }
+
+    public JPanel getPanelGestion() {
+        return panelGestion;
+    }
+
+    public JPanel getPanelAffiche() {
+        return panelAffiche;
+    }
+}

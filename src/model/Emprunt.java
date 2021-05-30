@@ -7,11 +7,11 @@ import java.util.HashMap;
 
 public class Emprunt {
 
-    private Date date_emp;
-    private Date date_fin_emp;
-    private Etudiant etudiant;
-    private Exemplaire exemplaire;
     public static HashMap<Integer, Emprunt> emprunt = new HashMap<>();
+    private final Date date_emp;
+    private final Date date_fin_emp;
+    private final Etudiant etudiant;
+    private final Exemplaire exemplaire;
 
     /**
      * @param date_emp   : la date d'emprunt
@@ -25,4 +25,19 @@ public class Emprunt {
         this.exemplaire = exemplaire;
     }
 
+    public Date getDate_emp() {
+        return date_emp;
+    }
+
+    public Date getDate_fin_emp() {
+        return date_fin_emp;
+    }
+
+    public Etudiant getEtudiant() {
+        return etudiant;
+    }
+
+    public Exemplaire getExemplaire() {
+        return exemplaire;
+    }
 }
