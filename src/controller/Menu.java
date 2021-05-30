@@ -1,6 +1,7 @@
 package controller;
 
 import view.menu.PanelMenu;
+import view.menu.mon_compte.PanelCompte;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -24,7 +25,7 @@ public class Menu implements ActionListener {
         empruntReservation = new EmpruntReservation();
         gestionEtudiant = new GestionEtudiant();
 
-        panelMenu.setBodyPanel(catalogue.getPanelCatalogue());
+        panelMenu.setBodyPanel(/*new PanelCompte());*/catalogue.getPanelCatalogue());
     }
 
     public static Menu getInstance() {
