@@ -112,4 +112,19 @@ INSERT INTO ETUDIANT VALUES (1, 'Sarafian', 'Philippe', 'phsarafian@gmail.com', 
 INSERT INTO ETUDIANT VALUES (2, 'Mark', 'Kevin', 'kevmark@hotmail.fr', '/BWU2aDD0F9hY/II+kJcQ2HNuWlACbxSQDNmHrszzrA=');
 INSERT INTO ETUDIANT VALUES (3, 'Test', 'Utilisateur', 'compte.test@sfr.fr', 'Qr128/MOj+M6aL/lcAqz2w==');
 
+/**
+    Exemplaires
+ */
+INSERT INTO EXEMPLAIRE VALUES (1,100,'NEUF');
+
+/*
+    Emprunt
+ */
+INSERT INTO EMPRUNT VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1,1);
+
+/*
+    Réservation
+ */
+ INSERT INTO RESERV VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1, 100);
+
 commit;
