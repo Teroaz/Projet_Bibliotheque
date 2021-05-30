@@ -4,17 +4,21 @@ import exceptions.DatabaseException;
 import sql.SQLConnection;
 import utils.DateUtils;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
-public class Emprunt {
+public class Emprunt implements Comparable {
 
     private Date date_emp;
     private Date date_fin_emp;
     private Etudiant etudiant;
     private Exemplaire exemplaire;
-    public static HashMap<Integer, Emprunt> emprunt = new HashMap<>();
+    public static TreeSet<Emprunt> emprunt = new TreeSet<>();
 
     /**
      * @param date_emp   : la date d'emprunt
@@ -26,6 +30,37 @@ public class Emprunt {
         this.date_fin_emp = DateUtils.ajouterJours(date_emp, 5);
         this.etudiant = etudiant;
         this.exemplaire = exemplaire;
+
+        emprunt.add(this);
+    }
+
+    public static void chargerEmprunt() {
+
+        try {
+            Statement st1 = SQLConnection.getConnection().createStatement();
+            Statement st2 = SQLConnection.getConnection().createStatement();
+
+            ResultSet result = st1.executeQuery("SELECT * FROM EMPRUNT");
+
+            while (result.next()) {
+                Date dateEmp = result.getDate("DATE_EMP");
+                int idEt = result.getInt("ID_ET");
+                int idEx = result.getInt("ID_EX");
+
+                ResultSet resultE = st2.executeQuery("SELECT * FROM EXEMPLAIRE WHERE ID_EX=" + idEx);
+                resultE.next();
+                int idLiv = resultE.getInt("ID_LIV");
+                resultE.close();
+
+                Etudiant.chargerEtudiants();
+                Livre.chargerLivres();
+
+                Emprunt emprunt = new Emprunt(dateEmp, Etudiant.getById(idEt), new Exemplaire(idEx, Livre.getLivre(idLiv), false, Exemplaire.ETAT.NEUF));
+            }
+
+        } catch (SQLException | DatabaseException err) {
+            err.printStackTrace();
+        }
     }
 
     public Date getDate_emp() {
@@ -44,8 +79,9 @@ public class Emprunt {
         return exemplaire;
     }
 
-    public static void ajoutEmprunt(Emprunt emprunt) {
-        String sql = "INSERT INTO EMPRUNT VALUES (" + emprunt.date_emp +", "+ emprunt.date_fin_emp+", "+ emprunt.etudiant.getId() + ", " + emprunt.exemplaire.getId_ex() + ")";
+    public static void ajoutEmprunt(Emprunt emp) {
+        emprunt.add(emp);
+        String sql = "INSERT INTO EMPRUNT VALUES (" + emp.date_emp +", "+ emp.date_fin_emp+", "+ emp.etudiant.getId() + ", " + emp.exemplaire.getId_ex() + ")";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
             SQLConnection.getConnection().commit();
@@ -55,8 +91,9 @@ public class Emprunt {
         }
     }
 
-    public static void suppressionEmprunt(Emprunt emprunt) {
-        String sql = "DELETE FROM EMPRUNT WHERE ID_ET="+ emprunt.etudiant.getId() +" AND ID_EX="+ emprunt.exemplaire.getId_ex();
+    public static void suppressionEmprunt(Emprunt emp) {
+        emprunt.remove(emp);
+        String sql = "DELETE FROM EMPRUNT WHERE ID_ET="+ emp.etudiant.getId() +" AND ID_EX="+ emp.exemplaire.getId_ex();
         try {
             SQLConnection.getStatement().executeUpdate(sql);
             SQLConnection.getConnection().commit();
@@ -64,5 +101,23 @@ public class Emprunt {
         catch (SQLException | DatabaseException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Emprunt emprunt = (Emprunt) o;
+        if (this.date_emp.compareTo(emprunt.date_emp)<0)
+            return -1;
+        return 1;
+    }
+
+    @Override
+    public String toString() {
+        return "Emprunt{" +
+                "date_emp=" + date_emp +
+                ", date_fin_emp=" + date_fin_emp +
+                ", etudiant=" + etudiant +
+                ", exemplaire=" + exemplaire +
+                '}';
     }
 }

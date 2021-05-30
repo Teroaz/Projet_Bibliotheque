@@ -7,6 +7,8 @@ import sql.SQLConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -37,7 +39,7 @@ public class ClasseTest {
         initialiserConnexion();
         Livre.chargerLivres();
 
-        assertEquals(Livre.catalogue.size(), 100);
+        assertEquals(Livre.catalogue.size(), 101);
     }
 
     @Test
@@ -57,7 +59,25 @@ public class ClasseTest {
 
         System.out.println(Etudiant.liste);
 
-        assertEquals(Etudiant.liste.values().size(), 3);
+        assertEquals(Etudiant.liste.values().size(), 4);
+    }
+
+    @Test
+    @DisplayName("Emprunt : BDD -> cache")
+    public void chargerEmprunts() {
+        initialiserConnexion();
+
+        Emprunt.chargerEmprunt();
+        System.out.println(Emprunt.emprunt.size());
+    }
+
+    @Test
+    @DisplayName("Réservation : BDD -> cache")
+    public void chargerReservations() {
+        initialiserConnexion();
+
+        Reservation.chargerReservation();
+        System.out.println(Reservation.reservation.size());
     }
 
     @Test

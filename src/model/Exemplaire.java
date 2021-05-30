@@ -73,4 +73,13 @@ public class Exemplaire {
         NEUF, BON, ABIME
     }
 
+    @Override
+    public String toString() {
+        return "Exemplaire{" +
+                "id_ex=" + id_ex +
+                ", livre=" + livre +
+                ", estEmprunte=" + estEmprunte +
+                ", etat=" + etat +
+                '}';
+    }
 }

@@ -4,17 +4,20 @@ import exceptions.DatabaseException;
 import sql.SQLConnection;
 import utils.DateUtils;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.TreeSet;
 
-public class Reservation {
+public class Reservation implements Comparable {
 
     private Date date_res;
     private Date date_fin_res;
     private Etudiant etudiant;
     private Livre livre;
-    public static HashMap<Integer, Emprunt> reservations = new HashMap<>();
+    public static TreeSet <Reservation> reservation = new TreeSet<>();
 
     /**
      * la date de retour de réservation est remplie automatiquement
@@ -28,10 +31,36 @@ public class Reservation {
         this.date_fin_res = DateUtils.ajouterJours(date_res, 5);
         this.etudiant = etudiant;
         this.livre = livre;
+
+        reservation.add(this);
     }
 
-    public static void ajoutReservation(Reservation reservation) {
-        String sql = "INSERT INTO RESERV VALUES ("+ reservation.date_res +", "+ reservation.date_fin_res +", "+ reservation.etudiant.getId() +", "+ reservation.livre.getId() +")";
+    public static void chargerReservation() {
+
+        try {
+
+            ResultSet result = SQLConnection.getConnection().createStatement().executeQuery("SELECT * FROM RESERV");
+
+            while (result.next()) {
+                Date date_res = result.getDate("DATE_RES");
+                int idEt = result.getInt("ID_ET");
+                int idLivre = result.getInt("ID_LIV");
+
+                Etudiant.chargerEtudiants();
+                Livre.chargerLivres();
+
+                Reservation reservation = new Reservation(date_res, Etudiant.getById(idEt), Livre.getLivre(idLivre));
+            }
+
+            result.close();
+        } catch (SQLException | DatabaseException err) {
+            err.printStackTrace();
+        }
+    }
+
+    public static void ajoutReservation(Reservation res) {
+        reservation.add(res);
+        String sql = "INSERT INTO RESERV VALUES ("+ res.date_res +", "+ res.date_fin_res +", "+ res.etudiant.getId() +", "+ res.livre.getId() +")";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
             SQLConnection.getConnection().commit();
@@ -41,8 +70,9 @@ public class Reservation {
         }
     }
 
-    public static void suppressionReservation(Reservation reservation) {
-        String sql = "DELETE FROM RESERV WHERE ID_ET="+ reservation.etudiant.getId() +" and ID_ET="+ reservation.livre.getId();
+    public static void suppressionReservation(Reservation res) {
+        reservation.add(res);
+        String sql = "DELETE FROM RESERV WHERE ID_ET="+ res.etudiant.getId() +" and ID_LIV="+ res.livre.getId();
         try {
             SQLConnection.getStatement().executeUpdate(sql);
             SQLConnection.getConnection().commit();
@@ -50,5 +80,39 @@ public class Reservation {
         catch (SQLException | DatabaseException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Reservation reservation = (Reservation) o;
+        if (this.date_res.compareTo(reservation.date_res)<0)
+            return -1;
+        return 1;
+    }
+
+    public Date getDate_res() {
+        return date_res;
+    }
+
+    public Date getDate_fin_res() {
+        return date_fin_res;
+    }
+
+    public Etudiant getEtudiant() {
+        return etudiant;
+    }
+
+    public Livre getLivre() {
+        return livre;
+    }
+
+    @Override
+    public String toString() {
+        return "Reservation{" +
+                "date_res=" + date_res +
+                ", date_fin_res=" + date_fin_res +
+                ", etudiant=" + etudiant +
+                ", livre=" + livre +
+                '}';
     }
 }

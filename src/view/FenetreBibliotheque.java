@@ -1,9 +1,12 @@
 package view;
 
 import controller.PanelSwitcher;
+import model.Emprunt;
+import model.Reservation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.ResultSet;
 
 public class FenetreBibliotheque extends JFrame {
 
@@ -27,6 +30,9 @@ public class FenetreBibliotheque extends JFrame {
         setLocation(recupCoordsPourCentrer());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(width, height);
+
+        Emprunt.chargerEmprunt();
+        Reservation.chargerReservation();
     }
 
     private Point recupCoordsPourCentrer() {
