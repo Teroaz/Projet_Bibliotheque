@@ -4,6 +4,8 @@ import exceptions.DatabaseException;
 import sql.SQLConnection;
 import utils.CollectionUtils;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -78,6 +80,30 @@ public class Livre {
 
     public ArrayList<Exemplaire> getExemplaires() {
         return exemplaires;
+    }
+
+    public static void ajoutLivre(Livre livre) {
+        catalogue.put(livre.idLivre, livre);
+        String sql = "INSERT INTO LIVRE VALUES (" + livre.idLivre +", '"+ livre.auteur.auteurBD() +"', '"+ livre.titre + "')";
+        try {
+            SQLConnection.getStatement().executeUpdate(sql);
+            SQLConnection.getConnection().commit();
+        }
+        catch (SQLException | DatabaseException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public static void suppressionLivre(Livre livre) {
+        catalogue.remove(livre.idLivre);
+        String sql = "DELETE FROM LIVRE WHERE ID_LIV=" + livre.idLivre;
+        try {
+            SQLConnection.getStatement().executeUpdate(sql);
+            SQLConnection.getConnection().commit();
+        }
+        catch (SQLException | DatabaseException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override

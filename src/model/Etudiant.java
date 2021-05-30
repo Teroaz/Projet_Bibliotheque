@@ -1,6 +1,7 @@
 package model;
 
 
+import exceptions.DatabaseException;
 import exceptions.RestrictionException;
 import sql.SQLConnection;
 import utils.CollectionUtils;
@@ -144,6 +145,28 @@ public class Etudiant {
             result.close();
         } catch (SQLException err) {
             err.printStackTrace();
+        }
+    }
+
+    public static void ajoutEtudiant (Etudiant etudiant) {
+        String sql = "INSERT INTO ETUDIANT VALUES ("+etudiant.id_et+", '"+ etudiant.nom +"', '"+ etudiant.prenom +"', '"+ etudiant.email +"', '"+ etudiant.mdp +"')";
+//        System.out.println(sql);
+        try {
+            SQLConnection.getStatement().executeUpdate(sql);
+            SQLConnection.getConnection().commit();
+        } catch (SQLException | DatabaseException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public static void suppressionEtudiant (Etudiant etudiant) {
+        String sql = "DELETE from ETUDIANT WHERE ID_ET=" + etudiant.id_et;
+//        System.out.println(sql);
+        try {
+            SQLConnection.getStatement().executeUpdate(sql);
+            SQLConnection.getConnection().commit();
+        } catch (SQLException | DatabaseException throwables) {
+            throwables.printStackTrace();
         }
     }
 

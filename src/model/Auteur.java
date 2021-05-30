@@ -78,6 +78,8 @@ public class Auteur {
                 ", nom='" + nom + '}';
     }
 
+    public String auteurBD() {return nom + ", " + prenom; }
+
     public String auteurNP() {
         return nom.toUpperCase() + " " + prenom;
     }
