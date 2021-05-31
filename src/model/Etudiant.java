@@ -148,8 +148,8 @@ public class Etudiant {
         }
     }
 
-    public static void ajoutEtudiant (Etudiant etudiant) {
-        String sql = "INSERT INTO ETUDIANT VALUES ("+etudiant.id_et+", '"+ etudiant.nom +"', '"+ etudiant.prenom +"', '"+ etudiant.email +"', '"+ etudiant.mdp +"')";
+    public static void ajoutEtudiant(Etudiant etudiant) {
+        String sql = "INSERT INTO ETUDIANT VALUES (" + etudiant.id_et + ", '" + etudiant.nom + "', '" + etudiant.prenom + "', '" + etudiant.email + "', '" + etudiant.mdp + "')";
 //        System.out.println(sql);
         try {
             SQLConnection.getStatement().executeUpdate(sql);
@@ -159,7 +159,7 @@ public class Etudiant {
         }
     }
 
-    public static void suppressionEtudiant (Etudiant etudiant) {
+    public static void suppressionEtudiant(Etudiant etudiant) {
         String sql = "DELETE from ETUDIANT WHERE ID_ET=" + etudiant.id_et;
 //        System.out.println(sql);
         try {

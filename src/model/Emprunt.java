@@ -8,11 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
-public class Emprunt implements Comparable {
+public class Emprunt implements Comparable<Emprunt> {
 
     private Date date_emp;
     private Date date_fin_emp;
@@ -81,32 +79,29 @@ public class Emprunt implements Comparable {
 
     public static void ajoutEmprunt(Emprunt emp) {
         emprunt.add(emp);
-        String sql = "INSERT INTO EMPRUNT VALUES (" + emp.date_emp +", "+ emp.date_fin_emp+", "+ emp.etudiant.getId() + ", " + emp.exemplaire.getId_ex() + ")";
+        String sql = "INSERT INTO EMPRUNT VALUES (" + emp.date_emp + ", " + emp.date_fin_emp + ", " + emp.etudiant.getId() + ", " + emp.exemplaire.getId_ex() + ")";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
             SQLConnection.getConnection().commit();
-        }
-        catch (SQLException | DatabaseException throwables) {
+        } catch (SQLException | DatabaseException throwables) {
             throwables.printStackTrace();
         }
     }
 
     public static void suppressionEmprunt(Emprunt emp) {
         emprunt.remove(emp);
-        String sql = "DELETE FROM EMPRUNT WHERE ID_ET="+ emp.etudiant.getId() +" AND ID_EX="+ emp.exemplaire.getId_ex();
+        String sql = "DELETE FROM EMPRUNT WHERE ID_ET=" + emp.etudiant.getId() + " AND ID_EX=" + emp.exemplaire.getId_ex();
         try {
             SQLConnection.getStatement().executeUpdate(sql);
             SQLConnection.getConnection().commit();
-        }
-        catch (SQLException | DatabaseException throwables) {
+        } catch (SQLException | DatabaseException throwables) {
             throwables.printStackTrace();
         }
     }
 
     @Override
-    public int compareTo(Object o) {
-        Emprunt emprunt = (Emprunt) o;
-        if (this.date_emp.compareTo(emprunt.date_emp)<0)
+    public int compareTo(Emprunt emprunt) {
+        if (this.date_emp.compareTo(emprunt.date_emp) < 0)
             return -1;
         return 1;
     }

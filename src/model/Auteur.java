@@ -5,6 +5,7 @@ import utils.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class Auteur {
 
@@ -13,7 +14,7 @@ public class Auteur {
 
     private final ArrayList<Livre> livres = new ArrayList<>();
 
-    public static ArrayList<Auteur> auteurs = new ArrayList<>();
+    private static final ArrayList<Auteur> auteurs = new ArrayList<>();
 
     /**
      * @param nom:    Nom de l'auteur
@@ -22,6 +23,8 @@ public class Auteur {
     public Auteur(String nom, String prenom) {
         this.prenom = prenom;
         this.nom = nom;
+
+        auteurs.add(this);
     }
 
     /**
@@ -49,21 +52,17 @@ public class Auteur {
             throw new DatabaseException("L'entrée " + Arrays.toString(parties) + " ne contient pas 2 chaines de caractères séparées par une virgule");
         }
 
-        Auteur auteur = null;
+        return Auteur.getAuteur(nom, prenom, true);
+    }
 
+    public static Auteur getAuteur(String nom, String prenom, boolean createIfNotExists) {
         for (Auteur aut : auteurs) {
             if (aut.nom.equalsIgnoreCase(nom) && aut.prenom.equalsIgnoreCase(prenom)) {
-                auteur = aut;
-                break;
+                return aut;
             }
         }
 
-        if (auteur == null) {
-            auteur = new Auteur(nom, prenom);
-            auteurs.add(auteur);
-        }
-
-        return auteur;
+        return createIfNotExists ? new Auteur(nom, prenom) : null;
     }
 
     /**
@@ -78,10 +77,12 @@ public class Auteur {
                 ", nom='" + nom + '}';
     }
 
-    public String auteurBD() {return nom + ", " + prenom; }
+    public String auteurBD() {
+        return nom + ", " + prenom;
+    }
 
     public String auteurNP() {
-        return nom.toUpperCase() + " " + prenom;
+        return prenom + " " + nom.toUpperCase();
     }
 
     public String getPrenom() {
@@ -93,7 +94,7 @@ public class Auteur {
     }
 
     public static ArrayList<Auteur> getAuteurs() {
-        return auteurs;
+        return CollectionUtils.streamToArrayList(auteurs.stream().sorted(Comparator.comparing(auteur -> auteur.nom)));
     }
 
     public ArrayList<Livre> getLivres() {

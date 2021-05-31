@@ -6,18 +6,16 @@ import utils.DateUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.TreeSet;
 
-public class Reservation implements Comparable {
+public class Reservation implements Comparable<Reservation> {
 
     private Date date_res;
     private Date date_fin_res;
     private Etudiant etudiant;
     private Livre livre;
-    public static TreeSet <Reservation> reservation = new TreeSet<>();
+    public static TreeSet<Reservation> reservation = new TreeSet<>();
 
     /**
      * la date de retour de réservation est remplie automatiquement
@@ -60,32 +58,29 @@ public class Reservation implements Comparable {
 
     public static void ajoutReservation(Reservation res) {
         reservation.add(res);
-        String sql = "INSERT INTO RESERV VALUES ("+ res.date_res +", "+ res.date_fin_res +", "+ res.etudiant.getId() +", "+ res.livre.getId() +")";
+        String sql = "INSERT INTO RESERV VALUES (" + res.date_res + ", " + res.date_fin_res + ", " + res.etudiant.getId() + ", " + res.livre.getId() + ")";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
             SQLConnection.getConnection().commit();
-        }
-        catch (SQLException | DatabaseException throwables) {
+        } catch (SQLException | DatabaseException throwables) {
             throwables.printStackTrace();
         }
     }
 
     public static void suppressionReservation(Reservation res) {
         reservation.add(res);
-        String sql = "DELETE FROM RESERV WHERE ID_ET="+ res.etudiant.getId() +" and ID_LIV="+ res.livre.getId();
+        String sql = "DELETE FROM RESERV WHERE ID_ET=" + res.etudiant.getId() + " and ID_LIV=" + res.livre.getId();
         try {
             SQLConnection.getStatement().executeUpdate(sql);
             SQLConnection.getConnection().commit();
-        }
-        catch (SQLException | DatabaseException throwables) {
+        } catch (SQLException | DatabaseException throwables) {
             throwables.printStackTrace();
         }
     }
 
     @Override
-    public int compareTo(Object o) {
-        Reservation reservation = (Reservation) o;
-        if (this.date_res.compareTo(reservation.date_res)<0)
+    public int compareTo(Reservation res) {
+        if (this.date_res.compareTo(res.date_res) < 0)
             return -1;
         return 1;
     }

@@ -1,12 +1,9 @@
 package view;
 
 import controller.PanelSwitcher;
-import model.Emprunt;
-import model.Reservation;
+import utils.swing_utils.JFrameUtils;
 
 import javax.swing.*;
-import java.awt.*;
-import java.sql.ResultSet;
 
 public class FenetreBibliotheque extends JFrame {
 
@@ -27,20 +24,11 @@ public class FenetreBibliotheque extends JFrame {
         setResizable(false);
         setVisible(true);
         setDefaultLookAndFeelDecorated(true);
-        setLocation(recupCoordsPourCentrer());
+        setLocation(JFrameUtils.centerFrameCoords(width, height));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(width, height);
-
-        Emprunt.chargerEmprunt();
-        Reservation.chargerReservation();
     }
 
-    private Point recupCoordsPourCentrer() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = screenSize.width / 2 - width / 2;
-        int y = screenSize.height / 2 - height / 2;
-        return new Point(x, y);
-    }
 
     public void changeTitle(String title) {
         super.setTitle(title);
