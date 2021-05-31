@@ -13,6 +13,7 @@ public class Menu implements ActionListener {
     private static Menu instance;
     private final Catalogue catalogue;
     private final EmpruntReservation empruntReservation;
+    private final GestionEtudiant gestionEtudiant;
 
     public Menu() {
         instance = this;
@@ -21,6 +22,7 @@ public class Menu implements ActionListener {
 
         catalogue = new Catalogue();
         empruntReservation = new EmpruntReservation();
+        gestionEtudiant = new GestionEtudiant();
 
         panelMenu.setBodyPanel(catalogue.getPanelCatalogue());
     }
@@ -42,6 +44,8 @@ public class Menu implements ActionListener {
             panelMenu.setBodyPanel(catalogue.getPanelCatalogue());
         } else if (text.equals("Emprunts & Réservations")) {
             panelMenu.setBodyPanel(empruntReservation.getPanelEmpruntReservation());
+        } else if (text.equals("Étudiants")) {
+            panelMenu.setBodyPanel(gestionEtudiant.getPanelEtudiant());
         }
     }
 

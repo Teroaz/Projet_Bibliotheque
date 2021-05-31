@@ -20,7 +20,7 @@ public class PanelMenu extends JPanel {
         panelNavigation = new PanelNavigation();
 
         add(panelNavigation, BorderLayout.NORTH);
-        panelNavigation.markAsActive(panelNavigation.getButtons().get(0));
+        panelNavigation.markAsActive(panelNavigation.getButtons().get(1));
     }
 
     public void setBodyPanel(JPanel panel) {
