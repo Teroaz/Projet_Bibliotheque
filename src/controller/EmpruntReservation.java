@@ -1,8 +1,16 @@
 package controller;
 
+import model.Etudiant;
 import view.menu.emprunts_reservations.PanelEmpruntReservation;
+import view.menu.emprunts_reservations.emprunt.DialogAjoutEmprunt;
+import view.menu.emprunts_reservations.reservation.DialogAjoutReservation;
 
+import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class EmpruntReservation implements ActionListener, MouseListener, KeyListener {
 
@@ -24,7 +32,21 @@ public class EmpruntReservation implements ActionListener, MouseListener, KeyLis
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        System.out.println("e.getActionCommand");
+        if (e.getActionCommand().equals("ajoutEmp")) {
+            new DialogAjoutEmprunt();
+        }
+        if (e.getActionCommand().equals("ajoutRes")) {
+            new DialogAjoutReservation();
+        }
+        if (e.getActionCommand().equals("modificationEmp")) {
+        }
+        if (e.getActionCommand().equals("modificationRes")) {
+        }
+        if (e.getActionCommand().equals("suppressionEmp")) {
+        }
+        if (e.getActionCommand().equals("suppressionRes")) {
+        }
     }
 
     @Override

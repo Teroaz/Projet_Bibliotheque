@@ -1,5 +1,6 @@
 package view.menu.emprunts_reservations.emprunt;
 
+import controller.EmpruntReservation;
 import model.design.Couleurs;
 
 import javax.swing.*;
@@ -25,7 +26,10 @@ public class PanelEmprunt extends JPanel {
 
         boutonAjout.setActionCommand("ajoutEmp");
         boutonModif.setActionCommand("modificationEmp");
+        boutonModif.setEnabled(false);
         boutonSupp.setActionCommand("suppressionEmp");
+        boutonSupp.setEnabled(false);
+        enregistreEcouteur();
 
         panelAffiche.setBackground(Couleurs.BLEU_CLAIR.getCouleur());
         panelGestion.setBackground(Couleurs.BLEU_CLAIR.getCouleur());
@@ -40,6 +44,12 @@ public class PanelEmprunt extends JPanel {
 
         setBorder(BorderFactory.createTitledBorder("Emprunts"));
         setBackground(Couleurs.BLEU_CLAIR.getCouleur());
+    }
+
+    public void enregistreEcouteur () {
+        boutonAjout.addActionListener(EmpruntReservation.getInstance());
+        boutonModif.addActionListener(EmpruntReservation.getInstance());
+        boutonSupp.addActionListener(EmpruntReservation.getInstance());
     }
 
     public JTableEmprunt getTableEmprunt() {
