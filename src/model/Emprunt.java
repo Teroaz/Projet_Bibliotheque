@@ -7,6 +7,7 @@ import utils.DateUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.TreeSet;
 
@@ -75,6 +76,15 @@ public class Emprunt implements Comparable<Emprunt> {
 
     public Exemplaire getExemplaire() {
         return exemplaire;
+    }
+
+    public static ArrayList<Emprunt> getEmpruntEtudiant(int idEtudiant) {
+        ArrayList <Emprunt> empruntEtudiant = new ArrayList<>();
+        for (Emprunt emprunt : emprunt) {
+            if (emprunt.etudiant.getId() == idEtudiant)
+                empruntEtudiant.add(emprunt);
+        }
+        return empruntEtudiant;
     }
 
     public static void ajoutEmprunt(Emprunt emp) {

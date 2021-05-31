@@ -2,8 +2,10 @@ package view.menu.etudiant;
 
 import controller.Catalogue;
 import controller.GestionEtudiant;
+import model.Emprunt;
 import model.Etudiant;
 import model.Livre;
+import model.Reservation;
 import view.menu.catalogue.JTableCatalogue;
 
 import javax.swing.*;
@@ -51,8 +53,8 @@ public class ModeleEtudiant extends DefaultTableModel {
             setValueAt(etudiant.getId(), i, 0);
             setValueAt(etudiant.getNom(), i, 1);
             setValueAt(etudiant.getPrenom(), i, 2);
-            setValueAt(etudiant.getEmprunts().size(), i, 3);
-            setValueAt(etudiant.getReservations().size(), i, 4);
+            setValueAt(Emprunt.getEmpruntEtudiant(etudiant.getId()).size(), i, 3);
+            setValueAt(Reservation.getReservationEtudiant(etudiant.getId()).size(), i, 4);
         }
     }
 

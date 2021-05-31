@@ -22,8 +22,8 @@ public class Etudiant {
     private final String prenom;
     private final String mdp;
     private final String email;
-    private final ArrayList<Emprunt> emprunts = new ArrayList<>();
-    private final ArrayList<Reservation> reservations = new ArrayList<>();
+//    private final ArrayList<Emprunt> emprunts = new ArrayList<>();
+//    private final ArrayList<Reservation> reservations = new ArrayList<>();
 
     public static final HashMap<Integer, Etudiant> liste = new HashMap<>();
 
@@ -45,7 +45,7 @@ public class Etudiant {
     }
 
     public boolean peutEmprunterLivre() {
-        return emprunts.size() < 5;
+        return Emprunt.getEmpruntEtudiant(id_et).size() < 5;
     }
 
     public void emprunterExemplaire(Exemplaire exemplaire) throws RestrictionException {
@@ -54,11 +54,11 @@ public class Etudiant {
         }
 
         Emprunt emprunt = new Emprunt(new Date(), this, exemplaire);
-        emprunts.add(emprunt);
+        Emprunt.ajoutEmprunt(emprunt);
     }
 
     public boolean peutReserverLivre() {
-        return reservations.size() < 5;
+        return Reservation.getReservationEtudiant(id_et).size() < 5;
     }
 
     public void reserverLivre(Livre livre) throws RestrictionException {
@@ -67,7 +67,7 @@ public class Etudiant {
         }
 
         Reservation reservation = new Reservation(new Date(), this, livre);
-        reservations.add(reservation);
+        Reservation.ajoutReservation(reservation);
     }
 
     public static ArrayList<Etudiant> searchByName(String nom) {
@@ -104,6 +104,8 @@ public class Etudiant {
         return prenom;
     }
 
+    public String getNomPrenomId() { return nom + " " + prenom + " (" + id_et + ")"; }
+
     public int getId() {
         return id_et;
     }
@@ -120,13 +122,13 @@ public class Etudiant {
         return Objects.requireNonNull(CryptUtils.encrypt(password)).equals(mdp);
     }
 
-    public ArrayList<Emprunt> getEmprunts() {
-        return emprunts;
-    }
-
-    public ArrayList<Reservation> getReservations() {
-        return reservations;
-    }
+//    public ArrayList<Emprunt> getEmprunts() {
+//        return emprunts;
+//    }
+//
+//    public ArrayList<Reservation> getReservations() {
+//        return reservations;
+//    }
 
     public static void chargerEtudiants() {
         try {
@@ -178,8 +180,8 @@ public class Etudiant {
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
                 ", mdp='" + mdp + '\'' +
-                ", emprunts=" + emprunts +
-                ", reservations=" + reservations +
+//                ", emprunts=" + emprunts +
+//                ", reservations=" + reservations +
                 '}';
     }
 }

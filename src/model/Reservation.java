@@ -6,6 +6,7 @@ import utils.DateUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.TreeSet;
 
@@ -54,6 +55,15 @@ public class Reservation implements Comparable<Reservation> {
         } catch (SQLException | DatabaseException err) {
             err.printStackTrace();
         }
+    }
+
+    public static ArrayList<Reservation> getReservationEtudiant(int idEtudiant) {
+        ArrayList <Reservation> reservationEtudiant = new ArrayList<>();
+        for (Reservation reservation : reservation) {
+            if (reservation.etudiant.getId() == idEtudiant)
+                reservationEtudiant.add(reservation);
+        }
+        return reservationEtudiant;
     }
 
     public static void ajoutReservation(Reservation res) {
