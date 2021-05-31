@@ -24,7 +24,7 @@ public class JTableEmprunt extends JTable {
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        scrollPane.setPreferredSize(new Dimension(450, 400));
+        scrollPane.setPreferredSize(new Dimension(450, 380));
 
         JTableUtils.beautifyHeader(getTableHeader(), Couleurs.BLEU_CLAIR.getCouleur(), Couleurs.BLEU_FONCE.getCouleur(), 12);
         ColumnsAutoSizer.sizeColumnsToFit(this);

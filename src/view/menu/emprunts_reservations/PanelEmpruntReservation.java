@@ -46,4 +46,9 @@ public class PanelEmpruntReservation extends JPanel {
     public EmpruntReservation getEmpControleur() {
         return empController;
     }
+
+    @Override
+    public Insets getInsets() {
+        return new Insets(20, 20, 20, 20);
+    }
 }
