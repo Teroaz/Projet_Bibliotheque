@@ -53,8 +53,7 @@ public class Etudiant {
             throw new RestrictionException("L'étudiant ne peut pas emprunter + de 5 livres.");
         }
 
-        Emprunt emprunt = new Emprunt(new Date(), this, exemplaire);
-        Emprunt.ajoutEmprunt(emprunt);
+        Emprunt.ajoutEmprunt(new Date(), id_et, exemplaire.getId());
     }
 
     public boolean peutReserverLivre() {
@@ -66,8 +65,7 @@ public class Etudiant {
             throw new RestrictionException("L'étudiant ne peut pas réserver + de 5 catalogues.");
         }
 
-        Reservation reservation = new Reservation(new Date(), this, livre);
-        Reservation.ajoutReservation(reservation);
+        Reservation.ajoutReservation(new Date(), this.id_et, livre.getId());
     }
 
     public static ArrayList<Etudiant> searchByName(String nom) {

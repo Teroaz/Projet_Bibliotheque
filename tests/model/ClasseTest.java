@@ -3,6 +3,7 @@ package model;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sql.SQLConnection;
+import utils.CryptUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -105,7 +106,7 @@ public class ClasseTest {
     @DisplayName("Suppression etudiant")
     public void suppressionEtudiant() {
         initialiserConnexion();
-        Etudiant.suppressionEtudiant(new Etudiant(4, "EMICA", "Samaïna", "sama@gmail.com", "sama"));
+        Etudiant.suppressionEtudiant(new Etudiant(4, "EMICA", "Samaïna", "sama@gmail.com", CryptUtils.encrypt("sama")));
     }
 
     @Test
@@ -127,47 +128,31 @@ public class ClasseTest {
     @DisplayName("Ajout emprunt")
     public void ajoutEmprunt() {
         initialiserConnexion();
-        Etudiant etudiant = new Etudiant(4, "EMICA", "Samaïna", "sama@gmail.com", "sama");
-        Exemplaire exemplaire = new Exemplaire(2, Livre.getLivre(101),false, Exemplaire.ETAT.NEUF);
-        Emprunt.ajoutEmprunt(new Emprunt(new Date(), etudiant, exemplaire));
+        chargerEmprunts();
+        Emprunt.ajoutEmprunt(new Date(), 4, 2);
     }
 
     @Test
     @DisplayName("Suppression emprunt")
     public void suppressionEmprunt() {
-        Etudiant etudiant = new Etudiant(4, "EMICA", "Samaïna", "sama@gmail.com", "sama");
-        Exemplaire exemplaire = new Exemplaire(2, Livre.getLivre(101),false, Exemplaire.ETAT.NEUF);
-        Emprunt.suppressionEmprunt(new Emprunt(new Date(), etudiant, exemplaire));
+        initialiserConnexion();
+        Emprunt.suppressionEmprunt(new Date(), 4, 2);
     }
 
     @Test
     @DisplayName("Ajout réservation")
     public void ajoutReservation() {
         initialiserConnexion();
-        Etudiant etudiant = new Etudiant(4, "EMICA", "Samaïna", "sama@gmail.com", "sama");
-        Livre livre = new Livre(101,"Le portrait de Dorian Gray", new Auteur("Wilde", "Oscar"));
-        Reservation.ajoutReservation(new Reservation(new Date(), etudiant, livre));
+        chargerReservations();
+        Reservation.ajoutReservation(new Date(), 4, 101);
     }
 
     @Test
     @DisplayName("Suppression réservation")
     public void suppressionReservation() {
-        Etudiant etudiant = new Etudiant(4, "EMICA", "Samaïna", "sama@gmail.com", "sama");
-        Livre livre = new Livre(101,"Le portrait de Dorian Gray", new Auteur("Wilde", "Oscar"));
-        Reservation.suppressionReservation(new Reservation(new Date(), etudiant, livre));
-    }
-
-    @Test
-    @DisplayName("Test script")
-    public void test() {
-        ajoutEtudiant();
-        suppressionEtudiant();
-        ajoutExemplaire();
-        suppressionExemplaire();
-        ajoutEmprunt();
-        suppressionEmprunt();
-        ajoutReservation();
-        suppressionReservation();
+        initialiserConnexion();
+        chargerReservations();
+        Reservation.suppressionReservation(new Date(),4, 101);
     }
 
 }

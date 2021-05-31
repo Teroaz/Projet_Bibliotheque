@@ -66,9 +66,17 @@ public class Reservation implements Comparable<Reservation> {
         return reservationEtudiant;
     }
 
-    public static void ajoutReservation(Reservation res) {
-        reservation.add(res);
-        String sql = "INSERT INTO RESERV VALUES (" + res.date_res + ", " + res.date_fin_res + ", " + res.etudiant.getId() + ", " + res.livre.getId() + ")";
+    public static Reservation getReservation(Date dateRes, int idEtudiant, int idLivre) {
+        for (Reservation res : reservation) {
+            if (res.date_res == dateRes && res.etudiant.getId()==idEtudiant && res.livre.getId()==idLivre)
+                return res;
+        }
+        return null;
+    }
+
+    public static void ajoutReservation(Date dateRes, int idEtudiant, int idLivre) {
+        Reservation res = new Reservation(dateRes, Etudiant.getById(idEtudiant), Livre.getLivre(idLivre));
+        String sql = "INSERT INTO RESERV VALUES ('" + DateUtils.toStringSQL(res.date_res) + "', '" + DateUtils.toStringSQL(res.date_fin_res) + "', " + res.etudiant.getId() + ", " + res.livre.getId() + ")";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
             SQLConnection.getConnection().commit();
@@ -77,15 +85,17 @@ public class Reservation implements Comparable<Reservation> {
         }
     }
 
-    public static void suppressionReservation(Reservation res) {
-        reservation.add(res);
-        String sql = "DELETE FROM RESERV WHERE ID_ET=" + res.etudiant.getId() + " and ID_LIV=" + res.livre.getId();
+    public static void suppressionReservation(Date dateRes, int idEtudiant, int idLivre) {
+        String sql = "DELETE FROM RESERV WHERE ID_ET=" + idEtudiant + " and ID_LIV=" + idLivre +" and DATE_RES='" + DateUtils.toStringSQL(dateRes)+"'";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
             SQLConnection.getConnection().commit();
         } catch (SQLException | DatabaseException throwables) {
             throwables.printStackTrace();
         }
+        Reservation res = getReservation(dateRes, idEtudiant, idLivre);
+        if (res != null)
+            reservation.remove(res);
     }
 
     @Override

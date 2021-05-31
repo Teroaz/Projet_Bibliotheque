@@ -39,4 +39,9 @@ public class DateUtils {
         return dateFormat.format(date);
     }
 
+    public static String toStringSQL(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        return dateFormat.format(date);
+    }
+
 }
