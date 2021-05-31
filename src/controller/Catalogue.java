@@ -2,6 +2,7 @@ package controller;
 
 import model.Auteur;
 import model.Livre;
+import view.menu.catalogue.DialogAjoutLivre;
 import view.menu.catalogue.PanelCatalogue;
 import view.menu.catalogue.PanelRechercheCatalogue;
 
@@ -34,23 +35,22 @@ public class Catalogue implements ActionListener, KeyListener {
 
     public void ActionListener(ActionEvent evt) {
 
-
-        if (evt.getActionCommand().equals("ajout")) {
-
-        } else if (evt.getActionCommand().equals("suppression")) {
-
-        } else if (evt.getActionCommand().equals("emprunt")) {
-
-        } else if (evt.getActionCommand().equals("reservation")) {
-
-        } else if (evt.getActionCommand().equals("recherche")) {
-
-        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println(e.getActionCommand());
+        if (e.getActionCommand().equals("ajout")) {
+            new DialogAjoutLivre();
+        } else if (e.getActionCommand().equals("suppression")) {
 
+        } else if (e.getActionCommand().equals("emprunt")) {
+
+        } else if (e.getActionCommand().equals("reservation")) {
+
+        } else if (e.getActionCommand().equals("recherche")) {
+
+        }
     }
 
     @Override
@@ -90,18 +90,16 @@ public class Catalogue implements ActionListener, KeyListener {
         if (selectionModel.isSelectionEmpty()) {
             selectionModel.clearSelection();
             selectedIndex = 0;
-            panelCatalogue.getBoutonModif().setEnabled(false);
+            panelCatalogue.getPanelGestionCatalogue().disableLivreRelativeButtons();
             return;
         }
 
-        System.out.println(selectionModel.toString());
         int newSelectedIndex = selectionModel.getMinSelectionIndex();
 
         if (selectedIndex == newSelectedIndex) return;
 
         selectedIndex = newSelectedIndex;
-        panelCatalogue.getBoutonModif().setEnabled(true);
-        System.out.println(getTableSelectedLivre());
+        panelCatalogue.getPanelGestionCatalogue().enableLivreRelativeButtons();
     }
 
     public Livre getTableSelectedLivre() {
