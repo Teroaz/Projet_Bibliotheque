@@ -113,15 +113,15 @@ public class ClasseTest {
     @DisplayName("Ajout exemplaire")
     public void ajoutExemplaire() {
         initialiserConnexion();
-        Livre livre = new Livre(101,"Le portrait de Dorian Gray", new Auteur("Wilde", "Oscar"));
-        Exemplaire.ajoutExemplaire(new Exemplaire(2,livre,false, Exemplaire.ETAT.NEUF));
+        chargerLivres();
+        Exemplaire.ajoutExemplaire(99);
     }
 
     @Test
     @DisplayName("Suppression exemplaire")
     public void suppressionExemplaire() {
-        Livre livre = new Livre(101,"Le portrait de Dorian Gray", new Auteur("Wilde", "Oscar"));
-        Exemplaire.suppressionExemplaire(new Exemplaire(2,livre,false, Exemplaire.ETAT.NEUF));
+        chargerLivres();
+        Exemplaire.suppressionExemplaire(3);
     }
 
     @Test

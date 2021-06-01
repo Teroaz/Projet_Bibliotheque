@@ -54,7 +54,7 @@ public class Emprunt implements Comparable<Emprunt> {
                 Etudiant.chargerEtudiants();
                 Livre.chargerLivres();
 
-                Emprunt emprunt = new Emprunt(dateEmp, Etudiant.getById(idEt), new Exemplaire(idEx, Livre.getLivre(idLiv), false, Exemplaire.ETAT.NEUF));
+                Emprunt emprunt = new Emprunt(dateEmp, Etudiant.getById(idEt), new Exemplaire(idEx, Livre.getLivre(idLiv)));
             }
 
         } catch (SQLException | DatabaseException err) {
@@ -106,7 +106,7 @@ public class Emprunt implements Comparable<Emprunt> {
             int idLivre = resultEx.getInt("ID_LIV");
             resultEx.close();
 
-            Exemplaire exemplaire = new Exemplaire(idExemplaire, Livre.getLivre(idLivre), false, Exemplaire.ETAT.NEUF);
+            Exemplaire exemplaire = new Exemplaire(idExemplaire, Livre.getLivre(idLivre));
             Emprunt emp = new Emprunt(dateEmp, Etudiant.getById(idEtudiant), exemplaire);
 
             String sql = "INSERT INTO EMPRUNT VALUES ('" + DateUtils.toStringSQL(emp.date_emp) + "', '" + DateUtils.toStringSQL(emp.date_fin_emp) + "', " + emp.etudiant.getId() + ", " + emp.exemplaire.getId_ex() + ")";
