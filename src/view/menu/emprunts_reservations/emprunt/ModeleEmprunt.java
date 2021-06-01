@@ -1,10 +1,13 @@
 package view.menu.emprunts_reservations.emprunt;
 
 import model.Emprunt;
+import model.Exemplaire;
+import model.Livre;
 import utils.DateUtils;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
 
 public class ModeleEmprunt extends DefaultTableModel {
 

@@ -14,7 +14,7 @@ public class Livre {
     private final int idLivre;
     private String titre;
     private Auteur auteur;
-    private final ArrayList<Exemplaire> exemplaires = new ArrayList<>();
+//    private ArrayList<Exemplaire> exemplaires = new ArrayList<>();
 
     /**
      * HashMap associant un id de livre à une instance du livre
@@ -77,7 +77,8 @@ public class Livre {
     }
 
     public ArrayList<Exemplaire> getExemplaires() {
-        return exemplaires;
+        return Exemplaire.getExemplaireLivre(idLivre);
+//        return exemplaires;
     }
 
     public static void ajoutLivre(Livre livre) {

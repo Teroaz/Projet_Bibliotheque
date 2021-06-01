@@ -6,6 +6,8 @@ import utils.StringUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Exemplaire {
 
@@ -73,6 +75,22 @@ public class Exemplaire {
             throwables.printStackTrace();
         }
         return 0;
+    }
+
+    public static ArrayList<Exemplaire> getExemplaireLivre(int idLivre) {
+        ArrayList<Exemplaire> listeExemplaires = new ArrayList<>();
+        try {
+            ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT * FROM EXEMPLAIRE WHERE ID_LIV=" + idLivre);
+            while (resultSet.next()) {
+                int idEx = resultSet.getInt("ID_EX");
+
+                listeExemplaires.add(new Exemplaire(idEx, Livre.getLivre(idLivre)));
+            }
+            resultSet.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return listeExemplaires;
     }
 
     public static void ajoutExemplaire (int idLivre) {
