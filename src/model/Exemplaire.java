@@ -64,16 +64,16 @@ public class Exemplaire {
         return false;
     }
 
-    public static int getIdLastExemplaire() {
+    public static int getIdNextExemplaire() {
         try {
             ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT ID_EX FROM EXEMPLAIRE WHERE ID_EX=(SELECT MAX(ID_EX) FROM EXEMPLAIRE)");
             if (resultSet.next())
-                return resultSet.getInt("ID_EX");
+                return resultSet.getInt("ID_EX") + 1;
             resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return 0;
+        return 1;
     }
 
     public static ArrayList<Exemplaire> getExemplaireLivre(int idLivre) {
@@ -93,7 +93,7 @@ public class Exemplaire {
     }
 
     public static void ajoutExemplaire (int idLivre) {
-        Exemplaire exemplaire = new Exemplaire(Exemplaire.getIdLastExemplaire() + 1, Livre.getLivre(idLivre));
+        Exemplaire exemplaire = new Exemplaire(Exemplaire.getIdNextExemplaire(), Livre.getLivre(idLivre));
         String sql = "INSERT INTO EXEMPLAIRE VALUES ("+ exemplaire.id_ex +", "+ exemplaire.livre.getId() +", '"+ exemplaire.etat.getLabel() +"')";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
@@ -105,12 +105,13 @@ public class Exemplaire {
     }
 
     public static void suppressionExemplaire (int idEx) {
-        String sql = "DELETE FROM EXEMPLAIRE WHERE ID_EX=" + idEx;
+        String sql1 = "DELETE FROM EMPRUNT WHERE ID_EX=" + idEx;
+        String sql2 = "DELETE FROM EXEMPLAIRE WHERE ID_EX=" + idEx;
         try {
-            SQLConnection.getStatement().executeUpdate(sql);
-            SQLConnection.getConnection().commit();
+            SQLConnection.getStatement().executeUpdate(sql1);
+            SQLConnection.getStatement().executeUpdate(sql2);
         }
-        catch (SQLException | DatabaseException throwables) {
+        catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }

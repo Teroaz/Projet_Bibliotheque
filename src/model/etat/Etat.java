@@ -1,7 +1,7 @@
 package model.etat;
 
 public enum Etat {
-    NEUF("ETAT"),
+    NEUF("NEUF"),
     BON("BON"),
     ABIME("ABIME");
 

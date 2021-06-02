@@ -10,6 +10,7 @@ import utils.ValidationUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -150,7 +151,7 @@ public class Etudiant {
 
     public static void ajoutEtudiant(int idEt, String nom, String prenom, String email, String mdp) {
         Etudiant e = new Etudiant(idEt, nom, prenom, email, CryptUtils.encrypt(mdp));
-        String sql = "INSERT INTO ETUDIANT VALUES (" + e.id_et + ", '" + e.nom + "', '" + e.prenom + "', '" + e.email + "', '" + e.mdp + "')";
+        String sql = "INSERT INTO ETUDIANT VALUES (" + idEt + ", '" + nom + "', '" + prenom + "', '" + email + "', '" + e.mdp + "')";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
         } catch (SQLException throwables) {
@@ -163,10 +164,10 @@ public class Etudiant {
         String sql2 = "DELETE from RESERV WHERE ID_ET=" + idEt;
         String sql3 = "DELETE from ETUDIANT WHERE ID_ET=" + idEt;
         try {
-            SQLConnection.getStatement().executeUpdate(sql1);
-            SQLConnection.getStatement().executeUpdate(sql2);
-            SQLConnection.getStatement().executeUpdate(sql3);
-        } catch (SQLException throwables) {
+            SQLConnection.getConnection().createStatement().executeUpdate(sql1);
+            SQLConnection.getConnection().createStatement().executeUpdate(sql2);
+            SQLConnection.getConnection().createStatement().executeUpdate(sql3);
+        } catch (SQLException | DatabaseException throwables) {
             throwables.printStackTrace();
         }
         liste.remove(idEt);

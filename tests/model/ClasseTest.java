@@ -85,14 +85,14 @@ public class ClasseTest {
     @DisplayName("Ajout livre")
     public void ajoutLivre() {
         initialiserConnexion();
-        Livre.ajoutLivre(new Livre(101,"Le portrait de Dorian Gray", new Auteur("Wilde", "Oscar")));
+        Livre.ajoutLivre("Le portrait de Dorian Gray", new Auteur("Wilde", "Oscar"));
     }
 
     @Test
     @DisplayName("Suppression livre")
     public void suppressionLivre() {
         initialiserConnexion();
-        Livre.suppressionLivre(new Livre(101,"Le portrait de Dorian Gray", new Auteur("Wilde", "Oscar")));
+        Livre.suppressionLivre(101);
     }
 
     @Test
@@ -106,6 +106,9 @@ public class ClasseTest {
     @DisplayName("Suppression etudiant")
     public void suppressionEtudiant() {
         initialiserConnexion();
+        chargerEtudiants();
+        chargerEmprunts();
+        chargerReservations();
         Etudiant.suppressionEtudiant(4);
     }
 
@@ -114,14 +117,14 @@ public class ClasseTest {
     public void ajoutExemplaire() {
         initialiserConnexion();
         chargerLivres();
-        Exemplaire.ajoutExemplaire(99);
+        Exemplaire.ajoutExemplaire(101);
     }
 
     @Test
     @DisplayName("Suppression exemplaire")
     public void suppressionExemplaire() {
         chargerLivres();
-        Exemplaire.suppressionExemplaire(3);
+        Exemplaire.suppressionExemplaire(2);
     }
 
     @Test
