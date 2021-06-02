@@ -81,9 +81,21 @@ public class Livre {
 //        return exemplaires;
     }
 
-    public static void ajoutLivre(Livre livre) {
-        catalogue.put(livre.idLivre, livre);
-        String sql = "INSERT INTO LIVRE VALUES (" + livre.idLivre +", '"+ livre.auteur.auteurBD() +"', '"+ livre.titre + "')";
+    public static int getIdNextLivre() {
+        try {
+            ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT ID_LIV FROM LIVRE WHERE ID_LIV=(SELECT MAX(ID_LIV) FROM LIVRE)");
+            if (resultSet.next())
+                return resultSet.getInt("ID_LIV") + 1;
+            resultSet.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 1;
+    }
+
+    public static void ajoutLivre(String titre, Auteur auteur) {
+        Livre livre = new Livre(Livre.getIdNextLivre(), titre, auteur);
+        String sql = "INSERT INTO LIVRE VALUES (" + livre.idLivre +", '"+ auteur.auteurBD() +"', '"+ titre + "')";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
         }
@@ -92,15 +104,24 @@ public class Livre {
         }
     }
 
-    public static void suppressionLivre(Livre livre) {
-        catalogue.remove(livre.idLivre);
-        String sql = "DELETE FROM LIVRE WHERE ID_LIV=" + livre.idLivre;
+    public static void suppressionLivre(int idLivre) {
+        String sql1 = "SELECT ID_EX FROM EXEMPLAIRE WHERE ID_LIV=" + idLivre;
+        String sql2 = "DELETE FROM RESERV WHERE ID_LIV=" + idLivre;
+        String sql3 = "DELETE FROM LIVRE WHERE ID_LIV=" + idLivre;
         try {
-            SQLConnection.getStatement().executeUpdate(sql);
+            ResultSet resultSet = SQLConnection.getStatement().executeQuery(sql1);
+            while (resultSet.next()) {
+                int idEx = resultSet.getInt("ID_EX");
+                Exemplaire.suppressionExemplaire(idEx);
+            }
+            resultSet.close();
+            SQLConnection.getConnection().createStatement().executeUpdate(sql2);
+            SQLConnection.getConnection().createStatement().executeUpdate(sql3);
         }
-        catch (SQLException throwables) {
+        catch (SQLException | DatabaseException throwables) {
             throwables.printStackTrace();
         }
+        catalogue.remove(idLivre);
     }
 
     @Override
