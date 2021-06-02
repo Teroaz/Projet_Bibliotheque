@@ -86,9 +86,8 @@ public class Livre {
         String sql = "INSERT INTO LIVRE VALUES (" + livre.idLivre +", '"+ livre.auteur.auteurBD() +"', '"+ livre.titre + "')";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
-            SQLConnection.getConnection().commit();
         }
-        catch (SQLException | DatabaseException throwables) {
+        catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
@@ -98,9 +97,8 @@ public class Livre {
         String sql = "DELETE FROM LIVRE WHERE ID_LIV=" + livre.idLivre;
         try {
             SQLConnection.getStatement().executeUpdate(sql);
-            SQLConnection.getConnection().commit();
         }
-        catch (SQLException | DatabaseException throwables) {
+        catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }

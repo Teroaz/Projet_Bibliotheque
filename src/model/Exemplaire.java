@@ -1,20 +1,19 @@
 package model;
 
 import exceptions.DatabaseException;
+import model.etat.Etat;
 import sql.SQLConnection;
-import utils.StringUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Exemplaire {
 
     private final int id_ex;
     private final Livre livre;
     private boolean estEmprunte;
-    private ETAT etat;
+    private Etat etat;
 
     /**
      * @param id    : ID de l'exemplaire
@@ -31,25 +30,25 @@ public class Exemplaire {
         return id_ex;
     }
 
-    public void modifierEtat(ETAT etat) {
+    public void modifierEtat(Etat etat) {
         this.etat = etat;
         try {
-            SQLConnection.getStatement().executeUpdate("UPDATE EXEMPLAIRE SET ETAT="+ StringUtils.etatToString(etat) +" WHERE ID_EX=" + id_ex);
+            SQLConnection.getStatement().executeUpdate("UPDATE EXEMPLAIRE SET ETAT="+ etat.getLabel() +" WHERE ID_EX=" + id_ex);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    public ETAT obtenirEtat() {
+    public Etat obtenirEtat() {
         try {
             ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT ETAT FROM EXEMPLAIRE WHERE ID_EX=" + etat);
             if (resultSet.next())
-                return StringUtils.stringToEtat(resultSet.getString("ETAT"));
+                return Etat.valueOf(resultSet.getString("ETAT"));
             resultSet.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return ETAT.NEUF;
+        return Etat.NEUF;
     }
 
     public boolean estEmprunte() {
@@ -95,7 +94,7 @@ public class Exemplaire {
 
     public static void ajoutExemplaire (int idLivre) {
         Exemplaire exemplaire = new Exemplaire(Exemplaire.getIdLastExemplaire() + 1, Livre.getLivre(idLivre));
-        String sql = "INSERT INTO EXEMPLAIRE VALUES ("+ exemplaire.id_ex +", "+ exemplaire.livre.getId() +", '"+ StringUtils.etatToString(exemplaire.getEtat()) +"')";
+        String sql = "INSERT INTO EXEMPLAIRE VALUES ("+ exemplaire.id_ex +", "+ exemplaire.livre.getId() +", '"+ exemplaire.etat.getLabel() +"')";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
             SQLConnection.getConnection().commit();
@@ -128,17 +127,15 @@ public class Exemplaire {
         return estEmprunte;
     }
 
-    public ETAT getEtat() {
+    public Etat getEtat() {
         return etat;
     }
+
 
     /**
      * Le nom de l'énumération répertoriant les différents états d'un exemplaire
      * Neuf, en bon état ou abîmé
      */
-    public enum ETAT {
-        NEUF, BON, ABIME
-    }
 
     @Override
     public String toString() {
