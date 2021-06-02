@@ -1,16 +1,13 @@
 package controller;
 
-import model.Etudiant;
 import view.menu.emprunts_reservations.PanelEmpruntReservation;
 import view.menu.emprunts_reservations.emprunt.DialogAjoutEmprunt;
+import view.menu.emprunts_reservations.emprunt.DialogModificationEmprunt;
+import view.menu.emprunts_reservations.emprunt.DialogSuppressionEmprunt;
 import view.menu.emprunts_reservations.reservation.DialogAjoutReservation;
+import view.menu.emprunts_reservations.reservation.DialogSuppressionReservation;
 
-import javax.swing.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 
 public class EmpruntReservation implements ActionListener, MouseListener, KeyListener {
 
@@ -32,7 +29,6 @@ public class EmpruntReservation implements ActionListener, MouseListener, KeyLis
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("e.getActionCommand");
         if (e.getActionCommand().equals("ajoutEmp")) {
             new DialogAjoutEmprunt();
         }
@@ -40,12 +36,13 @@ public class EmpruntReservation implements ActionListener, MouseListener, KeyLis
             new DialogAjoutReservation();
         }
         if (e.getActionCommand().equals("modificationEmp")) {
-        }
-        if (e.getActionCommand().equals("modificationRes")) {
+            new DialogModificationEmprunt();
         }
         if (e.getActionCommand().equals("suppressionEmp")) {
+            new DialogSuppressionEmprunt();
         }
         if (e.getActionCommand().equals("suppressionRes")) {
+            new DialogSuppressionReservation();
         }
     }
 

@@ -26,9 +26,9 @@ public class PanelEmprunt extends JPanel {
 
         boutonAjout.setActionCommand("ajoutEmp");
         boutonModif.setActionCommand("modificationEmp");
-        boutonModif.setEnabled(false);
+//        boutonModif.setEnabled(false);
         boutonSupp.setActionCommand("suppressionEmp");
-        boutonSupp.setEnabled(false);
+//        boutonSupp.setEnabled(false);
         enregistreEcouteur();
 
         panelAffiche.setBackground(Couleurs.BLEU_CLAIR.getCouleur());

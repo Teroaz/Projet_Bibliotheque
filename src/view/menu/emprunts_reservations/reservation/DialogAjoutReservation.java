@@ -2,6 +2,7 @@ package view.menu.emprunts_reservations.reservation;
 
 import model.Etudiant;
 import model.Livre;
+import model.Reservation;
 import model.design.Couleurs;
 import utils.swing_utils.JFrameUtils;
 import view.FenetreBibliotheque;
@@ -13,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class DialogAjoutReservation extends JDialog implements ActionListener {
+
     JButton boutonOk = new JButton("OK");
     JButton boutonAnnuler = new JButton("Annuler");
 
@@ -72,6 +74,10 @@ public class DialogAjoutReservation extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boutonAnnuler) {
+            setVisible(false);
+        }
+        if (e.getSource() == boutonOk) {
+//            Reservation.ajoutReservation();
             setVisible(false);
         }
     }

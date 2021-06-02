@@ -8,7 +8,6 @@ import java.awt.*;
 
 public class PanelReservation extends JPanel {
 
-    private final JButton boutonModif = new JButton("Modifier");
     private final JButton boutonAjout = new JButton("Ajouter");
     private final JButton boutonSupp = new JButton("Supprimer");
 
@@ -25,10 +24,8 @@ public class PanelReservation extends JPanel {
         tableReservation = new JTableReservation(new ModeleReservation());
 
         boutonAjout.setActionCommand("ajoutRes");
-        boutonModif.setActionCommand("modificationRes");
-        boutonModif.setEnabled(false);
         boutonSupp.setActionCommand("suppressionRes");
-        boutonSupp.setEnabled(false);
+//        boutonSupp.setEnabled(false);
         enregistreEcouteur();
 
         panelAffiche.setBackground(Couleurs.BLEU_CLAIR.getCouleur());
@@ -36,7 +33,6 @@ public class PanelReservation extends JPanel {
 
         panelAffiche.add(tableReservation.getScrollPane());
         panelGestion.add(boutonAjout);
-        panelGestion.add(boutonModif);
         panelGestion.add(boutonSupp);
 
         add(panelAffiche, BorderLayout.CENTER);
@@ -48,16 +44,11 @@ public class PanelReservation extends JPanel {
 
     public void enregistreEcouteur () {
         boutonAjout.addActionListener(EmpruntReservation.getInstance());
-        boutonModif.addActionListener(EmpruntReservation.getInstance());
         boutonSupp.addActionListener(EmpruntReservation.getInstance());
     }
 
     public JTableReservation getTableReservation() {
         return tableReservation;
-    }
-
-    public JButton getBoutonModif() {
-        return boutonModif;
     }
 
     public JButton getBoutonAjout() {

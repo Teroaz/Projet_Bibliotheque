@@ -40,7 +40,7 @@ public class PanelEtudiant extends JPanel {
         boutonModif.setEnabled(false);
 
         boutonAjout.setActionCommand("ajout");
-        boutonModif.setActionCommand("modif");
+        boutonModif.setActionCommand("modification");
         boutonSuppression.setActionCommand("suppression");
 
         panelRechercheEtudiant = new PanelRechercheEtudiant();

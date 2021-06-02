@@ -117,6 +117,19 @@ public class Etudiant {
         return decrypted ? CryptUtils.decrypt(mdp) : mdp;
     }
 
+    public static boolean isIdExistant(int id) {
+        try {
+            ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT * FROM ETUDIANT");
+            while (resultSet.next()) {
+                if (resultSet.getInt("ID_ET") == id)
+                    return true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
     public boolean validatePassword(String password) {
         return Objects.requireNonNull(CryptUtils.encrypt(password)).equals(mdp);
     }

@@ -74,5 +74,8 @@ public class DialogAjoutEmprunt extends JDialog implements ActionListener {
         if (e.getSource() == boutonAnnuler) {
             setVisible(false);
         }
+        if (e.getSource() == boutonOk) {
+            setVisible(false);
+        }
     }
 }

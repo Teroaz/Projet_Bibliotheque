@@ -3,6 +3,12 @@ package controller;
 import model.Etudiant;
 import model.Livre;
 import view.menu.catalogue.PanelCatalogue;
+import view.menu.emprunts_reservations.emprunt.DialogAjoutEmprunt;
+import view.menu.emprunts_reservations.emprunt.DialogModificationEmprunt;
+import view.menu.emprunts_reservations.reservation.DialogAjoutReservation;
+import view.menu.etudiant.DialogAjoutEtudiant;
+import view.menu.etudiant.DialogModificationEtudiant;
+import view.menu.etudiant.DialogSuppressionEtudiant;
 import view.menu.etudiant.PanelEtudiant;
 
 import javax.swing.*;
@@ -31,7 +37,15 @@ public class GestionEtudiant implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getActionCommand().equals("ajout")) {
+            new DialogAjoutEtudiant();
+        }
+        if (e.getActionCommand().equals("modification")) {
+            new DialogModificationEtudiant();
+        }
+        if (e.getActionCommand().equals("suppression")) {
+            new DialogSuppressionEtudiant();
+        }
     }
 
     public void onTableSelection(ListSelectionModel selectionModel) {
