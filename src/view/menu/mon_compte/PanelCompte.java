@@ -27,6 +27,8 @@ public class PanelCompte extends JPanel {
         JLabel livre1 = new JLabel("Livre 1: Philippe le bg aui kway qui est calmement posé sur sa ptite chaise oklm");
         JLabel livre2 = new JLabel("Saimana en train de coder un truc et elle y arrive pas(looser)");
         JLabel livre3 = new JLabel("Louis ce gros bg en train de coder super bien habillé");
+        JLabel nom_mail = new JLabel("phsarafian@gmail.com");
+        JLabel motdepasse = new JLabel("mot_de_passe_crypté");
         mail = new JButton("editer");
         mdp = new JButton("éditer");
         JLabel mail2 = new JLabel("Mail:");
@@ -41,44 +43,57 @@ public class PanelCompte extends JPanel {
         panelSouth.setBorder(BorderFactory.createTitledBorder("Commentaire"));
 
         GridBagConstraints contrainte = new GridBagConstraints();
-        contrainte.insets = new Insets(10,30,10,0);
+        contrainte.insets = new Insets(10,10,10,0);
 
-        contrainte.gridx=2; contrainte.gridy=1;
+        contrainte.gridx=2; contrainte.gridy=0;
         add(panelEst,contrainte);
 
-        contrainte.gridx=1; contrainte.gridy=1;
+        contrainte.gridx=1; contrainte.gridy=0;
         add(panelWest,contrainte);
 
-        contrainte.gridx=1; contrainte.gridy=2;
-        add(panelSouth);
+        contrainte.gridx=1; contrainte.gridy=1;
+        add(panelSouth,contrainte);
 
-        contrainte.gridx = 1; contrainte.gridy = 1;
+
+
+        contrainte.gridx = 0; contrainte.gridy = 0;
         panelEst.add(info_conn,contrainte);
 
-        contrainte.gridx = 1; contrainte.gridy = 2;
+        contrainte.gridx = 0; contrainte.gridy = 1;
         panelEst.add(prenom,contrainte);
 
-        contrainte.gridx=1; contrainte.gridy=3;
+        contrainte.gridx = 0; contrainte.gridy = 2;
+        panelEst.add(nom,contrainte);
+
+        contrainte.gridx = 1; contrainte.gridy = 3;
+        panelEst.add(nom_mail,contrainte);
+
+        contrainte.gridx=0; contrainte.gridy=3;
         panelEst.add(mail2,contrainte);
 
         contrainte.gridx=2; contrainte.gridy=3;
         panelEst.add(mail,contrainte);
 
-        contrainte.gridx=1; contrainte.gridy=4;
+        contrainte.gridx=0; contrainte.gridy=4;
         panelEst.add(mdp2,contrainte);
+
+        contrainte.gridx=1; contrainte.gridy=4;
+        panelEst.add(motdepasse,contrainte);
 
         contrainte.gridx=2; contrainte.gridy=4;
         panelEst.add(mdp,contrainte);
 
-        contrainte.gridx=1; contrainte.gridy=1;
+        contrainte.gridx=0; contrainte.gridy=0;
         panelWest.add(livre1,contrainte);
 
-        contrainte.gridx=1; contrainte.gridy=2;
+        contrainte.gridx=0; contrainte.gridy=1;
         panelWest.add(livre2,contrainte);
 
-        contrainte.gridx=1; contrainte.gridy=3;
+        contrainte.gridx=0; contrainte.gridy=2;
         panelWest.add(livre3,contrainte);
 
+        contrainte.gridx=0; contrainte.gridy=0;
+        panelSouth.add(comm,contrainte);
 
 
 
