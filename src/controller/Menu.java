@@ -47,6 +47,8 @@ public class Menu implements ActionListener {
             panelMenu.setBodyPanel(empruntReservation.getPanelEmpruntReservation());
         } else if (text.equals("Étudiants")) {
             panelMenu.setBodyPanel(gestionEtudiant.getPanelEtudiant());
+        } else if (text.equals("Mon espace")) {
+            panelMenu.setBodyPanel(new PanelCompte());
         }
     }
 
