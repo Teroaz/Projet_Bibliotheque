@@ -148,26 +148,28 @@ public class Etudiant {
         }
     }
 
-    public static void ajoutEtudiant(Etudiant etudiant) {
-        String sql = "INSERT INTO ETUDIANT VALUES (" + etudiant.id_et + ", '" + etudiant.nom + "', '" + etudiant.prenom + "', '" + etudiant.email + "', '" + etudiant.mdp + "')";
-//        System.out.println(sql);
+    public static void ajoutEtudiant(int idEt, String nom, String prenom, String email, String mdp) {
+        Etudiant e = new Etudiant(idEt, nom, prenom, email, CryptUtils.encrypt(mdp));
+        String sql = "INSERT INTO ETUDIANT VALUES (" + e.id_et + ", '" + e.nom + "', '" + e.prenom + "', '" + e.email + "', '" + e.mdp + "')";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
-            SQLConnection.getConnection().commit();
-        } catch (SQLException | DatabaseException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    public static void suppressionEtudiant(Etudiant etudiant) {
-        String sql = "DELETE from ETUDIANT WHERE ID_ET=" + etudiant.id_et;
-//        System.out.println(sql);
+    public static void suppressionEtudiant(int idEt) {
+        String sql1 = "DELETE from EMPRUNT WHERE ID_ET=" + idEt;
+        String sql2 = "DELETE from RESERV WHERE ID_ET=" + idEt;
+        String sql3 = "DELETE from ETUDIANT WHERE ID_ET=" + idEt;
         try {
-            SQLConnection.getStatement().executeUpdate(sql);
-            SQLConnection.getConnection().commit();
-        } catch (SQLException | DatabaseException throwables) {
+            SQLConnection.getStatement().executeUpdate(sql1);
+            SQLConnection.getStatement().executeUpdate(sql2);
+            SQLConnection.getStatement().executeUpdate(sql3);
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        liste.remove(idEt);
     }
 
     @Override

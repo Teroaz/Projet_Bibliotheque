@@ -99,14 +99,14 @@ public class ClasseTest {
     @DisplayName("Ajout etudiant")
     public void ajoutEtudiant() {
         initialiserConnexion();
-        Etudiant.ajoutEtudiant(new Etudiant(4, "EMICA", "Samaïna", "sama@gmail.com", "sama"));
+        Etudiant.ajoutEtudiant(4, "EMICA", "Samaïna", "sama@gmail.com", "sama");
     }
 
     @Test
     @DisplayName("Suppression etudiant")
     public void suppressionEtudiant() {
         initialiserConnexion();
-        Etudiant.suppressionEtudiant(new Etudiant(4, "EMICA", "Samaïna", "sama@gmail.com", CryptUtils.encrypt("sama")));
+        Etudiant.suppressionEtudiant(4);
     }
 
     @Test
