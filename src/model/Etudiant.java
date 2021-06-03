@@ -10,7 +10,6 @@ import utils.ValidationUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,8 +22,8 @@ public class Etudiant {
     private final String prenom;
     private final String mdp;
     private String email;
-//    private final ArrayList<Emprunt> emprunts = new ArrayList<>();
-//    private final ArrayList<Reservation> reservations = new ArrayList<>();
+    private final ArrayList<Emprunt> emprunts = new ArrayList<>();
+    private final ArrayList<Reservation> reservations = new ArrayList<>();
 
     public static final HashMap<Integer, Etudiant> liste = new HashMap<>();
 
@@ -103,7 +102,9 @@ public class Etudiant {
         return prenom;
     }
 
-    public String getNomPrenomId() { return nom + " " + prenom + " (" + id_et + ")"; }
+    public String getNomPrenomId() {
+        return nom + " " + prenom + " (" + id_et + ")";
+    }
 
     public int getId() {
         return id_et;
@@ -173,7 +174,7 @@ public class Etudiant {
     }
 
     public static void modificationEtudiant(int idEt, String email) {
-        String sql = "UPDATE ETUDIANT SET EMAIL='" +email+ "' WHERE ID_ET=" +idEt;
+        String sql = "UPDATE ETUDIANT SET EMAIL='" + email + "' WHERE ID_ET=" + idEt;
         System.out.println(sql);
         try {
             SQLConnection.getStatement().executeUpdate(sql);
@@ -210,5 +211,13 @@ public class Etudiant {
 //                ", emprunts=" + emprunts +
 //                ", reservations=" + reservations +
                 '}';
+    }
+
+    public ArrayList<Emprunt> getEmprunts() {
+        return emprunts;
+    }
+
+    public ArrayList<Reservation> getReservations() {
+        return reservations;
     }
 }
