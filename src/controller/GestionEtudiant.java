@@ -1,6 +1,11 @@
 package controller;
 
 import model.Etudiant;
+import model.Livre;
+import view.menu.catalogue.PanelCatalogue;
+import view.menu.emprunts_reservations.emprunt.DialogAjoutEmprunt;
+import view.menu.emprunts_reservations.emprunt.DialogModificationEmprunt;
+import view.menu.emprunts_reservations.reservation.DialogAjoutReservation;
 import view.menu.etudiant.DialogAjoutEtudiant;
 import view.menu.etudiant.DialogModificationEtudiant;
 import view.menu.etudiant.DialogSuppressionEtudiant;
@@ -45,16 +50,17 @@ public class GestionEtudiant implements ActionListener {
             selectionModel.clearSelection();
             selectedIndex = 0;
             panelEtudiant.getBoutonModif().setEnabled(false);
+            panelEtudiant.getBoutonSuppression().setEnabled(false);
             return;
         }
 
-        System.out.println(selectionModel);
         int newSelectedIndex = selectionModel.getMinSelectionIndex();
 
         if (selectedIndex == newSelectedIndex) return;
 
         selectedIndex = newSelectedIndex;
         panelEtudiant.getBoutonModif().setEnabled(true);
+        panelEtudiant.getBoutonSuppression().setEnabled(true);
         System.out.println(getTableSelectedEtudiant());
     }
 

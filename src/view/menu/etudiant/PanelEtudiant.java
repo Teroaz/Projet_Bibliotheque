@@ -34,6 +34,7 @@ public class PanelEtudiant extends JPanel {
         modeleEtudiant.registerListeners(tableEtudiant);
 
         boutonModif.setEnabled(false);
+        boutonSuppression.setEnabled(false);
 
         boutonAjout.setActionCommand("ajout");
         boutonModif.setActionCommand("modification");

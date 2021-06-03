@@ -23,7 +23,7 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyL
     JTextField texteNom = new JTextField(15);
     JTextField textePrenom = new JTextField(15);
     JTextField texteEmail = new JTextField(15);
-    JTextField texteMdp = new JTextField(15);
+    JPasswordField texteMdp = new JPasswordField(15);
 
     JLabel labelProbleme = new JLabel("Problème : ", JLabel.CENTER);
     JLabel labelMessage = new JLabel(" ", JLabel.CENTER);
@@ -35,7 +35,7 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyL
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         pack();
         setVisible(true);
-        setTitle("Ajout d'une réservation");
+        setTitle("Ajout d'un étudiant");
         setSize(400, 400);
         setLocation(JFrameUtils.centerFrameCoords(getWidth(), getHeight()));
 
@@ -102,7 +102,7 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyL
             String nom = texteNom.getText();
             String prenom = textePrenom.getText();
             String email = texteEmail.getText();
-            String mdp = texteMdp.getText();
+            String mdp = String.valueOf(texteMdp.getPassword());
 
             if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || mdp.isEmpty()) {
                 labelMessage.setText("Un ou plusieurs de vos champs ne sont pas rempli ! ");
@@ -141,7 +141,7 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyL
         String prenom = textePrenom.getText();
         String nom = texteNom.getText();
         String mail = texteEmail.getText();
-        String mdp = texteMdp.getText();
+        String mdp = String.valueOf(texteMdp.getPassword());
 
         boolean validMail = ValidationUtils.isValidMail(mail.trim());
 

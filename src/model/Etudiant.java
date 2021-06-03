@@ -22,7 +22,7 @@ public class Etudiant {
     private final String nom;
     private final String prenom;
     private final String mdp;
-    private final String email;
+    private String email;
 //    private final ArrayList<Emprunt> emprunts = new ArrayList<>();
 //    private final ArrayList<Reservation> reservations = new ArrayList<>();
 
@@ -170,6 +170,19 @@ public class Etudiant {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public static void modificationEtudiant(int idEt, String email) {
+        String sql = "UPDATE ETUDIANT SET EMAIL='" +email+ "' WHERE ID_ET=" +idEt;
+        System.out.println(sql);
+        try {
+            SQLConnection.getStatement().executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        Etudiant etudiant = liste.get(idEt);
+        etudiant.email = email;
+        liste.put(idEt, etudiant);
     }
 
     public static void suppressionEtudiant(int idEt) {

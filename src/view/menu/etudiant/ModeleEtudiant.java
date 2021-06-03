@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class ModeleEtudiant extends DefaultTableModel {
-    private final String[] intitulesColonnes = {"ID", "Nom", "Prénom", "Nb d'emprunts", "Nb réser"};
+    private final String[] intitulesColonnes = {"ID", "Nom", "Prénom", "Email", "Nb d'emprunts", "Nb réser"};
     private final GestionEtudiant etuController;
 
     private Collection<Etudiant> etudiants;
@@ -50,13 +50,14 @@ public class ModeleEtudiant extends DefaultTableModel {
             setValueAt(etudiant.getId(), i, 0);
             setValueAt(etudiant.getNom(), i, 1);
             setValueAt(etudiant.getPrenom(), i, 2);
-            setValueAt(Emprunt.getEmpruntEtudiant(etudiant.getId()).size(), i, 3);
-            setValueAt(Reservation.getReservationEtudiant(etudiant.getId()).size(), i, 4);
+            setValueAt(etudiant.getEmail(), i, 3);
+            setValueAt(Emprunt.getEmpruntEtudiant(etudiant.getId()).size(), i, 4);
+            setValueAt(Reservation.getReservationEtudiant(etudiant.getId()).size(), i, 5);
         }
     }
 
     public Class getColumnClass(int i) {
-        if (i == 0 || i == 3 || i == 4)
+        if (i == 0 || i == 4 || i == 5)
             return Integer.class;
         return String.class;
     }

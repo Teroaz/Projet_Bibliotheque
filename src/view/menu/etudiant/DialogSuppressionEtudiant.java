@@ -23,14 +23,14 @@ public class DialogSuppressionEtudiant extends JDialog implements ActionListener
         pack();
         setVisible(true);
         setTitle("Suppression d'un étudiant");
-        setSize(400, 150);
+        setSize(400, 200);
         setLocation(JFrameUtils.centerFrameCoords(getWidth(), getHeight()));
 
         panel.setLayout(new GridBagLayout());
 
         JLabel labelConfirmation = new JLabel("Êtes-vous sûr(e) de vouloir supprimer l'étudiant ?", JLabel.CENTER);
         labelConfirmation.setFont(new Font("Arial", Font.PLAIN, 12));
-        JLabel labelAvertissement = new JLabel("Cette suppression entraînera la perte de toutes données concernant l'étudiant.", JLabel.CENTER);
+        JLabel labelAvertissement = new JLabel("Cette suppression entraînera la perte de toutes les données de l'étudiant.", JLabel.CENTER);
         labelConfirmation.setFont(new Font("Arial", Font.PLAIN, 12));
 
         boutonAnnuler.addActionListener(this);
@@ -44,11 +44,9 @@ public class DialogSuppressionEtudiant extends JDialog implements ActionListener
 
         panel.add(labelConfirmation, gbc);
 
-        gbc.gridx = 0;
         gbc.gridy++;
         panel.add(labelAvertissement, gbc);
 
-        gbc.gridx = 0;
         gbc.gridy++;
         panel.add(boutonOk, gbc);
 

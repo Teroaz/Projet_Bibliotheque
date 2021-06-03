@@ -33,7 +33,7 @@ public class JTableEtudiant extends JTable {
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         getTableHeader().setReorderingAllowed(false);
 
-        scrollPane.setPreferredSize(new Dimension(700, 400));
+        scrollPane.setPreferredSize(new Dimension(600, 400));
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);

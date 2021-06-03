@@ -103,6 +103,13 @@ public class ClasseTest {
     }
 
     @Test
+    @DisplayName("Modification etudiant")
+    public void modificationEtudiant() {
+        initialiserConnexion();
+        Etudiant.modificationEtudiant(3, "samaina@gmail.com");
+    }
+
+    @Test
     @DisplayName("Suppression etudiant")
     public void suppressionEtudiant() {
         initialiserConnexion();
