@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Collections;
 
 public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyListener {
 
@@ -60,7 +59,6 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyL
         texteNom.addKeyListener(this);
 
         int nextValidID = 1;
-        int maxID = Collections.max(Etudiant.liste.keySet());
         int i = 1;
 
         while (Etudiant.liste.containsKey(i)) {
