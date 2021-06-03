@@ -1,11 +1,7 @@
 package view.menu.etudiant;
 
-import controller.Catalogue;
 import controller.GestionEtudiant;
 import model.design.Couleurs;
-import view.menu.catalogue.JTableCatalogue;
-import view.menu.catalogue.ModeleCatalogue;
-import view.menu.catalogue.PanelRechercheCatalogue;
 
 import javax.swing.*;
 import java.awt.*;

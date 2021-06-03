@@ -1,7 +1,7 @@
 package view.menu.etudiant;
 
+import controller.PanelSwitcher;
 import model.Etudiant;
-import model.Livre;
 import model.design.Couleurs;
 import utils.CryptUtils;
 import utils.ValidationUtils;
@@ -11,9 +11,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.Collections;
 
-public class DialogAjoutEtudiant extends JDialog implements ActionListener {
+public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyListener {
 
     JButton boutonOk = new JButton("OK");
     JButton boutonAnnuler = new JButton("Annuler");
@@ -38,7 +40,7 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener {
         setSize(400, 400);
         setLocation(JFrameUtils.centerFrameCoords(getWidth(), getHeight()));
 
-        panel.setLayout(new GridLayout(7,2,10,20));
+        panel.setLayout(new GridLayout(7, 2, 10, 20));
 
         JLabel labelId = new JLabel("ID Étudiant", JLabel.CENTER);
         JLabel labelNom = new JLabel("Nom", JLabel.CENTER);
@@ -47,9 +49,28 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener {
         JLabel labelMdp = new JLabel("Mot de passe", JLabel.CENTER);
         labelProbleme.setVisible(false);
         labelMessage.setVisible(false);
+        boutonOk.setEnabled(false);
 
         boutonAnnuler.addActionListener(this);
         boutonOk.addActionListener(this);
+        texteEmail.addKeyListener(this);
+        texteId.addKeyListener(this);
+        texteMdp.addKeyListener(this);
+        textePrenom.addKeyListener(this);
+        texteNom.addKeyListener(this);
+
+        int nextValidID = 1;
+        int maxID = Collections.max(Etudiant.liste.keySet());
+        int i = 1;
+
+        while (Etudiant.liste.containsKey(i)) {
+            i++;
+        }
+
+        nextValidID = i;
+
+        texteId.setText(nextValidID + "");
+        texteId.setEnabled(false);
 
         panel.add(labelId);
         panel.add(texteId);
@@ -78,46 +99,61 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener {
         if (e.getSource() == boutonAnnuler) {
             setVisible(false);
         }
+
         if (e.getSource() == boutonOk) {
-            String texteId = this.texteId.getText();
             String nom = texteNom.getText();
             String prenom = textePrenom.getText();
             String email = texteEmail.getText();
             String mdp = texteMdp.getText();
 
-            boolean rempli = false;
-            boolean idUnique = false;
-            boolean mailValide = false;
-
-            if (texteId.isEmpty() || nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || mdp.isEmpty()) {
+            if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || mdp.isEmpty()) {
                 labelMessage.setText("Un ou plusieurs de vos champs ne sont pas rempli ! ");
                 labelMessage.setVisible(true);
                 labelProbleme.setVisible(true);
             }
 
-            rempli = true;
-            int id = Integer.parseInt(texteId);
-
-            if (Etudiant.isIdExistant(id)) {
-                labelMessage.setText("L'ID étudiant existe déjà ! ");
-                labelMessage.setVisible(true);
-                labelProbleme.setVisible(true);
-            }
-
-            idUnique = true;
+            int id = Integer.parseInt(texteId.getText());
 
             if (ValidationUtils.isValidMail(email.trim())) {
-                labelMessage.setText("L'email n'est pas valide ! ");
+                labelMessage.setText("L'email n'est pas valide !");
                 labelMessage.setVisible(true);
                 labelProbleme.setVisible(true);
             }
 
-            mailValide = true;
-
-            if (rempli && idUnique && mailValide) {
-                Etudiant.ajoutEtudiant(id, nom, prenom, email, CryptUtils.encrypt(mdp));
-                setVisible(false);
-            }
+            Etudiant.ajoutEtudiant(id, nom, prenom, email, CryptUtils.encrypt(mdp));
+            PanelSwitcher.getMenu().getGestionEtudiant().getPanelEtudiant().getTableEtudiant().getModeleEtudiant().updateEtudiant(Etudiant.liste.values());
+            setVisible(false);
         }
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+
+        String prenom = textePrenom.getText();
+        String nom = texteNom.getText();
+        String mail = texteEmail.getText();
+        String mdp = texteMdp.getText();
+
+        boolean validMail = ValidationUtils.isValidMail(mail.trim());
+
+        if (!validMail) {
+            texteEmail.setForeground(Couleurs.ROUGE.getCouleur());
+        } else {
+            texteEmail.setForeground(null);
+        }
+
+        boutonOk.setEnabled(validMail && !mdp.isEmpty() && !prenom.isEmpty() && !nom.isEmpty());
+    }
+
 }

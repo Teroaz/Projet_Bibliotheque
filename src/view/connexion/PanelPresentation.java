@@ -15,23 +15,32 @@ public class PanelPresentation extends JPanel {
     private final JLabel labelHeure;
 
     public PanelPresentation() {
-        setLayout(new GridLayout(3, 1, 15, 15));
-        setBackground(Couleurs.VIOLET.getCouleur());
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
 
         JLabel labelTitre = new JLabel("Bibliothèque", JLabel.CENTER);
         labelTitre.setFont(new Font("Georgia", Font.ITALIC | Font.BOLD, 60));
-        add(labelTitre);
+        add(labelTitre, gbc);
 
+        gbc.gridy = 1;
+        add(Box.createRigidArea(new Dimension(0, 100)), gbc);
+
+        gbc.gridy = 2;
         labelDate = new JLabel(DateUtils.toStringDate(new Date()), JLabel.CENTER);
-        labelDate.setFont(new Font("Arial", Font.PLAIN, 25));
-        add(labelDate);
+        labelDate.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
+        add(labelDate, gbc);
 
+        gbc.gridy = 3;
         labelHeure = new JLabel(DateUtils.toStringHeure(new Date()), JLabel.CENTER);
-        labelHeure.setFont(new Font("Arial", Font.PLAIN, 25));
-        add(labelHeure);
+        labelHeure.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 25));
+        add(labelHeure, gbc);
 
         refreshDateHeure();
 
+        setBackground(Couleurs.VIOLET.getCouleur());
     }
 
     private void refreshDateHeure() {

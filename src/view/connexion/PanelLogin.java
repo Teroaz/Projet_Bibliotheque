@@ -1,6 +1,8 @@
 package view.connexion;
 
 import controller.Connexion;
+import exceptions.BasicException;
+import exceptions.RestrictionException;
 import model.Etudiant;
 import model.design.Couleurs;
 
@@ -19,9 +21,7 @@ public class PanelLogin extends JPanel {
     public PanelLogin() {
 
         connexionController = Connexion.getInstance();
-
         setLayout(new GridBagLayout());
-        setBackground(Couleurs.VIOLET_CLAIR.getCouleur());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
@@ -81,6 +81,7 @@ public class PanelLogin extends JPanel {
 
         gbc.gridy = 5;
 
+        setBackground(Couleurs.VIOLET_CLAIR.getCouleur());
     }
 
     public void resetFields() {
@@ -101,7 +102,11 @@ public class PanelLogin extends JPanel {
     }
 
     public void invalidCredentials() {
-        System.out.println("informations invalides");
+        try {
+            throw new RestrictionException("Le login ou le mot de passe est incorrect !");
+        } catch (RestrictionException e) {
+            e.printStackTrace();
+        }
     }
 
     public void autoInputAdmin() {

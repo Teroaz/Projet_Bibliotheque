@@ -1,7 +1,6 @@
 package controller;
 
 import view.menu.PanelMenu;
-import view.menu.mon_compte.PanelCompte;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +14,7 @@ public class Menu implements ActionListener {
     private final Catalogue catalogue;
     private final EmpruntReservation empruntReservation;
     private final GestionEtudiant gestionEtudiant;
+    private EspaceEtudiant monEspaceEtudiant;
 
     public Menu() {
         instance = this;
@@ -25,7 +25,11 @@ public class Menu implements ActionListener {
         empruntReservation = new EmpruntReservation();
         gestionEtudiant = new GestionEtudiant();
 
-        panelMenu.setBodyPanel(/*new PanelCompte());*/catalogue.getPanelCatalogue());
+        if (Connexion.isAdminMode()) {
+            panelMenu.setBodyPanel(gestionEtudiant.getPanelEtudiant());
+        } else {
+            monEspaceEtudiant = new EspaceEtudiant();
+        }
     }
 
     public static Menu getInstance() {
@@ -39,16 +43,12 @@ public class Menu implements ActionListener {
         panelMenu.getPanelNavigation().markAsActive(button);
         String text = button.getText();
 
-        if (text.equals("Déconnexion")) {
-            PanelSwitcher.switchToConnexion();
-        } else if (text.equals("Livres & Exemplaires")) {
-            panelMenu.setBodyPanel(catalogue.getPanelCatalogue());
-        } else if (text.equals("Emprunts & Réservations")) {
-            panelMenu.setBodyPanel(empruntReservation.getPanelEmpruntReservation());
-        } else if (text.equals("Étudiants")) {
-            panelMenu.setBodyPanel(gestionEtudiant.getPanelEtudiant());
-        } else if (text.equals("Mon espace")) {
-            panelMenu.setBodyPanel(new PanelCompte(Connexion.getConnectedStudent()));
+        switch (text) {
+            case "Déconnexion" -> PanelSwitcher.switchToConnexion();
+            case "Livres & Exemplaires", "Catalogue" -> panelMenu.setBodyPanel(catalogue.getPanelCatalogue());
+            case "Emprunts & Réservations" -> panelMenu.setBodyPanel(empruntReservation.getPanelEmpruntReservation());
+            case "Étudiants" -> panelMenu.setBodyPanel(gestionEtudiant.getPanelEtudiant());
+            case "Mon espace" -> panelMenu.setBodyPanel(monEspaceEtudiant.getPanelCompte());
         }
     }
 
@@ -62,5 +62,13 @@ public class Menu implements ActionListener {
 
     public EmpruntReservation getEmpruntReservation() {
         return empruntReservation;
+    }
+
+    public EspaceEtudiant getMonEspaceEtudiant() {
+        return monEspaceEtudiant;
+    }
+
+    public GestionEtudiant getGestionEtudiant() {
+        return gestionEtudiant;
     }
 }

@@ -1,7 +1,6 @@
 package model;
 
 import exceptions.DatabaseException;
-import model.etat.Etat;
 import sql.SQLConnection;
 
 import java.sql.ResultSet;

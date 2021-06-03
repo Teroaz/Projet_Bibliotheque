@@ -92,7 +92,9 @@ public class Connexion implements ActionListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if (e.getKeyCode() == 10) {
+            tryConnection();
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package view.menu.etudiant;
 
+import controller.GestionEtudiant;
+import controller.PanelSwitcher;
 import model.Etudiant;
 import utils.swing_utils.JFrameUtils;
 
@@ -42,9 +44,11 @@ public class DialogSuppressionEtudiant extends JDialog implements ActionListener
 
         panel.add(labelConfirmation, gbc);
 
+        gbc.gridx = 0;
         gbc.gridy++;
-        panel.add(labelAvertissement);
+        panel.add(labelAvertissement, gbc);
 
+        gbc.gridx = 0;
         gbc.gridy++;
         panel.add(boutonOk, gbc);
 
@@ -64,7 +68,8 @@ public class DialogSuppressionEtudiant extends JDialog implements ActionListener
             setVisible(false);
         }
         if (e.getSource() == boutonOk) {
-//            Etudiant.suppressionEtudiant();
+            Etudiant.suppressionEtudiant(GestionEtudiant.getInstance().getTableSelectedEtudiant().getId());
+            PanelSwitcher.getMenu().getGestionEtudiant().getPanelEtudiant().getTableEtudiant().getModeleEtudiant().updateEtudiant(Etudiant.liste.values());
             setVisible(false);
         }
     }

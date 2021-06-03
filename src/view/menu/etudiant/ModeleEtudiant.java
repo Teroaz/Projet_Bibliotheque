@@ -1,12 +1,9 @@
 package view.menu.etudiant;
 
-import controller.Catalogue;
 import controller.GestionEtudiant;
 import model.Emprunt;
 import model.Etudiant;
-import model.Livre;
 import model.Reservation;
-import view.menu.catalogue.JTableCatalogue;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

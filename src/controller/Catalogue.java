@@ -33,10 +33,6 @@ public class Catalogue implements ActionListener, KeyListener {
         return panelCatalogue;
     }
 
-    public void ActionListener(ActionEvent evt) {
-
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(e.getActionCommand());

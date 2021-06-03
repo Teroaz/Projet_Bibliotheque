@@ -29,20 +29,12 @@ public class EmpruntReservation implements ActionListener, MouseListener, KeyLis
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("ajoutEmp")) {
-            new DialogAjoutEmprunt();
-        }
-        if (e.getActionCommand().equals("ajoutRes")) {
-            new DialogAjoutReservation();
-        }
-        if (e.getActionCommand().equals("modificationEmp")) {
-            new DialogModificationEmprunt();
-        }
-        if (e.getActionCommand().equals("suppressionEmp")) {
-            new DialogSuppressionEmprunt();
-        }
-        if (e.getActionCommand().equals("suppressionRes")) {
-            new DialogSuppressionReservation();
+        switch (e.getActionCommand()) {
+            case "ajoutEmp" -> new DialogAjoutEmprunt();
+            case "ajoutRes" -> new DialogAjoutReservation();
+            case "modificationEmp" -> new DialogModificationEmprunt();
+            case "suppressionEmp" -> new DialogSuppressionEmprunt();
+            case "suppressionRes" -> new DialogSuppressionReservation();
         }
     }
 

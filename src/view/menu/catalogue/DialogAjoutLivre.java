@@ -17,6 +17,8 @@ public class DialogAjoutLivre extends JDialog implements ActionListener {
 
     private final JTextField idTextField;
     private final JButton addButton;
+    private final JTextField nouvAuteurTextfield;
+
 
     public DialogAjoutLivre() {
         super(FenetreBibliotheque.getInstance(), "Bibliothèque | Catalogue - Ajout d'un livre", ModalityType.APPLICATION_MODAL);
@@ -30,6 +32,7 @@ public class DialogAjoutLivre extends JDialog implements ActionListener {
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 20, 5, 20);
         gbc.gridx = 0;
         gbc.gridy = 0;
 //        JLabel title = new JLabel("Livre #" + (Livre.catalogue.size() + 1));
@@ -63,11 +66,28 @@ public class DialogAjoutLivre extends JDialog implements ActionListener {
         add(auteurLabel, gbc);
         gbc.gridx++;
 
-        JComboBox auteurComboBox = new JComboBox(Auteur.getAuteurs().stream().map(Auteur::auteurNP).toArray());
+        JComboBox auteurComboBox = new JComboBox();
+        auteurComboBox.addItem("Nouvel auteur");
+        for (Object nom_prenom : Auteur.getAuteurs().stream().map(Auteur::auteurNP).toArray()) {
+            auteurComboBox.addItem(nom_prenom);
+        }
+
+        auteurComboBox.addActionListener(this);
+
         add(auteurComboBox, gbc);
 
-        gbc.gridx = 1;
         gbc.gridy = 3;
+
+        gbc.gridx = 0;
+        JLabel nouvAuteurLabel = new JLabel("Prénom & Nom");
+        add(nouvAuteurLabel, gbc);
+
+        nouvAuteurTextfield = new JTextField(10);
+        nouvAuteurTextfield.setToolTipText("Nom puis prénom de l'auteur séparés par une \",\".");
+        add(nouvAuteurTextfield, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 4;
 
         addButton = new JButton("Ajouter");
         addButton.addActionListener(this);
@@ -80,8 +100,22 @@ public class DialogAjoutLivre extends JDialog implements ActionListener {
         return addButton;
     }
 
+    public JTextField getNouvAuteurTextfield() {
+        return nouvAuteurTextfield;
+    }
+
+    public JTextField getIdTextField() {
+        return idTextField;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
+        String target = (String) ((JComboBox) e.getSource()).getSelectedItem();
+        if (target == null) return;
 
+        nouvAuteurTextfield.setVisible(target.equals("Nouvel auteur"));
+
+        revalidate();
+        repaint();
     }
 }
