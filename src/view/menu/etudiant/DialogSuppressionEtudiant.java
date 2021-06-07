@@ -20,9 +20,8 @@ public class DialogSuppressionEtudiant extends JDialog implements ActionListener
     JButton boutonOk = new JButton("OK");
     JButton boutonAnnuler = new JButton("Annuler");
 
-    JPanel panel = new JPanel();
 
-    private Etudiant etudiant;
+    private final Etudiant etudiant;
 
     public DialogSuppressionEtudiant() {
         super(FenetreBibliotheque.getInstance(), "Bibliothèque | Etudiants - Suppression d'un étudiant", ModalityType.APPLICATION_MODAL);
@@ -36,7 +35,7 @@ public class DialogSuppressionEtudiant extends JDialog implements ActionListener
         setSize(width, height);
         setLocation(JFrameUtils.centerFrameCoords(width, height));
 
-        panel.setLayout(new GridBagLayout());
+        setLayout(new GridBagLayout());
 
         JLabel labelConfirmation = new JLabel("Êtes-vous sûr(e) de vouloir supprimer l'étudiant ?", JLabel.CENTER);
         labelConfirmation.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -52,23 +51,18 @@ public class DialogSuppressionEtudiant extends JDialog implements ActionListener
         gbc.insets = new Insets(10, 4, 10, 4);
         gbc.anchor = GridBagConstraints.CENTER;
 
-        panel.add(labelConfirmation, gbc);
+        add(labelConfirmation, gbc);
 
         gbc.gridy++;
-        panel.add(labelAvertissement, gbc);
+        add(labelAvertissement, gbc);
 
         gbc.gridy++;
-        panel.add(boutonOk, gbc);
+        add(boutonOk, gbc);
 
         gbc.anchor = GridBagConstraints.EAST;
-        panel.add(boutonAnnuler, gbc);
+        add(boutonAnnuler, gbc);
 
-        add(panel);
-        setContentPane(panel);
         setVisible(true);
-
-//        setBackground(Couleurs.BLEU_CLAIR.getCouleur());
-//        panel.setBackground(getBackground());
     }
 
     @Override
@@ -76,10 +70,14 @@ public class DialogSuppressionEtudiant extends JDialog implements ActionListener
         if (e.getSource() == boutonOk) {
             etudiant.delete();
 
-            PanelEtudiant panelEtudiant = PanelSwitcher.getMenu().getGestionEtudiant().getPanelEtudiant();
-            panelEtudiant.getTableEtudiant().getModeleEtudiant().updateEtudiant(Etudiant.liste.values());
-            ColumnsAutoSizer.sizeColumnsToFit(panelEtudiant.getTableEtudiant());
+            PanelEtudiant tudiant = PanelSwitcher.getMenu().getGestionEtudiant().getPanelEtudiant();
+            tudiant.getTableEtudiant().getModeleEtudiant().updateEtudiant(Etudiant.liste.values());
+            ColumnsAutoSizer.sizeColumnsToFit(tudiant.getTableEtudiant());
         }
         setVisible(false);
+    }
+
+    public Etudiant getEtudiant() {
+        return etudiant;
     }
 }
