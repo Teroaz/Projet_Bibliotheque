@@ -32,6 +32,7 @@ public class Reservation implements Comparable<Reservation> {
         this.livre = livre;
 
         reservation.add(this);
+        this.etudiant.getReservations().add(this);
     }
 
     public static void chargerReservation() {
@@ -58,7 +59,7 @@ public class Reservation implements Comparable<Reservation> {
     }
 
     public static ArrayList<Reservation> getReservationEtudiant(int idEtudiant) {
-        ArrayList <Reservation> reservationEtudiant = new ArrayList<>();
+        ArrayList<Reservation> reservationEtudiant = new ArrayList<>();
         for (Reservation reservation : reservation) {
             if (reservation.etudiant.getId() == idEtudiant)
                 reservationEtudiant.add(reservation);
@@ -68,7 +69,7 @@ public class Reservation implements Comparable<Reservation> {
 
     public static Reservation getReservation(Date dateRes, int idEtudiant, int idLivre) {
         for (Reservation res : reservation) {
-            if (res.date_res == dateRes && res.etudiant.getId()==idEtudiant && res.livre.getId()==idLivre)
+            if (res.date_res == dateRes && res.etudiant.getId() == idEtudiant && res.livre.getId() == idLivre)
                 return res;
         }
         return null;
@@ -86,7 +87,7 @@ public class Reservation implements Comparable<Reservation> {
     }
 
     public static void suppressionReservation(Date dateRes, int idEtudiant, int idLivre) {
-        String sql = "DELETE FROM RESERV WHERE ID_ET=" + idEtudiant + " and ID_LIV=" + idLivre +" and DATE_RES='" + DateUtils.toStringSQL(dateRes)+"'";
+        String sql = "DELETE FROM RESERV WHERE ID_ET=" + idEtudiant + " and ID_LIV=" + idLivre + " and DATE_RES='" + DateUtils.toStringSQL(dateRes) + "'";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
             SQLConnection.getConnection().commit();

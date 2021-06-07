@@ -5,6 +5,7 @@ import model.Livre;
 import view.menu.catalogue.DialogAjoutLivre;
 import view.menu.catalogue.PanelCatalogue;
 import view.menu.catalogue.PanelRechercheCatalogue;
+import view.menu.catalogue.exemplaires.DialogExemplairesLivre;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -35,17 +36,10 @@ public class Catalogue implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e.getActionCommand());
         if (e.getActionCommand().equals("ajout")) {
             new DialogAjoutLivre();
-        } else if (e.getActionCommand().equals("suppression")) {
-
-        } else if (e.getActionCommand().equals("emprunt")) {
-
-        } else if (e.getActionCommand().equals("reservation")) {
-
-        } else if (e.getActionCommand().equals("recherche")) {
-
+        } else if (e.getActionCommand().equals("exemplaires")) {
+            new DialogExemplairesLivre();
         }
     }
 

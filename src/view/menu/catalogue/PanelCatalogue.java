@@ -23,8 +23,8 @@ public class PanelCatalogue extends JPanel {
 
         setLayout(new BorderLayout());
 
-        modeleCatalogue = new ModeleCatalogue(catController);
-        tableCatalogue = new JTableCatalogue(modeleCatalogue, catController);
+        modeleCatalogue = new ModeleCatalogue();
+        tableCatalogue = new JTableCatalogue(modeleCatalogue);
         modeleCatalogue.registerListeners(tableCatalogue);
 
         panelRechercheCatalogue = new PanelRechercheCatalogue();

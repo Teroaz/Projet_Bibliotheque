@@ -1,8 +1,8 @@
 package view.menu.etudiant;
 
-import controller.GestionEtudiant;
 import controller.PanelSwitcher;
 import model.Etudiant;
+import utils.swing_utils.ColumnsAutoSizer;
 import utils.swing_utils.JFrameUtils;
 
 import javax.swing.*;
@@ -62,13 +62,13 @@ public class DialogSuppressionEtudiant extends JDialog implements ActionListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == boutonAnnuler) {
-            setVisible(false);
-        }
         if (e.getSource() == boutonOk) {
-            Etudiant.suppressionEtudiant(GestionEtudiant.getInstance().getTableSelectedEtudiant().getId());
-            PanelSwitcher.getMenu().getGestionEtudiant().getPanelEtudiant().getTableEtudiant().getModeleEtudiant().updateEtudiant(Etudiant.liste.values());
-            setVisible(false);
+            PanelEtudiant panelEtudiant = PanelSwitcher.getMenu().getGestionEtudiant().getPanelEtudiant();
+            panelEtudiant.getTableEtudiant().getModeleEtudiant().updateEtudiant(Etudiant.liste.values());
+            ColumnsAutoSizer.sizeColumnsToFit(panelEtudiant.getTableEtudiant());
+
         }
+
+        setVisible(false);
     }
 }

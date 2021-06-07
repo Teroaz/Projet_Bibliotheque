@@ -26,6 +26,7 @@ public class DialogAjoutLivre extends JDialog implements ActionListener {
 
         setSize(width, height);
         setLocation(JFrameUtils.centerFrameCoords(width, height));
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setResizable(false);
         setAutoRequestFocus(true);
 
@@ -82,6 +83,7 @@ public class DialogAjoutLivre extends JDialog implements ActionListener {
         JLabel nouvAuteurLabel = new JLabel("Prénom & Nom");
         add(nouvAuteurLabel, gbc);
 
+        gbc.gridy++;
         nouvAuteurTextfield = new JTextField(10);
         nouvAuteurTextfield.setToolTipText("Nom puis prénom de l'auteur séparés par une \",\".");
         add(nouvAuteurTextfield, gbc);

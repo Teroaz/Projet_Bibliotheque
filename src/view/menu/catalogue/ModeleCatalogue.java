@@ -17,9 +17,9 @@ public class ModeleCatalogue extends DefaultTableModel {
 
     int nbLivres;
 
-    public ModeleCatalogue(Catalogue catController) {
+    public ModeleCatalogue() {
 
-        this.catController = catController;
+        catController = Catalogue.getInstance();
 
         livres = Livre.catalogue.values();
 
@@ -33,6 +33,7 @@ public class ModeleCatalogue extends DefaultTableModel {
         return intitulesColonnes;
     }
 
+    @Override
     public boolean isCellEditable(int ligne, int col) {
         return false;
     }
@@ -43,7 +44,7 @@ public class ModeleCatalogue extends DefaultTableModel {
         nbLivres = livresArr.size();
         setRowCount(nbLivres);
 
-        for (int i = 0; i < livresArr.size(); i++) {
+        for (int i = 0; i < nbLivres; i++) {
             Livre livre = livresArr.get(i);
 
             setValueAt(livre.getId(), i, 0);

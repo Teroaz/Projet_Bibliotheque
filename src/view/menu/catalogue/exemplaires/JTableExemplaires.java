@@ -1,6 +1,5 @@
-package view.menu.catalogue;
+package view.menu.catalogue.exemplaires;
 
-import controller.Catalogue;
 import model.design.Couleurs;
 import utils.swing_utils.ColumnsAutoSizer;
 import utils.swing_utils.JTableUtils;
@@ -9,16 +8,14 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
-public class JTableCatalogue extends JTable {
+public class JTableExemplaires extends JTable {
 
-    private final ModeleCatalogue modeleCatalogue;
+    private final ModeleExemplaires modeleExemplaires;
     private final JScrollPane scrollPane;
-    private final Catalogue catController;
 
-    public JTableCatalogue(ModeleCatalogue modeleCatalogue) {
-        super(modeleCatalogue);
-        this.modeleCatalogue = modeleCatalogue;
-        this.catController = Catalogue.getInstance();
+    public JTableExemplaires(ModeleExemplaires modeleExemplaires) {
+        super(modeleExemplaires);
+        this.modeleExemplaires = modeleExemplaires;
 
         scrollPane = new JScrollPane(this,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -37,23 +34,13 @@ public class JTableCatalogue extends JTable {
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
         getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
-        getColumnModel().getColumn(3).setCellRenderer(centerRenderer);
     }
 
     public JScrollPane getScrollPane() {
         return scrollPane;
     }
 
-    public Catalogue getCatController() {
-        return catController;
-    }
-
-    public ModeleCatalogue getModeleCatalogue() {
-        return modeleCatalogue;
-    }
-
-    @Override
-    public Class<?> getColumnClass(int column) {
-        return getValueAt(0, column).getClass();
+    public ModeleExemplaires getModeleExemplaires() {
+        return modeleExemplaires;
     }
 }

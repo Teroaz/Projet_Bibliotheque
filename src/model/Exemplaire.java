@@ -25,10 +25,6 @@ public class Exemplaire {
         this.etat = obtenirEtat();
     }
 
-    public int getId_ex() {
-        return id_ex;
-    }
-
     public void modifierEtat(Etat etat) {
         this.etat = etat;
         try {

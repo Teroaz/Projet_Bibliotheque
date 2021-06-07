@@ -2,94 +2,138 @@ package view.menu.etudiant;
 
 import controller.GestionEtudiant;
 import model.Etudiant;
-import utils.CryptUtils;
-import utils.ValidationUtils;
 import utils.swing_utils.JFrameUtils;
+import view.FenetreBibliotheque;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class DialogModificationEtudiant extends JDialog implements ActionListener {
+public class DialogModificationEtudiant extends JDialog implements ActionListener, KeyListener {
 
-    JButton boutonOk = new JButton("OK");
-    JButton boutonAnnuler = new JButton("Annuler");
+    private final int width = 400;
+    private final int height = 300;
 
-    JTextField texteEmail = new JTextField(15);
+    private JTextField textFieldEmail;
+    private JTextField textFieldPrenom;
+    private JTextField textFieldNom;
+    private JTextField textFieldPassword;
 
-    JLabel labelProbleme = new JLabel("Problème : ");
-    JLabel labelMessage = new JLabel("Problème : ");
+    private JButton boutonOk = new JButton("OK");
+    private JButton boutonAnnuler = new JButton("Annuler");
 
-    JPanel panel = new JPanel();
+    private final Etudiant etudiant;
 
     public DialogModificationEtudiant() {
+        super(FenetreBibliotheque.getInstance(), "Bibliothèque | Etudiants - Modification d'un étudiant", ModalityType.APPLICATION_MODAL);
+        setModal(true);
         setResizable(false);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         pack();
-        setVisible(true);
         setTitle("Modification email étudiant");
-        setSize(400, 300);
-        setLocation(JFrameUtils.centerFrameCoords(getWidth(), getHeight()));
+        setSize(width, height);
+        setLocation(JFrameUtils.centerFrameCoords(width, height));
 
-        panel.setLayout(new GridLayout(4,2,20,20));
+        setLayout(new GridBagLayout());
 
-        JLabel labelEtudiant = new JLabel("Étudiant");
-        JLabel labelNomPrenom = new JLabel(GestionEtudiant.getInstance().getTableSelectedEtudiant().getNomPrenomId());
-        JLabel labelEmail = new JLabel("Nouvel email");
-        labelProbleme.setVisible(false);
-        labelMessage.setVisible(false);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        etudiant = GestionEtudiant.getInstance().getTableSelectedEtudiant();
+
+        JLabel labelNom = new JLabel("Nom : ");
+        add(labelNom, gbc);
+
+        textFieldNom = new JTextField(15);
+        textFieldNom.setText(etudiant.getNom());
+        gbc.gridx++;
+        add(textFieldNom, gbc);
+
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        JLabel labelPrenom = new JLabel("Prénom : ");
+        add(labelPrenom, gbc);
+
+        textFieldPrenom = new JTextField(15);
+        textFieldPrenom.setText(etudiant.getPrenom());
+        gbc.gridx++;
+        add(textFieldPrenom, gbc);
+
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        JLabel labelEmail = new JLabel("Email : ");
+        add(labelEmail, gbc);
+
+        textFieldEmail = new JTextField(15);
+        textFieldEmail.setText(etudiant.getEmail());
+        gbc.gridx++;
+        add(textFieldEmail, gbc);
+
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        JLabel labelMdp = new JLabel("Mot de passe : ");
+        add(labelMdp, gbc);
+
+        textFieldPassword = new JPasswordField(15);
+        textFieldPassword.setText(etudiant.getMdp(true));
+        gbc.gridx++;
+        add(textFieldPassword, gbc);
 
         boutonAnnuler.addActionListener(this);
         boutonOk.addActionListener(this);
 
-        panel.add(labelEtudiant);
-        panel.add(labelNomPrenom);
-        panel.add(labelEmail);
-        panel.add(texteEmail);
-        panel.add(labelProbleme);
-        panel.add(labelMessage);
-        panel.add(boutonOk);
-        panel.add(boutonAnnuler);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        boutonOk.setEnabled(false);
+        add(boutonOk, gbc);
+        gbc.gridx++;
+        add(boutonAnnuler, gbc);
 
-        add(panel);
-        setContentPane(panel);
-
-//        setBackground(Couleurs.BLEU_CLAIR.getCouleur());
-//        panel.setBackground(getBackground());
+        setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == boutonAnnuler) {
-            setVisible(false);
-        }
         if (e.getSource() == boutonOk) {
-            String email = texteEmail.getText();
+            String email = textFieldEmail.getText();
 
-            boolean rempli = false;
+            boolean rempli;
             boolean mailValide = false;
 
-            if (email.isEmpty()) {
-                labelMessage.setText("Le champs email est vide ! ");
-                labelMessage.setVisible(true);
-                labelProbleme.setVisible(true);
-            }
-
-            rempli = true;
-
-            if (ValidationUtils.isValidMail(email.trim())) {
-                labelMessage.setText("L'email n'est pas valide ! ");
-                labelMessage.setVisible(true);
-                labelProbleme.setVisible(true);
-            }
-
-            mailValide = true;
-
-            if (rempli && mailValide) {
-                Etudiant.modificationEtudiant(GestionEtudiant.getInstance().getTableSelectedEtudiant().getId(), email);
-                setVisible(false);
-            }
+            GestionEtudiant.getInstance().getTableSelectedEtudiant().setEmail(email);
         }
+
+        setVisible(false);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    public Etudiant getEtudiant() {
+        return etudiant;
+    }
+
+    @Override
+    public Insets getInsets() {
+        return new Insets(10, 0, 10, 0);
     }
 }

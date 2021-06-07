@@ -79,7 +79,7 @@ public class Emprunt implements Comparable<Emprunt> {
     }
 
     public static ArrayList<Emprunt> getEmpruntEtudiant(int idEtudiant) {
-        ArrayList <Emprunt> empruntEtudiant = new ArrayList<>();
+        ArrayList<Emprunt> empruntEtudiant = new ArrayList<>();
         for (Emprunt emprunt : emprunt) {
             if (emprunt.etudiant.getId() == idEtudiant)
                 empruntEtudiant.add(emprunt);
@@ -87,9 +87,9 @@ public class Emprunt implements Comparable<Emprunt> {
         return empruntEtudiant;
     }
 
-    public static Emprunt getEmprunt (Date dateEmp, int idEtudiant, int idExemplaire) {
+    public static Emprunt getEmprunt(Date dateEmp, int idEtudiant, int idExemplaire) {
         for (Emprunt emp : emprunt) {
-            if (emp.getDate_emp() == dateEmp && emp.getEtudiant().getId() == idEtudiant && emp.exemplaire.getId_ex() == idExemplaire)
+            if (emp.getDate_emp() == dateEmp && emp.getEtudiant().getId() == idEtudiant && emp.exemplaire.getId() == idExemplaire)
                 return emp;
         }
         return null;
@@ -109,10 +109,9 @@ public class Emprunt implements Comparable<Emprunt> {
             Exemplaire exemplaire = new Exemplaire(idExemplaire, Livre.getLivre(idLivre));
             Emprunt emp = new Emprunt(dateEmp, Etudiant.getById(idEtudiant), exemplaire);
 
-            String sql = "INSERT INTO EMPRUNT VALUES ('" + DateUtils.toStringSQL(emp.date_emp) + "', '" + DateUtils.toStringSQL(emp.date_fin_emp) + "', " + emp.etudiant.getId() + ", " + emp.exemplaire.getId_ex() + ")";
+            String sql = "INSERT INTO EMPRUNT VALUES ('" + DateUtils.toStringSQL(emp.date_emp) + "', '" + DateUtils.toStringSQL(emp.date_fin_emp) + "', " + emp.etudiant.getId() + ", " + emp.exemplaire.getId() + ")";
 
             st2.executeUpdate(sql);
-            SQLConnection.getConnection().commit();
 
         } catch (SQLException | DatabaseException throwables) {
             throwables.printStackTrace();
@@ -123,8 +122,7 @@ public class Emprunt implements Comparable<Emprunt> {
         String sql = "DELETE FROM EMPRUNT WHERE ID_ET=" + idEtudiant + " AND ID_EX=" + idExemplaire + " and DATE_EMP='" + DateUtils.toStringSQL(dateEmp) + "'";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
-            SQLConnection.getConnection().commit();
-        } catch (SQLException | DatabaseException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         Emprunt emp = getEmprunt(dateEmp, idEtudiant, idExemplaire);

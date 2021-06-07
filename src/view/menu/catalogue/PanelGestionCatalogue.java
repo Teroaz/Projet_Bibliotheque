@@ -99,10 +99,9 @@ public class PanelGestionCatalogue extends JPanel {
                 boutonReserver.setEnabled(true);
             }
         }
-        if (exemplaires.size() > 0) {
-            boutonExemplaires.setText(exemplaires.size() + " Exemplaires");
-            boutonExemplaires.setEnabled(true);
-        }
+        boutonExemplaires.setText(exemplaires.size() + " Exemplaire" + (exemplaires.size() > 1 ? "s" : ""));
+        boutonExemplaires.setEnabled(true);
+
         boutonCommentaires.setEnabled(true);
     }
 

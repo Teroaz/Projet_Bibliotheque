@@ -3,15 +3,10 @@ package model;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sql.SQLConnection;
-import utils.CryptUtils;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.TreeSet;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ClasseTest {
@@ -99,25 +94,25 @@ public class ClasseTest {
     @DisplayName("Ajout etudiant")
     public void ajoutEtudiant() {
         initialiserConnexion();
-        Etudiant.ajoutEtudiant(4, "EMICA", "Samaïna", "sama@gmail.com", "sama");
+        Etudiant.ajoutEtudiant("EMICA", "Samaïna", "sama@gmail.com", "sama");
     }
 
-    @Test
-    @DisplayName("Modification etudiant")
-    public void modificationEtudiant() {
-        initialiserConnexion();
-        Etudiant.modificationEtudiant(3, "samaina@gmail.com");
-    }
+//    @Test
+//    @DisplayName("Modification etudiant")
+//    public void modificationEtudiant() {
+//        initialiserConnexion();
+//        Etudiant.modificationEtudiant(3, "samaina@gmail.com");
+//    }
 
-    @Test
-    @DisplayName("Suppression etudiant")
-    public void suppressionEtudiant() {
-        initialiserConnexion();
-        chargerEtudiants();
-        chargerEmprunts();
-        chargerReservations();
-        Etudiant.suppressionEtudiant(4);
-    }
+//    @Test
+//    @DisplayName("Suppression etudiant")
+//    public void suppressionEtudiant() {
+//        initialiserConnexion();
+//        chargerEtudiants();
+//        chargerEmprunts();
+//        chargerReservations();
+//        Etudiant.suppressionEtudiant(4);
+//    }
 
     @Test
     @DisplayName("Ajout exemplaire")
@@ -162,7 +157,7 @@ public class ClasseTest {
     public void suppressionReservation() {
         initialiserConnexion();
         chargerReservations();
-        Reservation.suppressionReservation(new Date(),4, 101);
+        Reservation.suppressionReservation(new Date(), 4, 101);
     }
 
 }

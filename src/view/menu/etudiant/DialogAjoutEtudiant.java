@@ -3,9 +3,10 @@ package view.menu.etudiant;
 import controller.PanelSwitcher;
 import model.Etudiant;
 import model.design.Couleurs;
-import utils.CryptUtils;
 import utils.ValidationUtils;
+import utils.swing_utils.ColumnsAutoSizer;
 import utils.swing_utils.JFrameUtils;
+import view.FenetreBibliotheque;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +14,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyListener {
+
+    private final int width = 400;
+    private final int height = 400;
 
     JButton boutonOk = new JButton("OK");
     JButton boutonAnnuler = new JButton("Annuler");
@@ -31,13 +36,14 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyL
     JPanel panel = new JPanel();
 
     public DialogAjoutEtudiant() {
+        super(FenetreBibliotheque.getInstance(), "Bibliothèque | Etudiants - Ajout d'un étudiant", ModalityType.APPLICATION_MODAL);
+        setModal(true);
+
         setResizable(false);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         pack();
-        setVisible(true);
-        setTitle("Ajout d'un étudiant");
-        setSize(400, 400);
-        setLocation(JFrameUtils.centerFrameCoords(getWidth(), getHeight()));
+        setSize(width, height);
+        setLocation(JFrameUtils.centerFrameCoords(width, height));
 
         panel.setLayout(new GridLayout(7, 2, 10, 20));
 
@@ -58,16 +64,8 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyL
         textePrenom.addKeyListener(this);
         texteNom.addKeyListener(this);
 
-        int nextValidID = 1;
-        int i = 1;
+        texteId.setText((Etudiant.getCurrentDatabaseID() + 1) + "");
 
-        while (Etudiant.liste.containsKey(i)) {
-            i++;
-        }
-
-        nextValidID = i;
-
-        texteId.setText(nextValidID + "");
         texteId.setEnabled(false);
 
         panel.add(labelId);
@@ -87,6 +85,7 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyL
 
         add(panel);
         setContentPane(panel);
+        setVisible(true);
 
         setBackground(Couleurs.BLEU_CLAIR.getCouleur());
         panel.setBackground(getBackground());
@@ -94,34 +93,20 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyL
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == boutonAnnuler) {
-            setVisible(false);
-        }
-
         if (e.getSource() == boutonOk) {
             String nom = texteNom.getText();
             String prenom = textePrenom.getText();
             String email = texteEmail.getText();
             String mdp = String.valueOf(texteMdp.getPassword());
 
-            if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || mdp.isEmpty()) {
-                labelMessage.setText("Un ou plusieurs de vos champs ne sont pas rempli ! ");
-                labelMessage.setVisible(true);
-                labelProbleme.setVisible(true);
-            }
+            Etudiant.ajoutEtudiant(nom, prenom, email, mdp);
 
-            int id = Integer.parseInt(texteId.getText());
-
-            if (ValidationUtils.isValidMail(email.trim())) {
-                labelMessage.setText("L'email n'est pas valide !");
-                labelMessage.setVisible(true);
-                labelProbleme.setVisible(true);
-            }
-
-            Etudiant.ajoutEtudiant(id, nom, prenom, email, CryptUtils.encrypt(mdp));
-            PanelSwitcher.getMenu().getGestionEtudiant().getPanelEtudiant().getTableEtudiant().getModeleEtudiant().updateEtudiant(Etudiant.liste.values());
-            setVisible(false);
+            PanelEtudiant panelEtudiant = PanelSwitcher.getMenu().getGestionEtudiant().getPanelEtudiant();
+            panelEtudiant.getTableEtudiant().getModeleEtudiant().updateEtudiant(Etudiant.liste.values());
+            ColumnsAutoSizer.sizeColumnsToFit(panelEtudiant.getTableEtudiant());
         }
+
+        setVisible(false);
     }
 
     @Override
@@ -136,22 +121,16 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyL
 
     @Override
     public void keyReleased(KeyEvent e) {
-
-
         String prenom = textePrenom.getText();
         String nom = texteNom.getText();
         String mail = texteEmail.getText();
         String mdp = String.valueOf(texteMdp.getPassword());
 
-        boolean validMail = ValidationUtils.isValidMail(mail.trim());
+        ArrayList<Etudiant> etudiantsWithSameMail = Etudiant.searchByMail(mail.trim());
 
-        if (!validMail) {
-            texteEmail.setForeground(Couleurs.ROUGE.getCouleur());
-        } else {
-            texteEmail.setForeground(null);
-        }
+        boolean validMail = ValidationUtils.isValidMail(mail.trim()) && (etudiantsWithSameMail != null && etudiantsWithSameMail.size() == 0);
 
+        texteEmail.setForeground(!validMail ? Couleurs.ROUGE.getCouleur() : null);
         boutonOk.setEnabled(validMail && !mdp.isEmpty() && !prenom.isEmpty() && !nom.isEmpty());
     }
-
 }
