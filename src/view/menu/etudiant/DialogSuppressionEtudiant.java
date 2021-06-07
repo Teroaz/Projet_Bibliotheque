@@ -1,9 +1,11 @@
 package view.menu.etudiant;
 
+import controller.GestionEtudiant;
 import controller.PanelSwitcher;
 import model.Etudiant;
 import utils.swing_utils.ColumnsAutoSizer;
 import utils.swing_utils.JFrameUtils;
+import view.FenetreBibliotheque;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,19 +14,27 @@ import java.awt.event.ActionListener;
 
 public class DialogSuppressionEtudiant extends JDialog implements ActionListener {
 
+    private final int width = 400;
+    private final int height = 200;
+
     JButton boutonOk = new JButton("OK");
     JButton boutonAnnuler = new JButton("Annuler");
 
     JPanel panel = new JPanel();
 
+    private Etudiant etudiant;
+
     public DialogSuppressionEtudiant() {
+        super(FenetreBibliotheque.getInstance(), "Bibliothèque | Etudiants - Suppression d'un étudiant", ModalityType.APPLICATION_MODAL);
+        setModal(true);
+        etudiant = GestionEtudiant.getInstance().getTableSelectedEtudiant();
+
         setResizable(false);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         pack();
-        setVisible(true);
         setTitle("Suppression d'un étudiant");
-        setSize(400, 200);
-        setLocation(JFrameUtils.centerFrameCoords(getWidth(), getHeight()));
+        setSize(width, height);
+        setLocation(JFrameUtils.centerFrameCoords(width, height));
 
         panel.setLayout(new GridBagLayout());
 
@@ -55,6 +65,7 @@ public class DialogSuppressionEtudiant extends JDialog implements ActionListener
 
         add(panel);
         setContentPane(panel);
+        setVisible(true);
 
 //        setBackground(Couleurs.BLEU_CLAIR.getCouleur());
 //        panel.setBackground(getBackground());
@@ -63,12 +74,12 @@ public class DialogSuppressionEtudiant extends JDialog implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == boutonOk) {
+            etudiant.delete();
+
             PanelEtudiant panelEtudiant = PanelSwitcher.getMenu().getGestionEtudiant().getPanelEtudiant();
             panelEtudiant.getTableEtudiant().getModeleEtudiant().updateEtudiant(Etudiant.liste.values());
             ColumnsAutoSizer.sizeColumnsToFit(panelEtudiant.getTableEtudiant());
-
         }
-
         setVisible(false);
     }
 }
