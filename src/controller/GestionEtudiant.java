@@ -14,7 +14,6 @@ public class GestionEtudiant implements ActionListener {
 
     private int selectedIndex = 0;
     private static GestionEtudiant instance;
-    private static int nextStudentID;
 
     private final PanelEtudiant panelEtudiant;
 
@@ -27,13 +26,6 @@ public class GestionEtudiant implements ActionListener {
         return instance;
     }
 
-    public static int getNextStudentID() {
-        return nextStudentID + 1;
-    }
-
-    public static int incrementNextStudentID() {
-        return ++GestionEtudiant.nextStudentID;
-    }
 
     public PanelEtudiant getPanelEtudiant() {
         return panelEtudiant;
