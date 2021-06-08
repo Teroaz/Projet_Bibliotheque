@@ -1,7 +1,6 @@
 package view.connexion;
 
 import controller.Connexion;
-import exceptions.BasicException;
 import exceptions.RestrictionException;
 import model.Etudiant;
 import model.design.Couleurs;
@@ -116,7 +115,7 @@ public class PanelLogin extends JPanel {
     }
 
     public void autoInputEleve() {
-        Etudiant etudiant = Etudiant.getById(1);
+        Etudiant etudiant = Etudiant.liste.values().stream().findFirst().orElseThrow();
         mailTextField.setText(etudiant.getEmail());
         passwordField.setText(etudiant.getMdp(true));
     }

@@ -18,8 +18,8 @@ import java.util.Objects;
 public class Etudiant {
 
     private final int id;
-    private final String nom;
-    private final String prenom;
+    private String nom;
+    private String prenom;
     private String mdp;
     private String email;
     private final ArrayList<Emprunt> emprunts = new ArrayList<>();
@@ -98,8 +98,30 @@ public class Etudiant {
         return nom;
     }
 
+    public void setNom(String nom) {
+        this.nom = nom;
+
+        String sql = "UPDATE ETUDIANT SET NOM='" + this.nom + "' WHERE ID_ET=" + this.id;
+        try {
+            SQLConnection.getStatement().executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public String getPrenom() {
         return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+
+        String sql = "UPDATE ETUDIANT SET PRENOM='" + this.prenom + "' WHERE ID_ET=" + this.id;
+        try {
+            SQLConnection.getStatement().executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public String getNomPrenomId() {
@@ -114,8 +136,30 @@ public class Etudiant {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+
+        String sql = "UPDATE ETUDIANT SET EMAIL='" + this.email + "' WHERE ID_ET=" + this.id;
+        try {
+            SQLConnection.getStatement().executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public String getMdp(boolean decrypted) {
         return decrypted ? CryptUtils.decrypt(mdp) : mdp;
+    }
+
+    public void setMdp(String plain_text_mdp) {
+        this.mdp = CryptUtils.encrypt(plain_text_mdp);
+
+        String sql = "UPDATE ETUDIANT SET MDP='" + this.mdp + "' WHERE ID_ET" + this.id;
+        try {
+            SQLConnection.getStatement().executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public static boolean idExists(int id) {
@@ -168,28 +212,6 @@ public class Etudiant {
         int id = Etudiant.getCurrentDatabaseID();
 
         new Etudiant(id, nom, prenom, email, CryptUtils.encrypt(mdp));
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-
-        String sql = "UPDATE ETUDIANT SET EMAIL='" + this.email + "' WHERE ID_ET=" + this.id;
-        try {
-            SQLConnection.getStatement().executeUpdate(sql);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    public void setMdp(String plain_text_mdp) {
-        this.mdp = CryptUtils.encrypt(plain_text_mdp);
-
-        String sql = "UPDATE ETUDIANT SET MDP='" + this.mdp + "' WHERE ID_ET" + this.id;
-        try {
-            SQLConnection.getStatement().executeUpdate(sql);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
     }
 
     public void delete() {

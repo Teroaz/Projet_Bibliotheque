@@ -121,9 +121,9 @@ public class DialogAjoutEtudiant extends JDialog implements ActionListener, KeyL
 
     @Override
     public void keyReleased(KeyEvent e) {
-        String prenom = textePrenom.getText();
-        String nom = texteNom.getText();
-        String mail = texteEmail.getText();
+        String prenom = textePrenom.getText().trim();
+        String nom = texteNom.getText().trim();
+        String mail = texteEmail.getText().trim();
         String mdp = String.valueOf(texteMdp.getPassword());
 
         ArrayList<Etudiant> etudiantsWithSameMail = Etudiant.searchByMail(mail.trim());
