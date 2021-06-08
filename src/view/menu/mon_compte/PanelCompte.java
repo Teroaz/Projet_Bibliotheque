@@ -1,10 +1,10 @@
 package view.menu.mon_compte;
+
 import model.Emprunt;
 import model.Etudiant;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PanelCompte extends JPanel {
     JButton mail;
@@ -14,7 +14,6 @@ public class PanelCompte extends JPanel {
 
 
     public PanelCompte(Etudiant etudiant) {
-        int x=1;
         setLayout(new GridBagLayout());
         JPanel panelWest = new JPanel();
         JPanel panelEst = new JPanel();
@@ -28,7 +27,7 @@ public class PanelCompte extends JPanel {
         contrainte.gridy=0;
         nom_mail = new JLabel(etudiant.getEmail());
         JLabel motdepasse = new JLabel(etudiant.getMdp(true));
-        JLabel x_reserv = new JLabel("reservations disponibles:", x);
+        JLabel x_reserv = new JLabel("reservations disponibles:", SwingConstants.CENTER);
         // mail = new JButton("editer");
         // mdp = new JButton("éditer");
         JLabel mail2 = new JLabel("Mail:");
@@ -103,11 +102,14 @@ public class PanelCompte extends JPanel {
         panelEst.add(mdp, contrainte);*/
 
         for (Emprunt emprunt: etudiant.getEmprunts()) {
+            JPanel panelLivre = new JPanel();
             livre= new JLabel(emprunt.getExemplaire().getLivre().getTitre());
+            panelLivre.add(livre);
+            JButton boutonlivre = new JButton("Rendre");
+            panelLivre.add(boutonlivre);
             contrainte.gridx = 0;
             contrainte.gridy++;
-            panelWest.add(livre, contrainte);
-            x++;
+            panelWest.add(panelLivre, contrainte);
         }
 
         contrainte.gridx = 0;
