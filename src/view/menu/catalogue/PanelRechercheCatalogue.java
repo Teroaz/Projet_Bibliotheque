@@ -38,7 +38,7 @@ public class PanelRechercheCatalogue extends JPanel {
         add(labelDroit);
         add(texteRecherche);
 
-        setBorder(BorderFactory.createTitledBorder("Recherche dans le catalogue"));
+        setBorder(BorderFactory.createTitledBorder("Recherche"));
         setBackground(Couleurs.BLEU_CLAIR.getCouleur());
     }
 

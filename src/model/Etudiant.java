@@ -258,4 +258,14 @@ public class Etudiant {
         }
         return -1;
     }
+
+    public static ArrayList<Etudiant> rechercherEtudiants(String saisie) {
+        return CollectionUtils.streamToArrayList(liste.values()
+                .stream().filter(etudiant ->
+                        etudiant.prenom.toLowerCase().contains(saisie.toLowerCase()) ||
+                                etudiant.nom.contains(saisie.toLowerCase()) ||
+                                (etudiant.nom + " " + etudiant.prenom).toLowerCase().contains(saisie.toLowerCase()) ||
+                                (etudiant.prenom + " " + etudiant.nom).toLowerCase().contains(saisie.toLowerCase())
+                ));
+    }
 }

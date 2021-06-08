@@ -57,7 +57,7 @@ public class DialogAjoutLivre extends JDialog implements ActionListener {
         add(titreLabel, gbc);
         gbc.gridx++;
 
-        JTextField titreTextField = new JTextField(10);
+        JTextField titreTextField = new JTextField(15);
         add(titreTextField, gbc);
 
         gbc.gridx = 0;

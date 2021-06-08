@@ -95,11 +95,10 @@ public class Livre {
 
     public static void ajoutLivre(String titre, Auteur auteur) {
         Livre livre = new Livre(Livre.getIdNextLivre(), titre, auteur);
-        String sql = "INSERT INTO LIVRE VALUES (" + livre.idLivre +", '"+ auteur.auteurBD() +"', '"+ titre + "')";
+        String sql = "INSERT INTO LIVRE VALUES (" + livre.idLivre + ", '" + auteur.auteurBD() + "', '" + titre + "')";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
-        }
-        catch (SQLException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
@@ -117,8 +116,7 @@ public class Livre {
             resultSet.close();
             SQLConnection.getConnection().createStatement().executeUpdate(sql2);
             SQLConnection.getConnection().createStatement().executeUpdate(sql3);
-        }
-        catch (SQLException | DatabaseException throwables) {
+        } catch (SQLException | DatabaseException throwables) {
             throwables.printStackTrace();
         }
         catalogue.remove(idLivre);
@@ -130,5 +128,15 @@ public class Livre {
                 "idLivre=" + idLivre +
                 ", titre='" + titre + '\'' +
                 ", auteur=" + auteur + '}';
+    }
+
+    public static int getCurrentDatabaseID() {
+        try {
+            ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'LIVRE_SEQ'");
+            return resultSet.next() ? resultSet.getInt("LAST_NUMBER") : -1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 }

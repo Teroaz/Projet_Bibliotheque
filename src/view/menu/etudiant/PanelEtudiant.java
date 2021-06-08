@@ -2,6 +2,7 @@ package view.menu.etudiant;
 
 import controller.GestionEtudiant;
 import model.design.Couleurs;
+import utils.swing_utils.JButtonUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,12 +23,19 @@ public class PanelEtudiant extends JPanel {
     private final JTableEtudiant tableEtudiant;
     private final ModeleEtudiant modeleEtudiant;
 
+    private final Font buttonFont = new Font(Font.SANS_SERIF, Font.BOLD, 16);
+
+
     public PanelEtudiant() {
 
         etuController = GestionEtudiant.getInstance();
 
         setLayout(new BorderLayout());
-        panelGestion.setLayout(new GridLayout(4, 1, 5, 20));
+        GridLayout gridLayout = new GridLayout(6, 1);
+
+        panelGestion.setLayout(gridLayout);
+        gridLayout.setVgap(25);
+
 
         modeleEtudiant = new ModeleEtudiant(etuController);
         tableEtudiant = new JTableEtudiant(modeleEtudiant, etuController);
@@ -45,10 +53,19 @@ public class PanelEtudiant extends JPanel {
         panelAffichage.add(tableEtudiant.getScrollPane());
         panelAffichage.setBorder(BorderFactory.createTitledBorder("Étudiants"));
 
+        boutonAjout.setFont(buttonFont);
         panelGestion.add(boutonAjout);
+        JButtonUtils.beautifyButton(boutonAjout, Couleurs.BLEU_FONCE.getCouleur(), Couleurs.BLEU_CLAIR.getCouleur(), 4);
+
+        boutonModif.setFont(buttonFont);
         panelGestion.add(boutonModif);
+        JButtonUtils.beautifyButton(boutonModif, Couleurs.BLEU_FONCE.getCouleur(), Couleurs.BLEU_CLAIR.getCouleur(), 4);
+
+        boutonSuppression.setFont(buttonFont);
         panelGestion.add(boutonSuppression);
-        panelGestion.setBorder(BorderFactory.createTitledBorder("Gestion des étudiants"));
+        JButtonUtils.beautifyButton(boutonSuppression, Couleurs.BLEU_FONCE.getCouleur(), Couleurs.BLEU_CLAIR.getCouleur(), 4);
+
+        panelGestion.setBorder(BorderFactory.createTitledBorder("Gestion"));
 
         panelAffichage.setBackground(Couleurs.BLEU_CLAIR.getCouleur());
         panelGestion.setBackground(Couleurs.BLEU_CLAIR.getCouleur());

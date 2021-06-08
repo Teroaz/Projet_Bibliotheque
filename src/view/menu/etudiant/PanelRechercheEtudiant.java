@@ -6,38 +6,46 @@ import model.design.Couleurs;
 import javax.swing.*;
 
 public class PanelRechercheEtudiant extends JPanel {
-    private final JButton boutonRecherche;
-    private final JTextField texteRecherche;
 
-    private final GestionEtudiant etuController;
+    private final JTextField texteRecherche = new JTextField(15);
+    private final JComboBox<String> choixRecherche = new JComboBox<>(new String[]{"prénom et nom", "mail"});
+
+    private final GestionEtudiant gestionEtudiant;
+    private final JLabel labelGauche;
+    private final JLabel labelDroit;
 
     public PanelRechercheEtudiant() {
 
-        etuController = GestionEtudiant.getInstance();
+        gestionEtudiant = GestionEtudiant.getInstance();
 
-        boutonRecherche = new JButton("Recherche");
-        boutonRecherche.setActionCommand("recherche");
+        labelGauche = new JLabel("Je recherche les étudiants dont le");
 
-        texteRecherche = new JTextField(20);
+        add(labelGauche);
+        add(choixRecherche);
 
+        choixRecherche.setSelectedIndex(0);
+        choixRecherche.addActionListener(e -> {
+            labelGauche.setText("Je recherche les étudiants dont le ");
+            texteRecherche.setText("");
+//            gestionEtudiant.getPanelCatalogue().getModeleCatalogue().updateCatalogue(Livre.catalogue.values());
+        });
+
+        labelDroit = new JLabel("est ");
+
+        texteRecherche.addKeyListener(gestionEtudiant);
+
+        add(labelDroit);
         add(texteRecherche);
-        add(boutonRecherche);
 
         setBorder(BorderFactory.createTitledBorder("Recherche"));
         setBackground(Couleurs.BLEU_CLAIR.getCouleur());
-
-//        texteRecherche.addKeyListener(empResController);
-    }
-
-    public JButton getBoutonRecherche() {
-        return boutonRecherche;
     }
 
     public JTextField getTexteRecherche() {
         return texteRecherche;
     }
 
-    public GestionEtudiant getEtuController() {
-        return etuController;
+    public JComboBox<String> getChoixRecherche() {
+        return choixRecherche;
     }
 }
