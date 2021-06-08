@@ -87,7 +87,7 @@ public class DialogAjoutEmprunt extends JDialog implements ActionListener {
             int idEx = Livre.getIdExemplaireDispo(idLivre);
 
             Emprunt.ajoutEmprunt(new Date(), idEtudiant, idEx);
-            PanelSwitcher.getMenu().getGestionEtudiant().getPanelEtudiant().getTableEtudiant().getModeleEtudiant().updateEtudiant(Etudiant.liste.values());
+            PanelSwitcher.getMenu().getEmpruntReservation().getPanelEmpruntReservation().getPanelEmprunt().getTableEmprunt().getModeleEmprunt().updateEmprunts(Emprunt.emprunt);
             setVisible(false);
         }
     }
