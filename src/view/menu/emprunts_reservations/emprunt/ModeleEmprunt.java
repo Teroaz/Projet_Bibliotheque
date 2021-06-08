@@ -3,9 +3,12 @@ package view.menu.emprunts_reservations.emprunt;
 import model.Emprunt;
 import model.Exemplaire;
 import model.Livre;
+import model.Reservation;
 import utils.DateUtils;
 
 import javax.swing.table.DefaultTableModel;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 
@@ -55,6 +58,20 @@ public class ModeleEmprunt extends DefaultTableModel {
         if (i == 1 || i == 2)
             return Integer.class;
         return String.class;
+    }
+
+    public Emprunt getEmpruntByRow(int row) {
+        Date date;
+        try {
+            String stringDate = (String) getValueAt(row, 3);
+            date = new SimpleDateFormat("dd/MM/yyyy").parse(stringDate);
+            int idEtudiant = (Integer) getValueAt(row, 2);
+            int idLivre = Livre.getLivre((String) getValueAt(row, 0)).getId();
+            return Emprunt.getEmprunt(date, idEtudiant, idLivre);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

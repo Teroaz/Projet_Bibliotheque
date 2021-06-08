@@ -7,6 +7,7 @@ import utils.swing_utils.JTableUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
 import java.util.Date;
 
 public class JTableEmprunt extends JTable {
@@ -24,12 +25,14 @@ public class JTableEmprunt extends JTable {
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        scrollPane.setPreferredSize(new Dimension(450, 380));
+        scrollPane.setPreferredSize(new Dimension(440, 380));
 
         JTableUtils.beautifyHeader(getTableHeader(), Couleurs.BLEU_CLAIR.getCouleur(), Couleurs.BLEU_FONCE.getCouleur(), 12);
         ColumnsAutoSizer.sizeColumnsToFit(this);
 
         setRowHeight(20);
+        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        getTableHeader().setReorderingAllowed(false);
 
         setDefaultRenderer(String.class, new EmpruntRenderer());
         setDefaultRenderer(Integer.class, new EmpruntRenderer());

@@ -1,11 +1,15 @@
 package view.menu.emprunts_reservations.reservation;
 
 import model.Emprunt;
+import model.Etudiant;
+import model.Livre;
 import model.Reservation;
 import utils.DateUtils;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -56,5 +60,18 @@ public class ModeleReservation extends DefaultTableModel {
         if (i == 1)
             return Integer.class;
         return String.class;
+    }
+
+    public Reservation getReservationByRow(int row) {
+        try {
+            String stringDate = (String) getValueAt(row, 2);
+            Date date = new SimpleDateFormat("dd/MM/yyyy").parse(stringDate);
+            int idEtudiant = (Integer) getValueAt(row, 1);
+            int idLivre = Livre.getLivre((String) getValueAt(row, 0)).getId();
+            return Reservation.getReservation(date, idEtudiant, idLivre);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

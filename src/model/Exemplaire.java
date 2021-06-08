@@ -47,9 +47,22 @@ public class Exemplaire {
     }
 
     public boolean estEmprunte() {
+        String sql = "SELECT * FROM EMPRUNT WHERE ID_EX=";
         try {
-            ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT ID_ET FROM EMPRUNT WHERE ID_EX=" + this.id_ex);
-            resultSet.next();
+            ResultSet resultSet = SQLConnection.getStatement().executeQuery( sql + id_ex);
+            if (resultSet.next())
+                return true;
+            resultSet.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean estEmprunte(int idEx) {
+        String sql = "SELECT * FROM EMPRUNT WHERE ID_EX=";
+        try {
+            ResultSet resultSet = SQLConnection.getStatement().executeQuery( sql + idEx);
             if (resultSet.next())
                 return true;
             resultSet.close();

@@ -6,6 +6,7 @@ import sql.SQLConnection;
 
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -160,4 +161,12 @@ public class ClasseTest {
         Reservation.suppressionReservation(new Date(), 4, 101);
     }
 
+    @Test
+    @DisplayName("Peut être emprunté")
+    public void peutEtreEmprunte() {
+        chargerLivres();
+        for (Livre livre : Livre.catalogue.values()) {
+            System.out.println(livre.getTitre() +", "+ livre.disponible());
+        }
+    }
 }

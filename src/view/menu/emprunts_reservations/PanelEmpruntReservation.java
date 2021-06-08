@@ -43,6 +43,10 @@ public class PanelEmpruntReservation extends JPanel {
         return panelEmprunt;
     }
 
+    public PanelReservation getPanelReservation() {
+        return panelReservation;
+    }
+
     public EmpruntReservation getEmpControleur() {
         return empController;
     }
