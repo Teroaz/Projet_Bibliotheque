@@ -57,12 +57,20 @@ public class DialogAjoutEmprunt extends JDialog implements ActionListener {
         boutonAnnuler.addActionListener(this);
         boutonOk.addActionListener(this);
 
-        panel.add(labelLivre);
-        panel.add(choixLivre);
-        panel.add(labelEtudiant);
-        panel.add(choixEtudiant);
-        panel.add(boutonOk);
-        panel.add(boutonAnnuler);
+        if (etudiantDispo.isEmpty() || livresDispo.isEmpty()) {
+            JLabel labelMessage = new JLabel("Aucun livre disponible !");
+            panel.add(labelMessage);
+            panel.add(boutonAnnuler);
+        }
+
+        else {
+            panel.add(labelLivre);
+            panel.add(choixLivre);
+            panel.add(labelEtudiant);
+            panel.add(choixEtudiant);
+            panel.add(boutonOk);
+            panel.add(boutonAnnuler);
+        }
 
         add(panel);
         setContentPane(panel);

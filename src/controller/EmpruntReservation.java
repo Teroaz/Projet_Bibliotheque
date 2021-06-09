@@ -74,10 +74,10 @@ public class EmpruntReservation implements ActionListener, MouseListener, KeyLis
     @Override
     public void mouseClicked(MouseEvent e) {
         if (!panelEmpruntReservation.getPanelEmprunt().getTableEmprunt().getSelectionModel().isSelectionEmpty()) {
-            int rowEmprunt = panelEmpruntReservation.getPanelEmprunt().getTableEmprunt().getSelectedRow();
-            ModeleEmprunt modeleEmprunt = new ModeleEmprunt();
-            Emprunt emprunt = modeleEmprunt.getEmpruntByRow(rowEmprunt);
-            System.out.println(emprunt.toString());
+//            int rowEmprunt = panelEmpruntReservation.getPanelEmprunt().getTableEmprunt().getSelectedRow();
+//            ModeleEmprunt modeleEmprunt = new ModeleEmprunt();
+//            Emprunt emprunt = modeleEmprunt.getEmpruntByRow(rowEmprunt);
+//            System.out.println(emprunt.toString());
 //            panelEmpruntReservation.getPanelEmprunt().getTableEmprunt().getValueAt(rowEx, 1);
 //            panelEmpruntReservation.getPanelEmprunt().getTableEmprunt().getValueAt(rowEx, 2);
 //            panelEmpruntReservation.getPanelEmprunt().getTableEmprunt().getValueAt(rowEx, 3);
