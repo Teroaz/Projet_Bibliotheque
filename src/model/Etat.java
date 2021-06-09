@@ -17,7 +17,7 @@ public enum Etat {
         return label;
     }
 
-    public Etat getEtatFromLabel(String label) {
+    public static Etat getEtatFromLabel(String label) {
         return Arrays.stream(values()).filter(it -> it.label.equals(label)).findFirst().orElse(Etat.NEUF);
     }
 }

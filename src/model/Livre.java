@@ -103,8 +103,7 @@ public class Livre {
             }
             if (exemplairesDispo == 0 || exemplairesDispo <= reservations)
                 return false;
-        }
-        catch (SQLException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         return true;

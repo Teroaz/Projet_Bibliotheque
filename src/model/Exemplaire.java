@@ -2,10 +2,12 @@ package model;
 
 import exceptions.DatabaseException;
 import sql.SQLConnection;
+import utils.CollectionUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Exemplaire {
 
@@ -13,6 +15,8 @@ public class Exemplaire {
     private final Livre livre;
     private boolean estEmprunte;
     private Etat etat;
+
+    private static HashMap<Integer, Exemplaire> exemplaires = new HashMap<>();
 
     /**
      * @param id    : ID de l'exemplaire
@@ -23,12 +27,39 @@ public class Exemplaire {
         this.livre = livre;
         this.estEmprunte = estEmprunte();
         this.etat = obtenirEtat();
+
+        exemplaires.put(id_ex, this);
+    }
+
+    public Exemplaire(int id, Livre livre, Etat etat) {
+        this.id_ex = id;
+        this.livre = livre;
+        this.etat = etat;
+        this.estEmprunte = estEmprunte();
+
+        exemplaires.put(id_ex, this);
+    }
+
+    public static void chargerExemplaire() {
+        String sql = "SELECT * FROM EXEMPLAIRE";
+        try {
+            ResultSet resultSet = SQLConnection.getStatement().executeQuery(sql);
+            while (resultSet.next()) {
+                int idEx = resultSet.getInt("ID_EX");
+                int idLivre = resultSet.getInt("ID_LIV");
+                Etat etat = Etat.getEtatFromLabel(resultSet.getString("ETAT"));
+
+                Exemplaire exemplaire = new Exemplaire(idEx, Livre.getLivre(idLivre), etat);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void modifierEtat(Etat etat) {
         this.etat = etat;
         try {
-            SQLConnection.getStatement().executeUpdate("UPDATE EXEMPLAIRE SET ETAT="+ etat.getLabel() +" WHERE ID_EX=" + id_ex);
+            SQLConnection.getStatement().executeUpdate("UPDATE EXEMPLAIRE SET ETAT=" + etat.getLabel() + " WHERE ID_EX=" + id_ex);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -49,7 +80,7 @@ public class Exemplaire {
     public boolean estEmprunte() {
         String sql = "SELECT * FROM EMPRUNT WHERE ID_EX=";
         try {
-            ResultSet resultSet = SQLConnection.getStatement().executeQuery( sql + id_ex);
+            ResultSet resultSet = SQLConnection.getStatement().executeQuery(sql + id_ex);
             if (resultSet.next())
                 return true;
             resultSet.close();
@@ -62,7 +93,7 @@ public class Exemplaire {
     public static boolean estEmprunte(int idEx) {
         String sql = "SELECT * FROM EMPRUNT WHERE ID_EX=";
         try {
-            ResultSet resultSet = SQLConnection.getStatement().executeQuery( sql + idEx);
+            ResultSet resultSet = SQLConnection.getStatement().executeQuery(sql + idEx);
             if (resultSet.next())
                 return true;
             resultSet.close();
@@ -85,41 +116,27 @@ public class Exemplaire {
     }
 
     public static ArrayList<Exemplaire> getExemplaireLivre(int idLivre) {
-        ArrayList<Exemplaire> listeExemplaires = new ArrayList<>();
-        try {
-            ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT * FROM EXEMPLAIRE WHERE ID_LIV=" + idLivre);
-            while (resultSet.next()) {
-                int idEx = resultSet.getInt("ID_EX");
-
-                listeExemplaires.add(new Exemplaire(idEx, Livre.getLivre(idLivre)));
-            }
-            resultSet.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return listeExemplaires;
+        return CollectionUtils.streamToArrayList(exemplaires.values().stream().filter(it -> it.livre.getId() == idLivre));
     }
 
-    public static void ajoutExemplaire (int idLivre) {
+    public static void ajoutExemplaire(int idLivre) {
         Exemplaire exemplaire = new Exemplaire(Exemplaire.getIdNextExemplaire(), Livre.getLivre(idLivre));
-        String sql = "INSERT INTO EXEMPLAIRE VALUES ("+ exemplaire.id_ex +", "+ exemplaire.livre.getId() +", '"+ exemplaire.etat.getLabel() +"')";
+        String sql = "INSERT INTO EXEMPLAIRE VALUES (" + exemplaire.id_ex + ", " + exemplaire.livre.getId() + ", '" + exemplaire.etat.getLabel() + "')";
         try {
             SQLConnection.getStatement().executeUpdate(sql);
             SQLConnection.getConnection().commit();
-        }
-        catch (SQLException | DatabaseException throwables) {
+        } catch (SQLException | DatabaseException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    public static void suppressionExemplaire (int idEx) {
+    public static void suppressionExemplaire(int idEx) {
         String sql1 = "DELETE FROM EMPRUNT WHERE ID_EX=" + idEx;
         String sql2 = "DELETE FROM EXEMPLAIRE WHERE ID_EX=" + idEx;
         try {
             SQLConnection.getStatement().executeUpdate(sql1);
             SQLConnection.getStatement().executeUpdate(sql2);
-        }
-        catch (SQLException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
