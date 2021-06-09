@@ -29,6 +29,7 @@ public class Menu implements ActionListener {
             panelMenu.setBodyPanel(gestionEtudiant.getPanelEtudiant());
         } else {
             monEspaceEtudiant = new EspaceEtudiant();
+            panelMenu.setBodyPanel(monEspaceEtudiant.getPanelCompte());
         }
     }
 

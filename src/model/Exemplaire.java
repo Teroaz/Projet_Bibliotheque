@@ -1,6 +1,5 @@
 package model;
 
-import exceptions.DatabaseException;
 import sql.SQLConnection;
 import utils.CollectionUtils;
 
@@ -29,6 +28,7 @@ public class Exemplaire {
         this.etat = obtenirEtat();
 
         exemplaires.put(id_ex, this);
+        livre.getExemplaires().add(this);
     }
 
     public Exemplaire(int id, Livre livre, Etat etat) {
@@ -38,6 +38,7 @@ public class Exemplaire {
         this.estEmprunte = estEmprunte();
 
         exemplaires.put(id_ex, this);
+        livre.getExemplaires().add(this);
     }
 
     public static void chargerExemplaire() {
@@ -78,7 +79,7 @@ public class Exemplaire {
     }
 
     public boolean estEmprunte() {
-        String sql = "SELECT * FROM EMPRUNT WHERE ID_EX=";
+        String sql = "SELECT * FROM EMPRUNT WHERE ID_EX=    ";
         try {
             ResultSet resultSet = SQLConnection.getStatement().executeQuery(sql + id_ex);
             if (resultSet.next())
@@ -92,27 +93,25 @@ public class Exemplaire {
 
     public static int getIdNextExemplaire() {
         try {
-            ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT ID_EX FROM EXEMPLAIRE WHERE ID_EX=(SELECT MAX(ID_EX) FROM EXEMPLAIRE)");
-            if (resultSet.next())
-                return resultSet.getInt("ID_EX") + 1;
-            resultSet.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'EXEMPLAIRE_SEQ'");
+            return resultSet.next() ? resultSet.getInt("LAST_NUMBER") : -1;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return 1;
+        return -1;
     }
 
     public static ArrayList<Exemplaire> getExemplaireLivre(int idLivre) {
         return CollectionUtils.streamToArrayList(exemplaires.values().stream().filter(it -> it.livre.getId() == idLivre));
     }
 
-    public static void ajoutExemplaire(int idLivre) {
-        Exemplaire exemplaire = new Exemplaire(Exemplaire.getIdNextExemplaire(), Livre.getLivre(idLivre));
-        String sql = "INSERT INTO EXEMPLAIRE VALUES (" + exemplaire.id_ex + ", " + exemplaire.livre.getId() + ", '" + exemplaire.etat.getLabel() + "')";
+    public static void ajoutExemplaire(int idLivre, Etat etat) {
+        Exemplaire exemplaire = new Exemplaire(Exemplaire.getIdNextExemplaire(), Livre.getLivre(idLivre), etat);
+        String sql = "INSERT INTO EXEMPLAIRE VALUES (-1" + ", " + exemplaire.livre.getId() + ", '" + exemplaire.etat.getLabel() + "')";
+        System.out.println(sql);
         try {
             SQLConnection.getStatement().executeUpdate(sql);
-            SQLConnection.getConnection().commit();
-        } catch (SQLException | DatabaseException throwables) {
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }

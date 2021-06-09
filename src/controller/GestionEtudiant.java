@@ -89,7 +89,6 @@ public class GestionEtudiant implements ActionListener, KeyListener {
 
             panelRechercheEtudiant.getTexteRecherche().setForeground(etudiants == null ? Couleurs.ROUGE.getCouleur() : null);
             panelEtudiant.getModeleEtudiant().updateEtudiant(etudiants == null ? Etudiant.liste.values() : etudiants);
-
         }
     }
 }

@@ -120,7 +120,7 @@ public class ClasseTest {
     public void ajoutExemplaire() {
         initialiserConnexion();
         chargerLivres();
-        Exemplaire.ajoutExemplaire(101);
+        Exemplaire.ajoutExemplaire(101, Etat.NEUF);
     }
 
     @Test

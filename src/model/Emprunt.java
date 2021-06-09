@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class Emprunt implements Comparable<Emprunt> {
@@ -28,7 +27,7 @@ public class Emprunt implements Comparable<Emprunt> {
      */
     public Emprunt(Date date_emp, Etudiant etudiant, Exemplaire exemplaire) {
         this.date_emp = date_emp;
-        this.date_fin_emp = DateUtils.ajouterJours(date_emp, 5);
+        this.date_fin_emp = DateUtils.ajouterJours(date_emp, 15);
         this.etudiant = etudiant;
         this.exemplaire = exemplaire;
 
@@ -138,6 +137,10 @@ public class Emprunt implements Comparable<Emprunt> {
 
     public static ArrayList<Emprunt> searchByEtudiant(String nom) {
         return CollectionUtils.streamToArrayList(emprunt.stream().filter(e -> e.etudiant.getNom().toLowerCase().startsWith(nom.toLowerCase())));
+    }
+
+    public static ArrayList<Emprunt> getRetardsEmprunts() {
+        return CollectionUtils.streamToArrayList(emprunt.stream().filter(it -> DateUtils.getDifferenceDays(it.date_fin_emp, new Date()) > 15));
     }
 
     @Override

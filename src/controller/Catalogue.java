@@ -1,7 +1,9 @@
 package controller;
 
+import exceptions.RestrictionException;
 import model.Auteur;
 import model.Livre;
+import view.FenetreBibliotheque;
 import view.menu.catalogue.DialogAjoutLivre;
 import view.menu.catalogue.PanelCatalogue;
 import view.menu.catalogue.PanelRechercheCatalogue;
@@ -40,6 +42,13 @@ public class Catalogue implements ActionListener, KeyListener {
             new DialogAjoutLivre();
         } else if (e.getActionCommand().equals("exemplaires")) {
             new DialogExemplairesLivre();
+        } else if (e.getActionCommand().equals("réserver")) {
+            try {
+                Connexion.getConnectedStudent().reserverLivre(getTableSelectedLivre());
+                JOptionPane.showMessageDialog(FenetreBibliotheque.getInstance(), "Vous avez réservé le livre \"" + getTableSelectedLivre().getTitre() + "\".", "Réservation effectuée avec succès", JOptionPane.PLAIN_MESSAGE);
+            } catch (RestrictionException restrictionException) {
+                restrictionException.printStackTrace();
+            }
         }
     }
 

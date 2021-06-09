@@ -9,7 +9,6 @@ public class EspaceEtudiant {
 
     public EspaceEtudiant() {
         instance = this;
-
         panelCompte = new PanelCompte(Connexion.getConnectedStudent());
     }
 

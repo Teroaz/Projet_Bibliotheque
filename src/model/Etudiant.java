@@ -60,6 +60,10 @@ public class Etudiant {
         return Reservation.getReservationEtudiant(id).size() < 5;
     }
 
+    public boolean peutReserverLivre(Livre livre) {
+        return peutReserverLivre() && reservations.stream().noneMatch(it -> it.getLivre().getId() != livre.getId());
+    }
+
     public void reserverLivre(Livre livre) throws RestrictionException {
         if (!peutReserverLivre()) {
             throw new RestrictionException("L'étudiant ne peut pas réserver + de 5 catalogues.");
