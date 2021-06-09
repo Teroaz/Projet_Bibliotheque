@@ -127,15 +127,15 @@ public class EmpruntReservation implements ActionListener, MouseListener, KeyLis
             String recherche = panelEmpruntReservation.getPanelRecherche().getTexteRecherche().toString();
             String choix = panelEmpruntReservation.getPanelRecherche().getChoixEmpruntReservation().getSelectedItem().toString();
 
-            TreeSet <Emprunt> emprunts = new TreeSet<>();
-            TreeSet <Reservation> reservations = new TreeSet<>();
+            TreeSet <Emprunt> emprunts;
+            TreeSet <Reservation> reservations;
 
             if (choix.equals("emprunt")) {
-                emprunts = Emprunt.rechercheByTitre(recherche);
+                emprunts = new TreeSet<>(Emprunt.searchByTitre(recherche));
                 panelEmpruntReservation.getPanelEmprunt().getTableEmprunt().getModeleEmprunt().updateEmprunts(emprunts == null ? Emprunt.emprunt : emprunts);
             }
             else {
-                reservations = Reservation.rechercheByTitre(recherche);
+                reservations = new TreeSet<>(Reservation.searchByTitre(recherche));
                 panelEmpruntReservation.getPanelReservation().getTableReservation().getModeleReservation().updateReservations(reservations == null ? Reservation.reservation : reservations);
             }
 

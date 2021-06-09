@@ -132,12 +132,12 @@ public class Emprunt implements Comparable<Emprunt> {
             emprunt.remove(emp);
     }
 
-    public static TreeSet<Emprunt> rechercheByTitre (String titre) {
-        ArrayList<Integer> idLivres = new ArrayList<>();
-        for (Livre livre : Livre.rechercherLivres(titre))
-            idLivres.add(livre.getId());
-//        ArrayList<Emprunt> emprunts = CollectionUtils.streamToArrayList(emprunt.stream().filter(e -> e.exemplaire.getId() == (prenom.toLowerCase())));
-        return new TreeSet<>();
+    public static ArrayList<Emprunt> searchByTitre(String titre) {
+        return CollectionUtils.streamToArrayList(emprunt.stream().filter(e -> e.exemplaire.getLivre().getTitre().toLowerCase().contains(titre.toLowerCase())));
+    }
+
+    public static ArrayList<Emprunt> searchByEtudiant(String nom) {
+        return CollectionUtils.streamToArrayList(emprunt.stream().filter(e -> e.etudiant.getNom().toLowerCase().startsWith(nom.toLowerCase())));
     }
 
     @Override

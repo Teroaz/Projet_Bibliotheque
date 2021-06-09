@@ -63,7 +63,6 @@ public class Livre {
             ResultSet resultSet = SQLConnection.getStatement().executeQuery(sql);
             while (resultSet.next()) {
                 int idEx = resultSet.getInt("ID_EX");
-//                Etat etat = Etat.getEtatFromLabel(resultSet.getString("ETAT"));
 
                 exemplaires.add(new Exemplaire(idEx, this));
             }
@@ -97,7 +96,6 @@ public class Livre {
     }
 
     public ArrayList<Exemplaire> getExemplaires() {
-//        return Exemplaire.getExemplaireLivre(idLivre);
         return exemplaires;
     }
 
@@ -107,46 +105,27 @@ public class Livre {
                 return true;
         }
         return false;
-//        String sql1 = "SELECT * FROM EXEMPLAIRE WHERE ID_LIV=" + idLivre;
-//        String sql2 = "SELECT * FROM RESERV WHERE ID_LIV=" + idLivre;
-//        try {
-//            ResultSet resultSet = SQLConnection.getStatement().executeQuery(sql1);
-//            int exemplairesDispo = 0;
-//            while (resultSet.next()) {
-//                int idEx = resultSet.getInt("ID_EX");
-//                Exemplaire exemplaire = new Exemplaire(idEx, this);
-//                if (!exemplaire.estEmprunte())
-//                    exemplairesDispo++;
-//            }
-//            resultSet.close();
-//            int reservations = 0;
-//            if (exemplairesDispo > 0) {
-//                ResultSet resultSet2 = SQLConnection.getStatement().executeQuery(sql2);
-//                while (resultSet2.next())
-//                    reservations++;
-//                resultSet2.close();
-//            }
-//            if (exemplairesDispo == 0 || exemplairesDispo <= reservations)
-//                return false;
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-//        return true;
     }
 
     public static Integer getIdExemplaireDispo(int idLiv) {
-        String sql = "SELECT * FROM EXEMPLAIRE WHERE ID_LIV=" + idLiv;
-        try {
-            ResultSet resultSet = SQLConnection.getStatement().executeQuery(sql);
-            while (resultSet.next()) {
-                int idEx = resultSet.getInt("ID_EX");
-                if (!Exemplaire.estEmprunte(idEx))
-                    return idEx;
+        for (Exemplaire exemplaire : catalogue.get(idLiv).exemplaires) {
+            if (!exemplaire.estEmprunte()) {
+                return exemplaire.getId();
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
         return null;
+//        String sql = "SELECT * FROM EXEMPLAIRE WHERE ID_LIV=" + idLiv;
+//        try {
+//            ResultSet resultSet = SQLConnection.getStatement().executeQuery(sql);
+//            while (resultSet.next()) {
+//                int idEx = resultSet.getInt("ID_EX");
+//                if (!Exemplaire.estEmprunte(idEx))
+//                    return idEx;
+//            }
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
+//        return null;
     }
 
     public static int getIdNextLivre() {

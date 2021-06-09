@@ -2,6 +2,7 @@ package model;
 
 import exceptions.DatabaseException;
 import sql.SQLConnection;
+import utils.CollectionUtils;
 import utils.DateUtils;
 
 import java.sql.ResultSet;
@@ -99,10 +100,12 @@ public class Reservation implements Comparable<Reservation> {
             reservation.remove(res);
     }
 
-    public static TreeSet<Reservation> rechercheByTitre(String recherche) {
-        TreeSet<Reservation> reservations = new TreeSet<>();
+    public static ArrayList<Reservation> searchByTitre(String titre) {
+        return CollectionUtils.streamToArrayList(reservation.stream().filter(e -> e.livre.getTitre().toLowerCase().startsWith(titre.toLowerCase())));
+    }
 
-        return reservations;
+    public static ArrayList<Reservation> searchByEtudiant(String nom) {
+        return CollectionUtils.streamToArrayList(reservation.stream().filter(e -> e.etudiant.getNom().toLowerCase().startsWith(nom.toLowerCase())));
     }
 
     @Override

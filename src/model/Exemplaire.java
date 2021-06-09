@@ -90,19 +90,6 @@ public class Exemplaire {
         return false;
     }
 
-    public static boolean estEmprunte(int idEx) {
-        String sql = "SELECT * FROM EMPRUNT WHERE ID_EX=";
-        try {
-            ResultSet resultSet = SQLConnection.getStatement().executeQuery(sql + idEx);
-            if (resultSet.next())
-                return true;
-            resultSet.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return false;
-    }
-
     public static int getIdNextExemplaire() {
         try {
             ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT ID_EX FROM EXEMPLAIRE WHERE ID_EX=(SELECT MAX(ID_EX) FROM EXEMPLAIRE)");
