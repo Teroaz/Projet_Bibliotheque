@@ -50,6 +50,11 @@ public class Livre {
         } catch (SQLException | DatabaseException err) {
             err.printStackTrace();
         }
+
+        for (Livre livre : catalogue.values()) {
+            livre.chargerExemplaire();
+            catalogue.put(livre.idLivre, livre);
+        }
     }
 
     public void chargerExemplaire() {

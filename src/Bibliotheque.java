@@ -19,8 +19,6 @@ public class Bibliotheque {
         }
 
         Livre.chargerLivres();
-        for (Livre livre : Livre.catalogue.values())
-            livre.chargerExemplaire();
         Etudiant.chargerEtudiants();
         Emprunt.chargerEmprunt();
         Reservation.chargerReservation();
