@@ -1,31 +1,40 @@
 package view;
 
+import controller.PanelSwitcher;
+import utils.swing_utils.JFrameUtils;
+
 import javax.swing.*;
-import java.awt.*;
 
 public class FenetreBibliotheque extends JFrame {
 
-    private int width = 930;
-    private int height = 600;
+    private final int width = 930;
+    private final int height = 650;
+
+    private static FenetreBibliotheque instance;
 
     public FenetreBibliotheque() {
-        super("Projet Bibliothèque");
+        super("Bibliothèque | Menu de connexion");
 
-        PanelMenu contentPane = new PanelMenu();
-        setContentPane(contentPane);
+        instance = this;
+
+        PanelSwitcher panelSwitcher = new PanelSwitcher();
+
+        setContentPane(panelSwitcher.getConnexion().getPanelConnexion());
 
         setResizable(false);
         setVisible(true);
         setDefaultLookAndFeelDecorated(true);
-        setLocation(recupCoordsPourCentrer());
+        setLocation(JFrameUtils.centerFrameCoords(width, height));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(width, height);
     }
 
-    private Point recupCoordsPourCentrer() {
-        Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = tailleEcran.width / 2 - width / 2;
-        int y = tailleEcran.height / 2 - height / 2;
-        return new Point(x, y);
+
+    public void changeTitle(String title) {
+        super.setTitle(title);
+    }
+
+    public static FenetreBibliotheque getInstance() {
+        return instance;
     }
 }
