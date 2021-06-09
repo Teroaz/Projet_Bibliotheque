@@ -7,7 +7,9 @@ import javax.swing.*;
 
 public class PanelRechercheEmpRes extends JPanel {
 
-    private final JButton boutonRecherche;
+    JLabel labelRecherche = new JLabel("Je recherche un ");
+    JLabel labelFait = new JLabel(" du livre ");
+    private JComboBox choixEmpruntReservation;
     private final JTextField texteRecherche;
 
     private final EmpruntReservation empResController;
@@ -16,22 +18,33 @@ public class PanelRechercheEmpRes extends JPanel {
 
         empResController = EmpruntReservation.getInstance();
 
-        boutonRecherche = new JButton("Recherche");
-        boutonRecherche.setActionCommand("recherche");
-
         texteRecherche = new JTextField(20);
 
+        String [] choix = {"emprunt", "réservation"};
+        choixEmpruntReservation = new JComboBox(choix);
+
+        add(labelRecherche);
+        add(choixEmpruntReservation);
+        add(labelFait);
         add(texteRecherche);
-        add(boutonRecherche);
 
         setBorder(BorderFactory.createTitledBorder("Recherche"));
         setBackground(Couleurs.BLEU_CLAIR.getCouleur());
 
         texteRecherche.addKeyListener(empResController);
+        choixEmpruntReservation.addMouseListener(empResController);
     }
 
-    public JButton getBoutonRecherche() {
-        return boutonRecherche;
+    public JComboBox getChoixEmpruntReservation() {
+        return choixEmpruntReservation;
+    }
+
+    public JLabel getLabelRecherche() {
+        return labelRecherche;
+    }
+
+    public JLabel getLabelFait() {
+        return labelFait;
     }
 
     public JTextField getTexteRecherche() {

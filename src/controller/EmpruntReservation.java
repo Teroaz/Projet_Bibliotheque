@@ -3,6 +3,7 @@ package controller;
 import model.Emprunt;
 import model.Etudiant;
 import model.Reservation;
+import model.design.Couleurs;
 import view.menu.emprunts_reservations.PanelEmpruntReservation;
 import view.menu.emprunts_reservations.emprunt.DialogAjoutEmprunt;
 import view.menu.emprunts_reservations.emprunt.DialogModificationEmprunt;
@@ -14,6 +15,9 @@ import view.menu.emprunts_reservations.reservation.ModeleReservation;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class EmpruntReservation implements ActionListener, MouseListener, KeyListener {
 
@@ -88,7 +92,13 @@ public class EmpruntReservation implements ActionListener, MouseListener, KeyLis
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        if (e.getSource() == panelEmpruntReservation.getPanelRecherche().getChoixEmpruntReservation()) {
+            String choix = panelEmpruntReservation.getPanelRecherche().getChoixEmpruntReservation().getSelectedItem().toString();
+            if (choix == "emprunt")
+                panelEmpruntReservation.getPanelRecherche().getLabelRecherche().setText("Je recherche un ");
+            if (choix == "réservation")
+                panelEmpruntReservation.getPanelRecherche().getLabelRecherche().setText("Je recherche une ");
+        }
     }
 
     @Override
@@ -113,7 +123,23 @@ public class EmpruntReservation implements ActionListener, MouseListener, KeyLis
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getSource() == panelEmpruntReservation.getPanelRecherche().getTexteRecherche()) {
+            String recherche = panelEmpruntReservation.getPanelRecherche().getTexteRecherche().toString();
+            String choix = panelEmpruntReservation.getPanelRecherche().getChoixEmpruntReservation().getSelectedItem().toString();
 
+            TreeSet <Emprunt> emprunts = new TreeSet<>();
+            TreeSet <Reservation> reservations = new TreeSet<>();
+
+            if (choix.equals("emprunt")) {
+                emprunts = Emprunt.rechercheByTitre(recherche);
+                panelEmpruntReservation.getPanelEmprunt().getTableEmprunt().getModeleEmprunt().updateEmprunts(emprunts == null ? Emprunt.emprunt : emprunts);
+            }
+            else {
+                reservations = Reservation.rechercheByTitre(recherche);
+                panelEmpruntReservation.getPanelReservation().getTableReservation().getModeleReservation().updateReservations(reservations == null ? Reservation.reservation : reservations);
+            }
+
+        }
     }
 
     @Override

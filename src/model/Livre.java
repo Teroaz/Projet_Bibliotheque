@@ -14,7 +14,7 @@ public class Livre {
     private final int idLivre;
     private String titre;
     private Auteur auteur;
-//    private ArrayList<Exemplaire> exemplaires = new ArrayList<>();
+    private ArrayList<Exemplaire> exemplaires = new ArrayList<>();
 
     /**
      * HashMap associant un id de livre à une instance du livre
@@ -52,6 +52,21 @@ public class Livre {
         }
     }
 
+    public void chargerExemplaire() {
+        String sql =  "SELECT * FROM EXEMPLAIRE WHERE ID_LIV=" + idLivre;
+        try {
+            ResultSet resultSet = SQLConnection.getStatement().executeQuery(sql);
+            while (resultSet.next()) {
+                int idEx = resultSet.getInt("ID_EX");
+//                Etat etat = Etat.getEtatFromLabel(resultSet.getString("ETAT"));
+
+                exemplaires.add(new Exemplaire(idEx, this));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public static Livre getLivre(Integer idLivre) {
         return catalogue.get(idLivre);
     }
@@ -77,36 +92,41 @@ public class Livre {
     }
 
     public ArrayList<Exemplaire> getExemplaires() {
-        return Exemplaire.getExemplaireLivre(idLivre);
-//        return exemplaires;
+//        return Exemplaire.getExemplaireLivre(idLivre);
+        return exemplaires;
     }
 
     public boolean disponible() {
-        String sql1 = "SELECT * FROM EXEMPLAIRE WHERE ID_LIV=" + idLivre;
-        String sql2 = "SELECT * FROM RESERV WHERE ID_LIV=" + idLivre;
-        try {
-            ResultSet resultSet = SQLConnection.getStatement().executeQuery(sql1);
-            int exemplairesDispo = 0;
-            while (resultSet.next()) {
-                int idEx = resultSet.getInt("ID_EX");
-                Exemplaire exemplaire = new Exemplaire(idEx, this);
-                if (!exemplaire.estEmprunte())
-                    exemplairesDispo++;
-            }
-            resultSet.close();
-            int reservations = 0;
-            if (exemplairesDispo > 0) {
-                ResultSet resultSet2 = SQLConnection.getStatement().executeQuery(sql2);
-                while (resultSet2.next())
-                    reservations++;
-                resultSet2.close();
-            }
-            if (exemplairesDispo == 0 || exemplairesDispo <= reservations)
-                return false;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        for (Exemplaire exemplaire : exemplaires) {
+            if (!exemplaire.estEmprunte())
+                return true;
         }
-        return true;
+        return false;
+//        String sql1 = "SELECT * FROM EXEMPLAIRE WHERE ID_LIV=" + idLivre;
+//        String sql2 = "SELECT * FROM RESERV WHERE ID_LIV=" + idLivre;
+//        try {
+//            ResultSet resultSet = SQLConnection.getStatement().executeQuery(sql1);
+//            int exemplairesDispo = 0;
+//            while (resultSet.next()) {
+//                int idEx = resultSet.getInt("ID_EX");
+//                Exemplaire exemplaire = new Exemplaire(idEx, this);
+//                if (!exemplaire.estEmprunte())
+//                    exemplairesDispo++;
+//            }
+//            resultSet.close();
+//            int reservations = 0;
+//            if (exemplairesDispo > 0) {
+//                ResultSet resultSet2 = SQLConnection.getStatement().executeQuery(sql2);
+//                while (resultSet2.next())
+//                    reservations++;
+//                resultSet2.close();
+//            }
+//            if (exemplairesDispo == 0 || exemplairesDispo <= reservations)
+//                return false;
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
+//        return true;
     }
 
     public static Integer getIdExemplaireDispo(int idLiv) {

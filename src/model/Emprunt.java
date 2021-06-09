@@ -2,6 +2,7 @@ package model;
 
 import exceptions.DatabaseException;
 import sql.SQLConnection;
+import utils.CollectionUtils;
 import utils.DateUtils;
 
 import java.sql.ResultSet;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class Emprunt implements Comparable<Emprunt> {
@@ -128,6 +130,14 @@ public class Emprunt implements Comparable<Emprunt> {
         Emprunt emp = getEmprunt(dateEmp, idEtudiant, idExemplaire);
         if (emp != null)
             emprunt.remove(emp);
+    }
+
+    public static TreeSet<Emprunt> rechercheByTitre (String titre) {
+        ArrayList<Integer> idLivres = new ArrayList<>();
+        for (Livre livre : Livre.rechercherLivres(titre))
+            idLivres.add(livre.getId());
+//        ArrayList<Emprunt> emprunts = CollectionUtils.streamToArrayList(emprunt.stream().filter(e -> e.exemplaire.getId() == (prenom.toLowerCase())));
+        return new TreeSet<>();
     }
 
     @Override

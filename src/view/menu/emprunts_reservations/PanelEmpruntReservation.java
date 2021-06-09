@@ -51,6 +51,10 @@ public class PanelEmpruntReservation extends JPanel {
         return empController;
     }
 
+    public PanelRechercheEmpRes getPanelRecherche() {
+        return recherche;
+    }
+
     @Override
     public Insets getInsets() {
         return new Insets(20, 20, 20, 20);

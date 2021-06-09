@@ -30,7 +30,7 @@ public class ModeleReservation extends DefaultTableModel {
         updateReservations(reservations);
     }
 
-    private void updateReservations(TreeSet<Reservation> reservations) {
+    public void updateReservations(TreeSet<Reservation> reservations) {
 
         Iterator <Reservation> iterator = reservations.iterator();
         nbReservations = reservations.size();

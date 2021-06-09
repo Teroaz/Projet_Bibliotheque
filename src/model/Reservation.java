@@ -99,6 +99,12 @@ public class Reservation implements Comparable<Reservation> {
             reservation.remove(res);
     }
 
+    public static TreeSet<Reservation> rechercheByTitre(String recherche) {
+        TreeSet<Reservation> reservations = new TreeSet<>();
+
+        return reservations;
+    }
+
     @Override
     public int compareTo(Reservation res) {
         if (this.date_res.compareTo(res.date_res) < 0)
