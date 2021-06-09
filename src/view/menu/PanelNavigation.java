@@ -1,10 +1,11 @@
-package view;
+package view.menu;
 
 import controller.Connexion;
 import controller.Menu;
 import model.Etudiant;
 import model.design.Couleurs;
-import utils.JButtonUtils;
+import utils.swing_utils.JButtonUtils;
+import view.FenetreBibliotheque;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,15 +18,15 @@ public class PanelNavigation extends JPanel {
     private final ArrayList<JButton> buttons = new ArrayList<>();
     private final Menu navController;
 
-    public PanelNavigation(Menu navController) {
+    public PanelNavigation() {
 
-        this.navController = navController;
+        navController = Menu.getInstance();
 
         setLayout(new GridBagLayout());
         setBackground(Couleurs.BLEU_FONCE.getCouleur());
 
         if (Connexion.isAdminMode()) {
-            buttonsLabels = new String[]{"Étudiants", "Livres & Exemplaires", "Réservations & Emprunts", "Déconnexion"};
+            buttonsLabels = new String[]{"Étudiants", "Livres & Exemplaires", "Emprunts & Réservations", "Déconnexion"};
         } else {
             buttonsLabels = new String[]{"Mon espace", "Catalogue", "Déconnexion"};
         }

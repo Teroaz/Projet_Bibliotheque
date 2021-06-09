@@ -1,32 +1,38 @@
 package controller;
 
+import exceptions.BasicException;
 import view.FenetreBibliotheque;
-import view.PanelMenu;
 
 public class PanelSwitcher {
 
     private static Connexion connexion;
     private static Menu menu;
 
+    private static PanelSwitcher instance;
+
     public PanelSwitcher() {
+        instance = this;
+
         connexion = new Connexion();
-        menu = new Menu();
+    }
+
+    public static PanelSwitcher getInstance() {
+        return instance;
     }
 
     public Connexion getConnexion() {
         return connexion;
     }
 
-    public Menu getMenu() {
+    public static Menu getMenu() {
         return menu;
     }
 
     public static void switchToMenu() {
         FenetreBibliotheque instance = FenetreBibliotheque.getInstance();
+        menu = new Menu();
 
-        menu.setPanelMenu(new PanelMenu(menu));
         instance.setContentPane(menu.getPanelMenu());
-
         instance.revalidate();
     }
 
@@ -34,7 +40,13 @@ public class PanelSwitcher {
         FenetreBibliotheque instance = FenetreBibliotheque.getInstance();
         instance.setContentPane(connexion.getPanelConnexion());
         instance.setTitle("Bibliothèque | Menu de connexion");
-        connexion.getPanelConnexion().resetFields();
+        Connexion.setAdminMode(false);
+        try {
+            Connexion.setConnectedStudent(null);
+        } catch (BasicException e) {
+            e.printStackTrace();
+        }
+        connexion.getPanelConnexion().getPanelLogin().resetFields();
         instance.revalidate();
     }
 }

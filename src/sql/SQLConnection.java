@@ -33,6 +33,7 @@ public class SQLConnection {
             chargerProperties();
             connection = DriverManager.getConnection(url, login, mot_de_passe);
             statement = connection.createStatement();
+            connection.setAutoCommit(true);
             isConnected = true;
         } catch (ConfigurationException e) {
             e.printStackTrace();

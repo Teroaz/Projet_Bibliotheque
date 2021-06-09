@@ -1,67 +1,39 @@
-package view;
+package view.connexion;
 
 import controller.Connexion;
+import exceptions.RestrictionException;
+import model.Etudiant;
+import model.design.Couleurs;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PanelConnexion extends JPanel {
-
-    private final JTextField nomTextField;
-    private final JTextField mailTextField;
-    private final JPasswordField passwordField;
-    private final JTextField prenomTextField;
-    private final JButton connectButton;
-
+public class PanelLogin extends JPanel {
 
     private final Font labelSaisieFont = new Font(Font.SANS_SERIF, Font.BOLD, 16);
 
+    private final JTextField mailTextField;
+    private final JPasswordField passwordField;
     private final Connexion connexionController;
+    private final JButton connectButton;
 
-    public PanelConnexion(Connexion connexionController) {
-        this.connexionController = connexionController;
+    public PanelLogin() {
 
+        connexionController = Connexion.getInstance();
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
 
         JLabel nomLabel = new JLabel("Nom : ");
         nomLabel.setDisplayedMnemonic('N');
         nomLabel.setFont(labelSaisieFont);
 
-        nomTextField = new JTextField(15);
-        nomTextField.addKeyListener(connexionController);
-
-        nomLabel.setLabelFor(nomTextField);
-        add(nomLabel, gbc);
-
-        gbc.gridx++;
-        add(nomTextField, gbc);
-
-
         gbc.gridx = 0;
         gbc.gridy = 1;
-
-        JLabel prenomLabel = new JLabel("Prénom : ");
-        prenomLabel.setDisplayedMnemonic('P');
-        prenomLabel.setFont(labelSaisieFont);
-
-        prenomTextField = new JTextField(15);
-        prenomTextField.addKeyListener(connexionController);
-
-        prenomLabel.setLabelFor(prenomTextField);
-
-        add(prenomLabel, gbc);
-        gbc.gridx++;
-
-        add(prenomTextField, gbc);
-
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
 
         JLabel mailLabel = new JLabel("Mail : ");
         mailLabel.setDisplayedMnemonic('M');
@@ -97,47 +69,55 @@ public class PanelConnexion extends JPanel {
 
         gbc.gridx = 1;
         gbc.gridy = 4;
-
+        gbc.anchor = GridBagConstraints.CENTER;
 
         connectButton = new JButton("Se connecter");
         connectButton.addActionListener(connexionController);
         connectButton.setMnemonic('C');
+        connectButton.setEnabled(false);
 
         add(connectButton, gbc);
 
         gbc.gridy = 5;
+
+        setBackground(Couleurs.VIOLET_CLAIR.getCouleur());
     }
 
-    public JPasswordField getPasswordField() {
-        return passwordField;
-    }
-
-    public JTextField getMailTextField() {
-        return mailTextField;
-    }
-
-    public JTextField getNomTextField() {
-        return nomTextField;
-    }
-
-    public JTextField getPrenomTextField() {
-        return prenomTextField;
+    public void resetFields() {
+        mailTextField.setText("");
+        passwordField.setText("");
     }
 
     public JButton getConnectButton() {
         return connectButton;
     }
 
-    public Connexion getConnexionController() {
-        return connexionController;
+    public JTextField getMailTextField() {
+        return mailTextField;
     }
 
-    public void resetFields() {
-
-        nomTextField.setText("");
-        mailTextField.setText("");
-        passwordField.setText("");
-        prenomTextField.setText("");
-
+    public JPasswordField getPasswordField() {
+        return passwordField;
     }
+
+    public void invalidCredentials() {
+        try {
+            throw new RestrictionException("Le login ou le mot de passe est incorrect !");
+        } catch (RestrictionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void autoInputAdmin() {
+        Connexion connexionInstance = Connexion.getInstance();
+        mailTextField.setText(connexionInstance.getAdminMail());
+        passwordField.setText(connexionInstance.getAdminPassword());
+    }
+
+    public void autoInputEleve() {
+        Etudiant etudiant = Etudiant.liste.values().stream().findFirst().orElseThrow();
+        mailTextField.setText(etudiant.getEmail());
+        passwordField.setText(etudiant.getMdp(true));
+    }
+
 }

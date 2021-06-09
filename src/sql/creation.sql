@@ -53,7 +53,8 @@ CREATE TABLE EMPRUNT
 /**
     Etudiant : auto incrémentation id_et
  */
-CREATE SEQUENCE etudiant_seq START WITH 1;
+-- DROP SEQUENCE etudiant_seq;
+CREATE SEQUENCE etudiant_seq START WITH 1 NOCACHE;
 
 CREATE OR REPLACE TRIGGER etudiant_id_auto_inc
 BEFORE INSERT ON ETUDIANT
@@ -67,7 +68,8 @@ end;
 /**
     Exemplaire : auto incrémentation id_ex
  */
-CREATE SEQUENCE exemplaire_seq START WITH 1;
+--  DROP SEQUENCE exemplaire_seq;
+CREATE SEQUENCE exemplaire_seq START WITH 1 NOCACHE;
 
 CREATE OR REPLACE TRIGGER exemplaire_id_auto_inc
 BEFORE INSERT ON EXEMPLAIRE
@@ -80,7 +82,8 @@ end;
 /**
     Livre : auto incrémentation id_liv
  */
-CREATE SEQUENCE livre_seq START WITH 1;
+--  DROP SEQUENCE livre_seq;
+CREATE SEQUENCE livre_seq START WITH 1 NOCACHE;
 
 CREATE OR REPLACE TRIGGER livre_id_auto_inc
 BEFORE INSERT ON LIVRE

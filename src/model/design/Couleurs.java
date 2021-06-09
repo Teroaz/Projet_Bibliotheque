@@ -10,7 +10,9 @@ public enum Couleurs {
     BRUN(new Color(115, 59, 47)),
     MARRON_FONCE(new Color(38, 6, 3)),
     ROUGE(new Color(177, 17, 10)),
-    VERT(new Color(108, 231, 102));
+    VERT(new Color(108, 231, 102)),
+    VIOLET(new Color(168, 80, 153)),
+    VIOLET_CLAIR(new Color(227, 179, 220));
 
     private final Color couleur;
 

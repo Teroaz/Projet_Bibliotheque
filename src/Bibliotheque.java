@@ -1,5 +1,4 @@
-import model.Etudiant;
-import model.Livre;
+import model.*;
 import sql.SQLConnection;
 import view.FenetreBibliotheque;
 
@@ -21,6 +20,10 @@ public class Bibliotheque {
 
         Livre.chargerLivres();
         Etudiant.chargerEtudiants();
+        Emprunt.chargerEmprunt();
+        Reservation.chargerReservation();
+        Exemplaire.chargerExemplaire();
+
         new FenetreBibliotheque();
     }
 }
