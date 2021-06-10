@@ -158,7 +158,7 @@ public class Etudiant {
     public void setMdp(String plain_text_mdp) {
         this.mdp = CryptUtils.encrypt(plain_text_mdp);
 
-        String sql = "UPDATE ETUDIANT SET MDP='" + this.mdp + "' WHERE ID_ET" + this.id;
+        String sql = "UPDATE ETUDIANT SET MDP='" + this.mdp + "' WHERE ID_ET=" + this.id;
         try {
             SQLConnection.getStatement().executeUpdate(sql);
         } catch (SQLException throwables) {
