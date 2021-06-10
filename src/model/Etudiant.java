@@ -179,6 +179,17 @@ public class Etudiant {
             if (emprunt.getExemplaire().getLivre().getTitre().equals(titre)) {
                 emprunts.remove(emprunt);
                 Emprunt.suppressionEmprunt(emprunt.getDate_emp(), emprunt.getEtudiant().getId(), emprunt.getExemplaire().getId());
+                return;
+            }
+        }
+    }
+
+    public void supprimerReservation(String titre) {
+        for (Reservation reservation : reservations) {
+            if (reservation.getLivre().getTitre().equals(titre)) {
+                reservations.remove(reservation);
+                Reservation.suppressionReservation(reservation.getDate_res(), reservation.getEtudiant().getId(), reservation.getLivre().getId());
+                return;
             }
         }
     }
