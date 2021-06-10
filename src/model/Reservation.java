@@ -48,9 +48,12 @@ public class Reservation implements Comparable<Reservation> {
                 int idLivre = result.getInt("ID_LIV");
 
                 Etudiant.chargerEtudiants();
+                Etudiant etudiant = Etudiant.getById(idEt);
                 Livre.chargerLivres();
 
-                Reservation reservation = new Reservation(date_res, Etudiant.getById(idEt), Livre.getLivre(idLivre));
+                Reservation reservation = new Reservation(date_res, etudiant, Livre.getLivre(idLivre));
+                etudiant.getReservations().add(reservation);
+                Etudiant.liste.put(etudiant.getId(), etudiant);
             }
 
             result.close();

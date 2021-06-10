@@ -173,7 +173,16 @@ public class Etudiant {
     public boolean validatePassword(String password) {
         return Objects.requireNonNull(CryptUtils.encrypt(password)).equals(mdp);
     }
-//
+
+    public void rendre(String titre) {
+        for (Emprunt emprunt : emprunts) {
+            if (emprunt.getExemplaire().getLivre().getTitre().equals(titre)) {
+                emprunts.remove(emprunt);
+                Emprunt.suppressionEmprunt(emprunt.getDate_emp(), emprunt.getEtudiant().getId(), emprunt.getExemplaire().getId());
+            }
+        }
+    }
+
 //    public ArrayList<Emprunt> getEmprunts() {
 //        return emprunts;
 //    }
