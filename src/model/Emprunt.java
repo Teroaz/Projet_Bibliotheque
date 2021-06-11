@@ -34,6 +34,9 @@ public class Emprunt implements Comparable<Emprunt> {
         emprunt.add(this);
     }
 
+    /**
+     * Chargement des emprunts en cache
+     */
     public static void chargerEmprunt() {
 
         try {
@@ -79,6 +82,11 @@ public class Emprunt implements Comparable<Emprunt> {
         return exemplaire;
     }
 
+    /**
+     * Obtenir les emprunts d'un étudiant
+     * @param idEtudiant : ID de l'étudiant en question
+     * @return liste des emprunts de l'étudiant
+     */
     public static ArrayList<Emprunt> getEmpruntEtudiant(int idEtudiant) {
         ArrayList<Emprunt> empruntEtudiant = new ArrayList<>();
         for (Emprunt emprunt : emprunt) {
@@ -88,6 +96,13 @@ public class Emprunt implements Comparable<Emprunt> {
         return empruntEtudiant;
     }
 
+    /**
+     * Obtenir un emprunt
+     * @param dateEmp : date de début de l'emprunt
+     * @param idEtudiant ; ID de l'étudiant ayant emprunté
+     * @param idExemplaire : ID de l'exemmplaire emprunté
+     * @return emprunt
+     */
     public static Emprunt getEmprunt(Date dateEmp, int idEtudiant, int idExemplaire) {
         for (Emprunt emp : emprunt) {
             if (emp.getDate_emp() == dateEmp && emp.getEtudiant().getId() == idEtudiant && emp.exemplaire.getId() == idExemplaire)
@@ -96,6 +111,12 @@ public class Emprunt implements Comparable<Emprunt> {
         return null;
     }
 
+    /**
+     * Ajout d'un emprunt dans la base de données et en cache
+     * @param dateEmp : date de début de l'emprunt
+     * @param idEtudiant ; ID de l'étudiant effectuant l'emprunt
+     * @param idExemplaire : ID de l'exemplaire a emprunté
+     */
     public static void ajoutEmprunt(Date dateEmp, int idEtudiant, int idExemplaire) {
 
         try {
@@ -119,6 +140,12 @@ public class Emprunt implements Comparable<Emprunt> {
         }
     }
 
+    /**
+     * Suppression d'un emprunt dans la base de données et en cache
+     * @param dateEmp : date de début de l'emprunt
+     * @param idEtudiant : iD de l'étudiant ayant effectué l'emprunt
+     * @param idExemplaire  :ID de l'exemplaire emprunté
+     */
     public static void suppressionEmprunt(Date dateEmp, int idEtudiant, int idExemplaire) {
         String sql = "DELETE FROM EMPRUNT WHERE ID_ET=" + idEtudiant + " AND ID_EX=" + idExemplaire + " and DATE_EMP='" + DateUtils.toStringSQL(dateEmp) + "'";
         try {
@@ -131,14 +158,28 @@ public class Emprunt implements Comparable<Emprunt> {
             emprunt.remove(emp);
     }
 
+    /**
+     * Recherche d'un emprunt por le titre du livre
+     * @param titre : titre cherché
+     * @return liste des emprunts correspondants
+     */
     public static ArrayList<Emprunt> searchByTitre(String titre) {
         return CollectionUtils.streamToArrayList(emprunt.stream().filter(e -> e.exemplaire.getLivre().getTitre().toLowerCase().contains(titre.toLowerCase())));
     }
 
+    /**
+     * Recherche d'un emprunt por le nom de l'étudiant
+     * @param nom : nom de l'étudiant
+     * @return liste des emprunts correspondants
+     */
     public static ArrayList<Emprunt> searchByEtudiant(String nom) {
         return CollectionUtils.streamToArrayList(emprunt.stream().filter(e -> e.etudiant.getNom().toLowerCase().startsWith(nom.toLowerCase())));
     }
 
+    /**
+     * Obtenir les retards d'meprunts
+     * @return liste des emprunts en retard
+     */
     public static ArrayList<Emprunt> getRetardsEmprunts() {
         return CollectionUtils.streamToArrayList(emprunt.stream().filter(it -> DateUtils.getDifferenceDays(it.date_fin_emp, new Date()) > 15));
     }

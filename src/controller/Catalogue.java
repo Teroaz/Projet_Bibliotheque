@@ -23,15 +23,26 @@ public class Catalogue implements ActionListener, KeyListener {
 
     private final PanelCatalogue panelCatalogue;
 
+    /**
+     * Constructeur du controleur catalogue
+     */
     public Catalogue() {
         instance = this;
         panelCatalogue = new PanelCatalogue();
     }
 
+    /**
+     * Obtenir l'instance du controleur Catalogue
+     * @return instance
+     */
     public static Catalogue getInstance() {
         return instance;
     }
 
+    /**
+     * Obtenir le PanelCatalogue géré par le controleur Catalogue
+     * @return panelCatalogue
+     */
     public PanelCatalogue getPanelCatalogue() {
         return panelCatalogue;
     }
@@ -84,6 +95,10 @@ public class Catalogue implements ActionListener, KeyListener {
         }
     }
 
+    /**
+     * retourne la ligne sélectionnée dans la JTable de liste des livres
+     * @param selectionModel
+     */
     public void onTableSelection(ListSelectionModel selectionModel) {
 
         if (selectionModel.isSelectionEmpty()) {

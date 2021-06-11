@@ -21,6 +21,11 @@ public class Livre {
      */
     public static HashMap<Integer, Livre> catalogue = new HashMap<>();
 
+    /**
+     * @param id : ID du livre
+     * @param titre : titre du livre
+     * @param auteur : auteur du livre
+     */
     public Livre(int id, String titre, Auteur auteur) {
         this.idLivre = id;
         this.titre = titre;
@@ -29,6 +34,9 @@ public class Livre {
         catalogue.put(id, this);
     }
 
+    /**
+     * Chargement des livres en cache
+     */
     public static void chargerLivres() {
 
         try {
@@ -57,6 +65,9 @@ public class Livre {
         }
     }
 
+    /**
+     * Chargement des exmeplaires d'un livre
+     */
     public void chargerExemplaire() {
         String sql =  "SELECT * FROM EXEMPLAIRE WHERE ID_LIV=" + idLivre;
         try {
@@ -79,6 +90,11 @@ public class Livre {
         return rechercherLivres(titre).get(0);
     }
 
+    /**
+     * Rechecrhe livre en fonction du titre
+     * @param titre : titre cherché
+     * @return liste des livres correspondant au titre cherché
+     */
     public static ArrayList<Livre> rechercherLivres(String titre) {
         return CollectionUtils.streamToArrayList(Livre.catalogue.values().stream().filter(livre -> livre.titre.toLowerCase().contains(titre.toLowerCase())));
     }
@@ -107,6 +123,11 @@ public class Livre {
         return false;
     }
 
+    /**
+     * Retourne un ID d'exemplaire disponible lors d'un emprunt
+     * @param idLiv : ID du livre
+     * @return ID d'un exmeplaire disponible
+     */
     public static Integer getIdExemplaireDispo(int idLiv) {
         for (Exemplaire exemplaire : catalogue.get(idLiv).exemplaires) {
             if (!exemplaire.estEmprunte()) {
@@ -128,6 +149,10 @@ public class Livre {
 //        return null;
     }
 
+    /**
+     * obtenir un ID pour éviter tout conflit lors de l'ajout d'un livre
+     * @return nouvel ID
+     */
     public static int getIdNextLivre() {
         try {
             ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT ID_LIV FROM LIVRE WHERE ID_LIV=(SELECT MAX(ID_LIV) FROM LIVRE)");
@@ -140,6 +165,11 @@ public class Livre {
         return 1;
     }
 
+    /**
+     * Ajout d'un livre dans la base de données et en cache
+     * @param titre : titre du livre
+     * @param auteur : auteur du livre
+     */
     public static void ajoutLivre(String titre, Auteur auteur) {
         Livre livre = new Livre(Livre.getIdNextLivre(), titre, auteur);
         String sql = "INSERT INTO LIVRE VALUES (" + livre.idLivre + ", '" + auteur.auteurBD() + "', '" + titre + "')";
@@ -150,6 +180,10 @@ public class Livre {
         }
     }
 
+    /**
+     * Suppression d'unn livre de la base de données et du cache, ainsi que de toutes ses réservations ainsi que ses exmeplaires et emprunts
+     * @param idLivre
+     */
     public static void suppressionLivre(int idLivre) {
         String sql1 = "SELECT ID_EX FROM EXEMPLAIRE WHERE ID_LIV=" + idLivre;
         String sql2 = "DELETE FROM RESERV WHERE ID_LIV=" + idLivre;

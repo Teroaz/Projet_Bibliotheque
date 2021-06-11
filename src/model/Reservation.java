@@ -36,6 +36,9 @@ public class Reservation implements Comparable<Reservation> {
         this.etudiant.getReservations().add(this);
     }
 
+    /**
+     * Chargement des reservations en cache
+     */
     public static void chargerReservation() {
 
         try {
@@ -62,6 +65,11 @@ public class Reservation implements Comparable<Reservation> {
         }
     }
 
+    /**
+     * Obtenir les réservations d'un étudiant
+     * @param idEtudiant : ID de l'étudiant en question
+     * @return liste des réservations
+     */
     public static ArrayList<Reservation> getReservationEtudiant(int idEtudiant) {
         ArrayList<Reservation> reservationEtudiant = new ArrayList<>();
         for (Reservation reservation : reservation) {
@@ -71,6 +79,13 @@ public class Reservation implements Comparable<Reservation> {
         return reservationEtudiant;
     }
 
+    /**
+     * Obtenir une réservation
+     * @param dateRes : date de début de réservation
+     * @param idEtudiant : ID de l'étudiant ayant réservé le livre
+     * @param idLivre : ID du livre réservé
+     * @return resrevation
+     */
     public static Reservation getReservation(Date dateRes, int idEtudiant, int idLivre) {
         for (Reservation res : reservation) {
             if (res.date_res == dateRes && res.etudiant.getId() == idEtudiant && res.livre.getId() == idLivre)
@@ -79,6 +94,12 @@ public class Reservation implements Comparable<Reservation> {
         return null;
     }
 
+    /**
+     * Ajout d'une réservation en base de données et en cache
+     * @param dateRes : date de début de réservation
+     * @param idEtudiant : ID de l'étudiant réservant le livre
+     * @param idLivre : ID du livre réservé
+     */
     public static void ajoutReservation(Date dateRes, int idEtudiant, int idLivre) {
         Reservation res = new Reservation(dateRes, Etudiant.getById(idEtudiant), Livre.getLivre(idLivre));
         String sql = "INSERT INTO RESERV VALUES ('" + DateUtils.toStringSQL(res.date_res) + "', '" + DateUtils.toStringSQL(res.date_fin_res) + "', " + res.etudiant.getId() + ", " + res.livre.getId() + ")";
@@ -90,6 +111,12 @@ public class Reservation implements Comparable<Reservation> {
         }
     }
 
+    /**
+     * Suppression d'une réservation en base de données et en cache
+     * @param dateRes : date de début de réservation
+     * @param idEtudiant : ID de l'étudiant ayant réservé le livre
+     * @param idLivre ; ID du livre réservé
+     */
     public static void suppressionReservation(Date dateRes, int idEtudiant, int idLivre) {
         String sql = "DELETE FROM RESERV WHERE ID_ET=" + idEtudiant + " and ID_LIV=" + idLivre + " and DATE_RES='" + DateUtils.toStringSQL(dateRes) + "'";
         try {
@@ -103,10 +130,20 @@ public class Reservation implements Comparable<Reservation> {
             reservation.remove(res);
     }
 
+    /**
+     * Recherche d'une réservation par le titre du livre
+     * @param titre : titre du livre
+     * @return liste des réservations correspondantes
+     */
     public static ArrayList<Reservation> searchByTitre(String titre) {
         return CollectionUtils.streamToArrayList(reservation.stream().filter(e -> e.livre.getTitre().toLowerCase().startsWith(titre.toLowerCase())));
     }
 
+    /**
+     * Recherche d'une réservation par nom de l'étudiant
+     * @param nom: nom de l'étudiant
+     * @return liste des réservations correspondantes
+     */
     public static ArrayList<Reservation> searchByEtudiant(String nom) {
         return CollectionUtils.streamToArrayList(reservation.stream().filter(e -> e.etudiant.getNom().toLowerCase().startsWith(nom.toLowerCase())));
     }

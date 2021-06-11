@@ -17,7 +17,7 @@ public class Exemplaire {
 
     private static HashMap<Integer, Exemplaire> exemplaires = new HashMap<>();
 
-    /**
+    /** Constructeur de Exemplaire
      * @param id    : ID de l'exemplaire
      * @param livre : livre correspondant à l'exemplaire
      */
@@ -31,6 +31,12 @@ public class Exemplaire {
         livre.getExemplaires().add(this);
     }
 
+    /**
+     * Contructeur de Exemplaire
+     * @param id : ID de l'exemplaire
+     * @param livre : livre correspondant à l'exemplaire
+     * @param etat : etat de l'exemplaire
+     */
     public Exemplaire(int id, Livre livre, Etat etat) {
         this.id_ex = id;
         this.livre = livre;
@@ -41,6 +47,9 @@ public class Exemplaire {
         livre.getExemplaires().add(this);
     }
 
+    /**
+     * Chargement des exemplaires en cache
+     */
     public static void chargerExemplaire() {
         String sql = "SELECT * FROM EXEMPLAIRE";
         try {
@@ -66,6 +75,10 @@ public class Exemplaire {
         }
     }
 
+    /**
+     * Obenir l'état de l'exemplaire
+     * @return l'éat
+     */
     public Etat obtenirEtat() {
         try {
             ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT ETAT FROM EXEMPLAIRE WHERE ID_EX=" + etat);
@@ -78,6 +91,10 @@ public class Exemplaire {
         return Etat.NEUF;
     }
 
+    /**
+     * Vérifie si un exemplaire est emprunté
+     * @return trur or false
+     */
     public boolean estEmprunte() {
         String sql = "SELECT * FROM EMPRUNT WHERE ID_EX=    ";
         try {
@@ -91,6 +108,10 @@ public class Exemplaire {
         return false;
     }
 
+    /**
+     * Obtenir un ID exemplaire pour éviter tout conflit lors d'un ajout
+     * @return : nouvel ID
+     */
     public static int getIdNextExemplaire() {
         try {
             ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'EXEMPLAIRE_SEQ'");
@@ -105,6 +126,11 @@ public class Exemplaire {
         return CollectionUtils.streamToArrayList(exemplaires.values().stream().filter(it -> it.livre.getId() == idLivre));
     }
 
+    /**
+     * Ajout d'un exemplaire en cache et dans la base de données
+     * @param idLivre : ID du livre correspondant à l'exemplaire
+     * @param etat : état de ce nouvel exemplaire
+     */
     public static void ajoutExemplaire(int idLivre, Etat etat) {
         Exemplaire exemplaire = new Exemplaire(Exemplaire.getIdNextExemplaire(), Livre.getLivre(idLivre), etat);
         String sql = "INSERT INTO EXEMPLAIRE VALUES (-1" + ", " + exemplaire.livre.getId() + ", '" + exemplaire.etat.getLabel() + "')";
@@ -116,6 +142,10 @@ public class Exemplaire {
         }
     }
 
+    /**
+     * Suppression d'un exemplaire
+     * @param idEx : ID de l'exemlaire à supprimer
+     */
     public static void suppressionExemplaire(int idEx) {
         String sql1 = "DELETE FROM EMPRUNT WHERE ID_EX=" + idEx;
         String sql2 = "DELETE FROM EXEMPLAIRE WHERE ID_EX=" + idEx;

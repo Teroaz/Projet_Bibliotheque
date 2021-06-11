@@ -44,10 +44,19 @@ public class Etudiant {
         liste.put(id, this);
     }
 
+    /**
+     * Vérifie si l'étudiant peut emprunter un livre
+     * @return true or false
+     */
     public boolean peutEmprunterLivre() {
         return Emprunt.getEmpruntEtudiant(id).size() < 5;
     }
 
+    /**
+     * l'étudiant emprunte un livre
+     * @param exemplaire : l'exemplaire à emprunter
+     * @throws RestrictionException : si l'étudiant à déjà 5 emprrunts
+     */
     public void emprunterExemplaire(Exemplaire exemplaire) throws RestrictionException {
         if (!peutEmprunterLivre()) {
             throw new RestrictionException("L'étudiant ne peut pas emprunter + de 5 livres.");
@@ -56,36 +65,71 @@ public class Etudiant {
         Emprunt.ajoutEmprunt(new Date(), id, exemplaire.getId());
     }
 
+    /**
+     * Vérifie si l'étudiant peut réserver un livre
+     * @return true or false
+     */
     public boolean peutReserverLivre() {
         return Reservation.getReservationEtudiant(id).size() < 5;
     }
 
+    /**
+     * Vérifie si l'étudiant peut emprunter le livre voulu
+     * @param livre : livre désiré
+     * @return true or false
+     */
     public boolean peutReserverLivre(Livre livre) {
         return peutReserverLivre() && reservations.stream().noneMatch(it -> it.getLivre().getId() != livre.getId());
     }
 
+    /**
+     * L'étudiant réserve le livre
+     * @param livre : livre à réserver
+     * @throws RestrictionException : si l'étudiant à déjà 5 réservations
+     */
     public void reserverLivre(Livre livre) throws RestrictionException {
         if (!peutReserverLivre()) {
-            throw new RestrictionException("L'étudiant ne peut pas réserver + de 5 catalogues.");
+            throw new RestrictionException("L'étudiant ne peut pas réserver + de 5 livres.");
         }
 
         Reservation.ajoutReservation(new Date(), this.id, livre.getId());
     }
 
+    /**
+     * Recherche étudiant par nom
+     * @param nom : nom cherché
+     * @return liste de tous les étudiants avec nom cherché
+     */
     public static ArrayList<Etudiant> searchByName(String nom) {
         return CollectionUtils.streamToArrayList(liste.values().stream().filter(e -> e.nom.toLowerCase().startsWith(nom.toLowerCase())));
     }
 
+    /**
+     * Recherche étudiant par prénom
+     * @param prenom : prénom cherché
+     * @return liste de tous les étudiants avec prénom cherché
+     */
     public static ArrayList<Etudiant> searchByFirstname(String prenom) {
         return CollectionUtils.streamToArrayList(liste.values().stream().filter(e -> e.prenom.toLowerCase().startsWith(prenom.toLowerCase())));
     }
 
+    /**
+     * Recherche étudiant par mail
+     * @param mail : mail cherché
+     * @return liste de tous les étudiants avec mail cherché
+     */
     public static ArrayList<Etudiant> searchByMail(String mail) {
         if (!ValidationUtils.isValidMail(mail)) return null;
 
         return CollectionUtils.streamToArrayList(liste.values().stream().filter(e -> e.email.toLowerCase().startsWith(mail.toLowerCase())));
     }
 
+    /**
+     * Recherche par nom et prénom
+     * @param nom : nom cherché
+     * @param prenom : prénom cherché
+     * @return liste de tous les étudiants avec nom et prénom cherché
+     */
     public static ArrayList<Etudiant> searchByFullname(String nom, String prenom) {
         return CollectionUtils.intersection(searchByName(nom), searchByFirstname(prenom));
     }
@@ -94,14 +138,27 @@ public class Etudiant {
         return CollectionUtils.intersection(searchByFullname(nom, prenom), searchByMail(mail));
     }
 
+    /**
+     * Obtenir l'étudiant à partir de son ID
+     * @param id
+     * @return
+     */
     public static Etudiant getById(int id) {
         return liste.get(id);
     }
 
+    /**
+     * Obtenir le nom de l'étudiant
+     * @return nom
+     */
     public String getNom() {
         return nom;
     }
 
+    /**
+     * Modifier le nom de l'étudiant
+     * @param nom : nouveau nom
+     */
     public void setNom(String nom) {
         this.nom = nom;
 
@@ -113,10 +170,18 @@ public class Etudiant {
         }
     }
 
+    /**
+     * Obtenir le prénom de l'étudiant
+     * @return prénom
+     */
     public String getPrenom() {
         return prenom;
     }
 
+    /**
+     * Modifier le prénom de l'étudiant
+     * @param prenom : nouveau prénom
+     */
     public void setPrenom(String prenom) {
         this.prenom = prenom;
 
@@ -174,6 +239,10 @@ public class Etudiant {
         return Objects.requireNonNull(CryptUtils.encrypt(password)).equals(mdp);
     }
 
+    /**
+     * Pour rendre le livre emprunté
+     * @param titre : titre du libvre emprunté
+     */
     public void rendre(String titre) {
         for (Emprunt emprunt : emprunts) {
             if (emprunt.getExemplaire().getLivre().getTitre().equals(titre)) {
@@ -184,6 +253,10 @@ public class Etudiant {
         }
     }
 
+    /**
+     * Pour supprimer une réservation
+     * @param titre : titre du livre réservé
+     */
     public void supprimerReservation(String titre) {
         for (Reservation reservation : reservations) {
             if (reservation.getLivre().getTitre().equals(titre)) {
@@ -202,6 +275,9 @@ public class Etudiant {
 //        return reservations;
 //    }
 
+    /**
+     * chargement des étudiants en cache
+     */
     public static void chargerEtudiants() {
         try {
             ResultSet result = SQLConnection.getStatement().executeQuery("SELECT * FROM ETUDIANT");
@@ -222,6 +298,13 @@ public class Etudiant {
         }
     }
 
+    /**
+     * Ajouter un étudiant dans la base de données et en cache
+     * @param nom : nom de l'étudiant
+     * @param prenom : prénom de l'étudiant
+     * @param email : email de l'étudiant
+     * @param mdp : mot de passe de l'étudiant
+     */
     public static void ajoutEtudiant(String nom, String prenom, String email, String mdp) {
         String cryptedPassword = CryptUtils.encrypt(mdp);
         String sql = "INSERT INTO ETUDIANT VALUES (" + -1 + ", '" + nom + "', '" + prenom + "', '" + email + "', '" + cryptedPassword + "')";
@@ -238,6 +321,9 @@ public class Etudiant {
         new Etudiant(id, nom, prenom, email, CryptUtils.encrypt(mdp));
     }
 
+    /**
+     * Supprimer un étudiant du cache et de la base de données, ainsi que de tous ses emprunts et réservations
+     */
     public void delete() {
         String sql1 = "DELETE from EMPRUNT WHERE ID_ET=" + this.id;
         String sql2 = "DELETE from RESERV WHERE ID_ET=" + this.id;
@@ -273,6 +359,10 @@ public class Etudiant {
         return reservations;
     }
 
+    /**
+     * Obtenir un ID étudiant à partir d'une séquence pour éviter tout conflit lors d'ajout d'étudiant
+     * @return nouvel ID
+     */
     public static int getCurrentDatabaseID() {
         try {
             ResultSet resultSet = SQLConnection.getStatement().executeQuery("SELECT LAST_NUMBER FROM USER_SEQUENCES WHERE SEQUENCE_NAME = 'ETUDIANT_SEQ'");
@@ -283,6 +373,11 @@ public class Etudiant {
         return -1;
     }
 
+    /**
+     * Rechecrhe étudiant
+     * @param saisie : caractères tapés
+     * @return liste des étudiants correspondant à la recherche
+     */
     public static ArrayList<Etudiant> rechercherEtudiants(String saisie) {
         return CollectionUtils.streamToArrayList(liste.values()
                 .stream().filter(etudiant ->
