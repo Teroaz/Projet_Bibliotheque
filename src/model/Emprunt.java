@@ -112,7 +112,7 @@ public class Emprunt implements Comparable<Emprunt> {
     }
 
     /**
-     * Ajout d'un emprunt dans la base de données et en cache
+     * Ajout d'un emprunt dans la base de données et en cache ainsi que de sa précédente réservation
      * @param dateEmp : date de début de l'emprunt
      * @param idEtudiant ; ID de l'étudiant effectuant l'emprunt
      * @param idExemplaire : ID de l'exemplaire a emprunté
@@ -134,6 +134,13 @@ public class Emprunt implements Comparable<Emprunt> {
             String sql = "INSERT INTO EMPRUNT VALUES ('" + DateUtils.toStringSQL(emp.date_emp) + "', '" + DateUtils.toStringSQL(emp.date_fin_emp) + "', " + emp.etudiant.getId() + ", " + emp.exemplaire.getId() + ")";
 
             st2.executeUpdate(sql);
+
+            ArrayList <Reservation> reservations = Reservation.getReservationEtudiant(idEtudiant);
+            for (Reservation reservation : reservations) {
+                if (reservation.getLivre().getTitre().equals(emp.getExemplaire().getLivre().getTitre())) {
+                    Reservation.suppressionReservation(reservation.getDate_res(), reservation.getEtudiant().getId(), reservation.getLivre().getId());
+                }
+            }
 
         } catch (SQLException | DatabaseException throwables) {
             throwables.printStackTrace();

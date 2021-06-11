@@ -4,6 +4,7 @@ import controller.PanelSwitcher;
 import model.Emprunt;
 import model.Etudiant;
 import model.Livre;
+import model.Reservation;
 import model.design.Couleurs;
 import utils.CryptUtils;
 import utils.swing_utils.JFrameUtils;
@@ -96,6 +97,7 @@ public class DialogAjoutEmprunt extends JDialog implements ActionListener {
 
             Emprunt.ajoutEmprunt(new Date(), idEtudiant, idEx);
             PanelSwitcher.getMenu().getEmpruntReservation().getPanelEmpruntReservation().getPanelEmprunt().getTableEmprunt().getModeleEmprunt().updateEmprunts(Emprunt.emprunt);
+            PanelSwitcher.getMenu().getEmpruntReservation().getPanelEmpruntReservation().getPanelReservation().getTableReservation().getModeleReservation().updateReservations(Reservation.reservation);
             PanelSwitcher.getMenu().getGestionEtudiant().getPanelEtudiant().getTableEtudiant().getModeleEtudiant().updateEtudiant(Etudiant.liste.values());
             setVisible(false);
         }
